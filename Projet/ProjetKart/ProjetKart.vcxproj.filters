@@ -18,7 +18,7 @@
     <Library Include="..\..\Lib\glut32.ms.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\main.c">
+    <ClCompile Include="..\..\Src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
