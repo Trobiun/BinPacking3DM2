@@ -39,7 +39,7 @@ static void myCylinder(float rmin, float rmax, int n) {
 	double xmax, xmin;
 	double zmax, zmin;
 	for (int i = 0; i <= n; i++) {
-		a = (2 * PI *i) / n;
+		a = (2 * PI *i/4) / n;
 		xmax = rmax * cos(a);
 		zmax = -rmax * sin(a);
 		glNormal3d(cos(a), 0.0, -sin(a));
