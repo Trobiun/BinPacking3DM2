@@ -100,7 +100,7 @@
     <Library Include="..\..\Lib\glut32.ms.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\DeuxFenetres.cpp" />
+    <ClCompile Include="..\..\Src\main.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
