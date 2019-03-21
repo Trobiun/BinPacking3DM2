@@ -101,6 +101,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\main.cpp" />
+    <ClCompile Include="MorceauParcours.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MorceauParcours.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
