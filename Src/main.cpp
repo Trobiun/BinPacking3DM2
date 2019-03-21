@@ -5,6 +5,9 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include "CH3D.h"
+#include "MorceauParcoursLigne.h"
+#include "Pos3D.h"
 
 #define PI 3.14159265359
 
@@ -18,6 +21,9 @@ static float px = 0;
 static float py = 5;
 static float pz = 0;
 static const float blanc[] = { 1.0F,1.0F,1.0F,1.0F };
+
+static MorceauParcoursLigne *ligneTest;
+
 /* Fonction d'initialisation des parametres     */
 /* OpenGL ne changeant pas au cours de la vie   */
 /* du programme                                 */
@@ -44,7 +50,7 @@ static void myCylinder(float rmin, float rmax, int n) {
 		zmax = -rmax * sin(a);
 		glNormal3d(cos(a), 0.0, -sin(a));
 		glVertex3d(xmax, 0, zmax);
-
+		
 		xmin = rmin * cos(a);
 		zmin = -rmin * sin(a);
 		glNormal3d(cos(a), 0.0, -sin(a));
@@ -55,7 +61,8 @@ static void myCylinder(float rmin, float rmax, int n) {
 
 static void scene(void) {
 	glPushMatrix();
-	myCylinder(1.0, 5.0, 20);
+	ligneTest->modeliser();
+	//myCylinder(1.0, 5.0, 20);
 	//glutSolidCube(10);
 	glPopMatrix();
 }
@@ -189,10 +196,12 @@ static void clean(void) {
 int main(int argc, char **argv) {
     atexit(clean);
     glutInit(&argc, argv);
+	Pos3D *pos = new Pos3D();
+	ligneTest = new MorceauParcoursLigne(pos, 2, 5);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);
-    glutCreateWindow("Title");
+    glutCreateWindow("Projet Kart");
     init();
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
@@ -203,5 +212,7 @@ int main(int argc, char **argv) {
     glutReshapeFunc(reshape);
 	glutIdleFunc(idle);
     glutMainLoop();
+	delete pos;
+	delete ligneTest;
     return (0);
 }

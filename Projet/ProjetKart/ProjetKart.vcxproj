@@ -48,6 +48,9 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Temp\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <SourcePath>Src;$(VC_SourcePath);</SourcePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -100,11 +103,21 @@
     <Library Include="..\..\Lib\glut32.ms.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\CH3D.cpp" />
+    <ClCompile Include="..\..\Src\Dir3D.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
-    <ClCompile Include="MorceauParcours.cpp" />
+    <ClCompile Include="..\..\Src\MorceauParcours.cpp" />
+    <ClCompile Include="..\..\Src\MorceauParcoursLigne.cpp" />
+    <ClCompile Include="..\..\Src\MorceauParcoursVirage.cpp" />
+    <ClCompile Include="..\..\Src\Pos3D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MorceauParcours.h" />
+    <ClInclude Include="..\..\Include\CH3D.h" />
+    <ClInclude Include="..\..\Include\Dir3D.h" />
+    <ClInclude Include="..\..\Include\MorceauParcours.h" />
+    <ClInclude Include="..\..\Include\MorceauParcoursLigne.h" />
+    <ClInclude Include="..\..\Include\MorceauParcoursVirage.h" />
+    <ClInclude Include="..\..\Include\Pos3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
