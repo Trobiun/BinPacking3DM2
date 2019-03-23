@@ -8,6 +8,7 @@
 #include "CH3D.h"
 #include "MorceauParcoursLigne.h"
 #include "Pos3D.h"
+#include "MorceauParcoursVirage.h"
 
 #define PI 3.14159265359
 
@@ -18,64 +19,51 @@ static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
 static int wPy = 50; // Position verticale de la fenetre
 static float px = 0;
-static float py = 5;
+static float py = 10;
 static float pz = 0;
-static const float blanc[] = { 1.0F,1.0F,1.0F,1.0F };
+static const float blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 
 static MorceauParcoursLigne *ligneTest;
+static MorceauParcoursVirage *virage;
 
 /* Fonction d'initialisation des parametres     */
 /* OpenGL ne changeant pas au cours de la vie   */
+
 /* du programme                                 */
 
 static void init(void) {
-	glClearColor(0.25F, 0.25F, 0.25F, 1.0F);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, blanc);
+    glClearColor(0.25F, 0.25F, 0.25F, 1.0F);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, blanc);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
 }
+
 /* Scene dessinee                               */
 
-static void myCylinder(float rmin, float rmax, int n) {
-	glBegin(GL_QUAD_STRIP);
-	double a;
-	double xmax, xmin;
-	double zmax, zmin;
-	for (int i = 0; i <= n; i++) {
-		a = (2 * PI *i/4) / n;
-		xmax = rmax * cos(a);
-		zmax = -rmax * sin(a);
-		glNormal3d(cos(a), 0.0, -sin(a));
-		glVertex3d(xmax, 0, zmax);
-		
-		xmin = rmin * cos(a);
-		zmin = -rmin * sin(a);
-		glNormal3d(cos(a), 0.0, -sin(a));
-		glVertex3d(xmin, 0, zmin);
-	}
-	glEnd();
-}
-
 static void scene(void) {
-	glPushMatrix();
-	ligneTest->modeliser();
-	//myCylinder(1.0, 5.0, 20);
-	//glutSolidCube(10);
-	glPopMatrix();
+    glPushMatrix();
+    ligneTest->modeliser();
+    glPopMatrix();
+    glPushMatrix();
+    Pos3D pos = virage->getPosition();
+    glTranslatef(pos.c[0], pos.c[1], pos.c[2]);
+    virage->modeliser();
+    glPopMatrix();
 }
 /* Fonction executee lors d'un rafraichissement */
+
 /* de la fenetre de dessin                      */
 
 static void display(void) {
     printf("D\n");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
+    const GLfloat light0_position[] = {0.0, 0.0, 10.0, 1.0};
     glPushMatrix();
-	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-	gluLookAt(px, py, pz, 0, 0, 0, 0, 1.0, 0.0);
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+    gluLookAt(px, py, pz, px, 0, pz, 0.0, 0.0, 1.0);
     scene();
     glPopMatrix();
     glFlush();
@@ -86,23 +74,25 @@ static void display(void) {
 }
 
 /* Fonction executee lors d'un changement       */
+
 /* de la taille de la fenetre OpenGL            */
 
 static void reshape(int tx, int ty) {
     printf("R\n");
-	glViewport(0, 0, tx, ty);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	double ratio = (double)tx / ty;
-	if (ratio >= 1.0)
-		gluPerspective(80.0, ratio, 1.0, 30.0);
-	else
-		gluPerspective(80.0 / ratio, ratio,1.0, 30.0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+    glViewport(0, 0, tx, ty);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    double ratio = (double) tx / ty;
+    if (ratio >= 1.0)
+        gluPerspective(80.0, ratio, 1.0, 30.0);
+    else
+        gluPerspective(80.0 / ratio, ratio, 1.0, 30.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 /* Fonction executee lorsqu'aucun evenement     */
+
 /* n'est en file d'attente                      */
 
 static void idle(void) {
@@ -111,6 +101,7 @@ static void idle(void) {
 }
 
 /* Fonction executee lors de l'appui            */
+
 /* d'une touche alphanumerique du clavier       */
 
 static void keyboard(unsigned char key, int x, int y) {
@@ -125,44 +116,46 @@ static void keyboard(unsigned char key, int x, int y) {
 /* Fonction executee lors de l'appui            */
 /* d'une touche speciale du clavier :           */
 /*   - touches de curseur                       */
+
 /*   - touches de fonction                      */
 
 static void special(int key, int x, int y) {
-	switch (key) {
-	case GLUT_KEY_UP:
-		py += 0.1;
-		glutPostRedisplay();
-		break;
-	case GLUT_KEY_DOWN:
-		py -= 0.1;
-		glutPostRedisplay();
-		break;
-	case GLUT_KEY_LEFT:
-		px -= 0.1;
-		glutPostRedisplay();
-		break;
-	case GLUT_KEY_RIGHT:
-		px += 0.1;
-		glutPostRedisplay();
-		break;
-	case GLUT_KEY_PAGE_UP:
-		pz -= 0.1;
-		glutPostRedisplay();
-		break;
-	case GLUT_KEY_PAGE_DOWN:
-		pz += 0.1;
-		glutPostRedisplay();
-		break;
-	case GLUT_KEY_F1:
-		px = 0.0;
-		py = 0.0;
-		pz = 10.0;
-		glutPostRedisplay();
-		break;
-	}
+    switch (key) {
+        case GLUT_KEY_UP:
+            pz -= 0.1;
+            glutPostRedisplay();
+            break;
+        case GLUT_KEY_DOWN:
+            pz += 0.1;
+            glutPostRedisplay();
+            break;
+        case GLUT_KEY_LEFT:
+            px -= 0.1;
+            glutPostRedisplay();
+            break;
+        case GLUT_KEY_RIGHT:
+            px += 0.1;
+            glutPostRedisplay();
+            break;
+            //        case GLUT_KEY_PAGE_UP:
+            //            pz -= 0.1;
+            //            glutPostRedisplay();
+            //            break;
+            //        case GLUT_KEY_PAGE_DOWN:
+            //            pz += 0.1;
+            //            glutPostRedisplay();
+            //            break;
+        case GLUT_KEY_F1:
+            px = 0.0;
+            py = 10.0;
+            pz = 0.0;
+            glutPostRedisplay();
+            break;
+    }
 }
 
 /* Fonction executee lors de l'utilisation      */
+
 /* de la souris sur la fenetre                  */
 
 static void mouse(int buton, int state, int x, int y) {
@@ -171,6 +164,7 @@ static void mouse(int buton, int state, int x, int y) {
 
 /* Fonction executee lors du passage            */
 /* de la souris sur la fenetre                  */
+
 /* avec un boutton presse                       */
 
 static void mouseMotion(int x, int y) {
@@ -179,6 +173,7 @@ static void mouseMotion(int x, int y) {
 
 /* Fonction executee lors du passage            */
 /* de la souris sur la fenetre                  */
+
 /* sans boutton presse                          */
 
 static void passiveMouseMotion(int x, int y) {
@@ -186,18 +181,24 @@ static void passiveMouseMotion(int x, int y) {
 }
 
 /* Fonction executee automatiquement            */
+
 /* lors de l'execution de la fonction exit()    */
 
 static void clean(void) {
+    delete ligneTest;
+    delete virage;
     printf("Bye\n");
 }
+
 /* Fonction principale                          */
 
 int main(int argc, char **argv) {
     atexit(clean);
     glutInit(&argc, argv);
-	Pos3D *pos = new Pos3D();
-	ligneTest = new MorceauParcoursLigne(pos, 2, 5);
+    Pos3D pos = Pos3D();
+    ligneTest = new MorceauParcoursLigne(pos, 2, 5);
+    Pos3D pos2 = Pos3D(5.0, 0.0, 5.0);
+    virage = new MorceauParcoursVirage(pos2, 2, 5);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);
@@ -208,11 +209,9 @@ int main(int argc, char **argv) {
     glutMouseFunc(mouse);
     glutMotionFunc(mouseMotion);
     //glutPassiveMotionFunc(passiveMouseMotion);
-	glutDisplayFunc(display);
+    glutDisplayFunc(display);
     glutReshapeFunc(reshape);
-	glutIdleFunc(idle);
+    glutIdleFunc(idle);
     glutMainLoop();
-	delete pos;
-	delete ligneTest;
     return (0);
 }

@@ -28,6 +28,6 @@ CH3D::~CH3D() {
 }
 
 void CH3D::print() {
-    printf("%10.4lf %10.4lf %10.4lf %10.4lf",c[0],c[1],c[2],c[3]);
+    printf("%10.4lf %10.4lf %10.4lf %10.4lf", c[0], c[1], c[2], c[3]);
     //std::cout << this->c[0] << "," << c[1] << "," << c[2] << "," << c[3];
 }

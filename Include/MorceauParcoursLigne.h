@@ -1,14 +1,14 @@
 #pragma once
 #include "MorceauParcours.h"
+
 class MorceauParcoursLigne :
-	public MorceauParcours
-{
+public MorceauParcours {
 public:
-	MorceauParcoursLigne(Pos3D origin, float height, float width);
-	virtual ~MorceauParcoursLigne();
-	virtual void modeliser();
+    MorceauParcoursLigne(Pos3D origin, float height, float width);
+    virtual ~MorceauParcoursLigne();
+    virtual void modeliser();
 
 protected:
-	float width;
+    float width;
 };
 

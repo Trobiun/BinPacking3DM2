@@ -11,7 +11,7 @@ public:
     Dir3D(Dir3D *d);
     Dir3D(Pos3D *pi, Pos3D *pf);
     ~Dir3D();
-	double norme();
+    double norme();
 };
 
 #endif /* DIR3D_H */

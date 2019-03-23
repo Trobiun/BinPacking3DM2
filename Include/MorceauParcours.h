@@ -1,16 +1,16 @@
 #pragma once
 #include "Pos3D.h"
 
-class MorceauParcours
-{
+class MorceauParcours {
 public:
-	MorceauParcours(Pos3D origin, float height);
-	virtual ~MorceauParcours();
+    MorceauParcours(Pos3D origin, float height);
+    virtual ~MorceauParcours();
 
-	virtual void modeliser();
+    Pos3D getPosition();
+    virtual void modeliser();
 
 protected:
-	float height;
-	Pos3D origin;
+    float height;
+    Pos3D origin;
 };
 
