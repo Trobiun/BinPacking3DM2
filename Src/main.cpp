@@ -22,9 +22,7 @@ static float px = 0;
 static float py = 10;
 static float pz = 0;
 static const float blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
-
-static MorceauParcoursLigne *ligneTest;
-static MorceauParcoursVirage *virage;
+static MorceauParcours *parcours[2];
 
 /* Fonction d'initialisation des parametres     */
 /* OpenGL ne changeant pas au cours de la vie   */
@@ -45,12 +43,12 @@ static void init(void) {
 
 static void scene(void) {
     glPushMatrix();
-    ligneTest->modeliser();
+	parcours[0]->modeliser();
     glPopMatrix();
     glPushMatrix();
-    Pos3D pos = virage->getPosition();
+    Pos3D pos = parcours[1]->getPosition();
     glTranslatef(pos.c[0], pos.c[1], pos.c[2]);
-    virage->modeliser();
+	parcours[1]->modeliser();
     glPopMatrix();
 }
 /* Fonction executee lors d'un rafraichissement */
@@ -185,8 +183,8 @@ static void passiveMouseMotion(int x, int y) {
 /* lors de l'execution de la fonction exit()    */
 
 static void clean(void) {
-    delete ligneTest;
-    delete virage;
+ //   delete ligneTest;
+//    delete virage;
     printf("Bye\n");
 }
 
@@ -196,9 +194,11 @@ int main(int argc, char **argv) {
     atexit(clean);
     glutInit(&argc, argv);
     Pos3D pos = Pos3D();
-    ligneTest = new MorceauParcoursLigne(pos, 2, 5);
+    //ligneTest = new MorceauParcoursLigne(pos, 2, 5);
     Pos3D pos2 = Pos3D(5.0, 0.0, 5.0);
-    virage = new MorceauParcoursVirage(pos2, 2, 5);
+    //virage = new MorceauParcoursVirage(pos2, 2, 5);
+	parcours[0] = new MorceauParcoursLigne(pos, 2, 5);
+	parcours[1]= new MorceauParcoursVirage(pos2, 2, 5);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);
