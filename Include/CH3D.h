@@ -9,21 +9,30 @@
 #define ____CH3D____
 
 class CH3D {
-public:
-    /* Coordonnees                              */
-    double c[4];
 
 public:
-    /* Constructeurs                            */
-    CH3D(void);
-    CH3D(double x, double y, double z, double t);
-    CH3D(CH3D *c);
+	/* Coordonnees                              */
+	union {
+		struct {
+			double x;
+			double y;
+			double z;
+			double w;
+		};
+		double c[4];
+	};
 
-    /* Destructeur                              */
-    ~CH3D(void);
+public:
+	/* Constructeurs                            */
+	CH3D(void);
+	CH3D(double x, double y, double z, double w);
+	CH3D(CH3D *c);
 
-    /* Methode d'affichage texte                */
-    void print(void);
+	/* Destructeur                              */
+	~CH3D(void);
+
+	/* Methode d'affichage texte                */
+	void print(void);
 };
 
 #endif
