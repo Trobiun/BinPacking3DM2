@@ -190,7 +190,7 @@ static void clean(void) {
 }
 
 static void createParcours() {
-	Pos3D pos = Pos3D();
+	Pos3D pos = Pos3D(10.0,0.0,10.0);
 	Pos3D pos2 = Pos3D(5.0, 0.0, 5.0);
 	Pos3D pos3 = Pos3D();
 	parcours[0] = new MorceauParcoursLigne(pos, 2, 5, MorceauParcours::Direction::EST);
