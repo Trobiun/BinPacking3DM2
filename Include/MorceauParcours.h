@@ -10,7 +10,7 @@ public:
     virtual void modeliser();
 
 protected:
-    float height;
+    float length;
     Pos3D origin;
 };
 

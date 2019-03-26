@@ -1,9 +1,9 @@
 #include <GL/gl.h>
 #include "MorceauParcours.h"
 
-MorceauParcours::MorceauParcours(Pos3D origin, float height) {
+MorceauParcours::MorceauParcours(Pos3D origin, float length) {
     this->origin = origin;
-    this->height = height;
+    this->length = length;
 }
 
 MorceauParcours::~MorceauParcours() {

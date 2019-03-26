@@ -188,17 +188,18 @@ static void clean(void) {
     printf("Bye\n");
 }
 
+static void createParcours() {
+	Pos3D pos = Pos3D();
+	Pos3D pos2 = Pos3D(5.0, 0.0, 5.0);
+	parcours[0] = new MorceauParcoursLigne(pos, 2, 5);
+	parcours[1] = new MorceauParcoursVirage(pos2, 2, 5);
+}
 /* Fonction principale                          */
 
 int main(int argc, char **argv) {
     atexit(clean);
     glutInit(&argc, argv);
-    Pos3D pos = Pos3D();
-    //ligneTest = new MorceauParcoursLigne(pos, 2, 5);
-    Pos3D pos2 = Pos3D(5.0, 0.0, 5.0);
-    //virage = new MorceauParcoursVirage(pos2, 2, 5);
-	parcours[0] = new MorceauParcoursLigne(pos, 2, 5);
-	parcours[1]= new MorceauParcoursVirage(pos2, 2, 5);
+	createParcours();    
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);
