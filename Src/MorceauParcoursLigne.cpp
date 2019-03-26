@@ -1,8 +1,8 @@
 #include <GL/gl.h>
 #include "MorceauParcoursLigne.h"
 
-MorceauParcoursLigne::MorceauParcoursLigne(Pos3D origin, float height, float width, Direction dir) : MorceauParcours(origin, height, dir) {
-    this->width = width;
+MorceauParcoursLigne::MorceauParcoursLigne(Pos3D origin, float width, float length, Direction dir) : MorceauParcours(origin, width, dir) {
+    this->length = length;
 }
 
 MorceauParcoursLigne::~MorceauParcoursLigne() {

@@ -12,13 +12,13 @@ public: enum Direction
 	};
 
 public:
-    MorceauParcours(Pos3D origin, float length, Direction dir);
+    MorceauParcours(Pos3D origin, float width, Direction dir);
     virtual ~MorceauParcours();
 
     Pos3D getPosition();
     virtual void modeliser();
 protected:
-    float length;
+    float width;
     Pos3D origin;
 	Direction dir;
 };

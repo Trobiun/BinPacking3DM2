@@ -6,7 +6,7 @@
 class MorceauParcoursVirage :
 public MorceauParcours {
 public:
-    MorceauParcoursVirage(Pos3D orgin, float height, float maxRadius, Direction dir, Direction dir2);
+    MorceauParcoursVirage(Pos3D orgin, float width, float maxRadius, Direction dir, Direction dir2);
     virtual ~MorceauParcoursVirage();
 
     virtual void modeliser();

@@ -4,11 +4,11 @@
 class MorceauParcoursLigne :
 public MorceauParcours {
 public:
-    MorceauParcoursLigne(Pos3D origin, float length, float width, Direction dir);
+    MorceauParcoursLigne(Pos3D origin, float width, float length, Direction dir);
     virtual ~MorceauParcoursLigne();
     virtual void modeliser();
 
 protected:
-    float width;
+    float length;
 };
 

@@ -51,6 +51,15 @@ static void scene(void) {
     glTranslatef(pos.c[0], pos.c[1], pos.c[2]);
 	parcours[1]->modeliser();
     glPopMatrix();
+	glPushMatrix();
+	glTranslated(5.0, 0.0, 10.0);
+	glutSolidCube(0.5);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslated(0.0, 0.0, 0.0);
+	glutSolidCube(0.5);
+	glPopMatrix();
+
 }
 /* Fonction executee lors d'un rafraichissement */
 
@@ -62,7 +71,7 @@ static void display(void) {
     const GLfloat light0_position[] = {0.0, 0.0, 10.0, 1.0};
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-    gluLookAt(px, py, pz, px, 0, pz, 0.0, 0.0, 1.0);
+    gluLookAt(px, py, pz, px, 0, pz, 0.0, 0.0, -1.0);
     scene();
     glPopMatrix();
     glFlush();
@@ -190,11 +199,12 @@ static void clean(void) {
 }
 
 static void createParcours() {
-	Pos3D pos = Pos3D(2.0,0.0,2.0);
-	Pos3D pos2 = Pos3D(5.0, 0.0, 5.0);
+	Pos3D pos = Pos3D(0.0,0.0,0.0);
+	Pos3D pos2 = Pos3D(5.0, 0.0, 10.0);
 	Pos3D pos3 = Pos3D();
-	parcours[0] = new MorceauParcoursLigne(pos, 2, 5, MorceauParcours::Direction::EST);
-	parcours[1] = new MorceauParcoursVirage(pos2, 2, 5, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
+	parcours[0] = new MorceauParcoursLigne(pos, 5, 1, MorceauParcours::Direction::EST);
+	parcours[1] = new MorceauParcoursVirage(pos2,2,10, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
+
 }
 /* Fonction principale                          */
 

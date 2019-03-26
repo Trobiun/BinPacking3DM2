@@ -3,7 +3,7 @@
 #include <cmath>
 #include "MorceauParcoursVirage.h"
 
-MorceauParcoursVirage::MorceauParcoursVirage(Pos3D origin, float length, float maxRadius, Direction dir, Direction dir2) : MorceauParcours(origin, length, dir) {
+MorceauParcoursVirage::MorceauParcoursVirage(Pos3D origin, float width, float maxRadius, Direction dir, Direction dir2) : MorceauParcours(origin, width, dir) {
     this->maxRadius = maxRadius;
 	this->dir2 = dir2;
 }
@@ -23,8 +23,8 @@ void MorceauParcoursVirage::modeliser() {
         glNormal3d(cos(a), 0.0, -sin(a));
         glVertex3d(xmax, 0, zmax);
 
-        xmin = (maxRadius - length) * cos(a);
-        zmin = -(maxRadius - length) * sin(a);
+        xmin = (maxRadius - width) * cos(a);
+        zmin = -(maxRadius - width) * sin(a);
         //glNormal3f(cos(a), 0.0, -sin(a));
         glVertex3d(xmin, 0, zmin);
     }
