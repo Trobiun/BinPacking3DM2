@@ -20,13 +20,13 @@ void MorceauParcoursVirage::modeliser() {
         a = (2 * M_PI * i / 4) / NB_FACETS;
         xmax = maxRadius * cos(a);
         zmax = -maxRadius * sin(a);
-        glNormal3f(cos(a), 0.0, -sin(a));
-        glVertex3f(xmax, 0, zmax);
+        glNormal3d(cos(a), 0.0, -sin(a));
+        glVertex3d(xmax, 0, zmax);
 
         xmin = (maxRadius - length) * cos(a);
         zmin = -(maxRadius - length) * sin(a);
         //glNormal3f(cos(a), 0.0, -sin(a));
-        glVertex3f(xmin, 0, zmin);
+        glVertex3d(xmin, 0, zmin);
     }
     glEnd();
 }

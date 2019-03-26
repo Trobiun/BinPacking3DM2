@@ -9,14 +9,24 @@ MorceauParcoursLigne::~MorceauParcoursLigne() {
 }
 
 void MorceauParcoursLigne::modeliser() {
-    glBegin(GL_QUAD_STRIP);
 	glPushMatrix();
-	//glTranslatef(origin.x, 0.0, origin.z);
-    glNormal3f(0.0F, 0.0F, -1.0F);
-    glVertex3f(0.0F, 0.0F, 0.0F);
-    glVertex3f(0.0F, 0.0F, length);
-    glVertex3f(width, 0.0F, 0.0F);
-    glVertex3f(width, 0.0F, length);
-	glPopMatrix();
+	glTranslatef(origin.x, 0.0, origin.z);
+	glBegin(GL_QUAD_STRIP);
+
+	if (dir == EST || dir == OUEST) {
+		glNormal3f(0.0F, 1.0F, 0.0F);
+		glVertex3f(0.0F, 0.0F, 0.0F);
+		glVertex3f(0.0F, 0.0F, length);
+		glVertex3f(width, 0.0F, 0.0F);
+		glVertex3f(width, 0.0F, length);
+	}
+	else {
+		glNormal3f(0.0F, 1.0F, 0.0F);
+		glVertex3f(0.0F, 0.0F, 0.0F);
+		glVertex3f(0.0F, 0.0F, width);
+		glVertex3f(length, 0.0F, 0.0F);
+		glVertex3f(length, 0.0F, width);
+	}
     glEnd();
+	glPopMatrix();
 }
