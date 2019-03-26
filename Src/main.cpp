@@ -9,6 +9,7 @@
 #include "MorceauParcoursLigne.h"
 #include "Pos3D.h"
 #include "MorceauParcoursVirage.h"
+#include "MorceauParcours.h"
 
 #define PI 3.14159265359
 
@@ -191,8 +192,9 @@ static void clean(void) {
 static void createParcours() {
 	Pos3D pos = Pos3D();
 	Pos3D pos2 = Pos3D(5.0, 0.0, 5.0);
-	parcours[0] = new MorceauParcoursLigne(pos, 2, 5);
-	parcours[1] = new MorceauParcoursVirage(pos2, 2, 5);
+	Pos3D pos3 = Pos3D();
+	parcours[0] = new MorceauParcoursLigne(pos, 2, 5, MorceauParcours::Direction::EST);
+	parcours[1] = new MorceauParcoursVirage(pos2, 2, 5, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
 }
 /* Fonction principale                          */
 

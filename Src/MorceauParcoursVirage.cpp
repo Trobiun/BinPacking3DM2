@@ -3,8 +3,9 @@
 #include <cmath>
 #include "MorceauParcoursVirage.h"
 
-MorceauParcoursVirage::MorceauParcoursVirage(Pos3D origin, float length, float maxRadius) : MorceauParcours(origin, length) {
+MorceauParcoursVirage::MorceauParcoursVirage(Pos3D origin, float length, float maxRadius, Direction dir, Direction dir2) : MorceauParcours(origin, length, dir) {
     this->maxRadius = maxRadius;
+	this->dir2 = dir2;
 }
 
 MorceauParcoursVirage::~MorceauParcoursVirage() {
