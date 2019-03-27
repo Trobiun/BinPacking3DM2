@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
+#include <cmath>
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -11,24 +11,35 @@
 #include "MorceauParcoursVirage.h"
 #include "MorceauParcours.h"
 
-#define PI 3.14159265359
+#define KEY_LEFT 0
+#define KEY_UP 1
+#define KEY_RIGHT 2
+#define KEY_DOWN 3
+#define KEY_PAGE_UP 4
+#define KEY_PAGE_DOWN 5
 
 /* Variables globales                           */
 
-static int wTx = 480; // Resolution horizontale de la fenetre
-static int wTy = 480; // Resolution verticale de la fenetre
+static int wTx = 1024; // Resolution horizontale de la fenetre
+static int wTy = 576; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
 static int wPy = 50; // Position verticale de la fenetre
 static float px = 0;
-static float py = 10;
+static float py = 30;
 static float pz = 0;
 static float ox = 0;
 static float oy = 0;
 static float oz = 0;
 static const float blanc[] = { 1.0F, 1.0F, 1.0F, 1.0F };
-static const int nbMorceau = 9;
+static bool keys[6] = { false };
+
 static bool vueDessus = true;
+static int modeCamera = 1;
 static int oldMX = -1, oldMY = -1;
+static int deplMX = 0, deplMY = 0;
+
+static const int nbMorceau = 50;
+
 static MorceauParcours *parcours[nbMorceau];
 static int definit = 0;
 /* Fonction d'initialisation des parametres     */
@@ -69,10 +80,10 @@ static void display(void) {
 	const GLfloat light0_position[] = { 0.0, 0.0, 10.0, 1.0 };
 	glPushMatrix();
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-	if (vueDessus) {
+	if (modeCamera == 1) {
 		gluLookAt(px, py, pz, px, 0, pz, 0.0, 0.0, -1.0);
 	}
-	else {
+	if (modeCamera == 3) {
 		gluLookAt(px, py, pz, ox, oy, oz, 0.0, 0.0, -1.0);
 	}
 	scene();
@@ -95,9 +106,9 @@ static void reshape(int tx, int ty) {
 	glLoadIdentity();
 	double ratio = (double)tx / ty;
 	if (ratio >= 1.0)
-		gluPerspective(80.0, ratio, 1.0, 50.0);
+		gluPerspective(80.0, ratio, 1.0, 100.0);
 	else
-		gluPerspective(80.0 / ratio, ratio, 1.0, 50.0);
+		gluPerspective(80.0 / ratio, ratio, 1.0, 100.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
@@ -108,6 +119,40 @@ static void reshape(int tx, int ty) {
 
 static void idle(void) {
 	printf("I\n");
+	if (keys[KEY_UP]) {
+		pz -= 1;
+		if (modeCamera == 1) {
+			oz = pz;
+		}
+	}
+	if (keys[KEY_DOWN]) {
+		pz += 1;
+		if (modeCamera == 1) {
+			oz = pz;
+		}
+	}
+	if (keys[KEY_LEFT]) {
+		px -= 1;
+		if (modeCamera == 1) {
+			ox = px;
+		}
+		glutPostRedisplay();
+	}
+	if (keys[KEY_RIGHT]) {
+		px += 1;
+		if (modeCamera == 1) {
+			ox = px;
+		}
+	}
+	if (keys[KEY_PAGE_UP]) {
+		py -= 1;
+		oy = py;
+	}
+	if (keys[KEY_PAGE_DOWN]) {
+		py += 1;
+		oy = py;
+	}
+	//px += deplMX;
 	glutPostRedisplay();
 }
 
@@ -123,6 +168,39 @@ static void keyboard(unsigned char key, int x, int y) {
 		break;
 	case 0x20:
 		vueDessus = !vueDessus;
+		break;
+	case 1:
+		modeCamera = 1;
+		break;
+	case 2:
+		modeCamera = 2;
+		break;
+	case 3:
+		modeCamera = 3;
+		break;
+	}
+}
+
+static void specialUp(int key, int x, int y) {
+	switch (key) {
+	case GLUT_KEY_LEFT:
+		keys[KEY_LEFT] = false;
+		break;
+	case GLUT_KEY_UP:
+		keys[KEY_UP] = false;
+		break;
+	case GLUT_KEY_RIGHT:
+		keys[KEY_RIGHT] = false;
+		break;
+	case GLUT_KEY_DOWN:
+		keys[KEY_DOWN] = false;
+		break;
+	case GLUT_KEY_PAGE_UP:
+		keys[KEY_PAGE_UP] = false;
+		break;
+	case GLUT_KEY_PAGE_DOWN:
+		keys[KEY_PAGE_DOWN] = false;
+		break;
 	}
 }
 
@@ -133,44 +211,25 @@ static void keyboard(unsigned char key, int x, int y) {
 /*   - touches de fonction                      */
 
 static void special(int key, int x, int y) {
+	printf("K  %4c %4d %4d\n", key, x, y);
 	switch (key) {
-	case GLUT_KEY_UP:
-		pz -= 1;
-		if (vueDessus) {
-			oz = pz;
-		}
-		glutPostRedisplay();
-		break;
-	case GLUT_KEY_DOWN:
-		pz += 1;
-		if (vueDessus) {
-			oz = pz;
-		}
-		glutPostRedisplay();
-		break;
 	case GLUT_KEY_LEFT:
-		px -= 1;
-		if (vueDessus) {
-			ox = px;
-		}
-		glutPostRedisplay();
+		keys[KEY_LEFT] = true;
+		break;
+	case GLUT_KEY_UP:
+		keys[KEY_UP] = true;
 		break;
 	case GLUT_KEY_RIGHT:
-		px += 1;
-		if (vueDessus) {
-			ox = px;
-		}
-		glutPostRedisplay();
+		keys[KEY_RIGHT] = true;
+		break;
+	case GLUT_KEY_DOWN:
+		keys[KEY_DOWN] = true;
 		break;
 	case GLUT_KEY_PAGE_UP:
-		py -= 1;
-		//oy = py;
-		glutPostRedisplay();
+		keys[KEY_PAGE_UP] = true;
 		break;
 	case GLUT_KEY_PAGE_DOWN:
-		py += 1;
-		//oy = py;
-		glutPostRedisplay();
+		keys[KEY_PAGE_DOWN] = true;
 		break;
 	case GLUT_KEY_F1:
 		px = 0.0;
@@ -196,19 +255,29 @@ static void mouse(int buton, int state, int x, int y) {
 
 static void mouseMotion(int x, int y) {
 	printf("MM %4d %4d\n", x, y);
-	if (oldMX < 0) {
+	/*if (oldMX < 0) {
 		oldMX = x;
 	}
 	if (oldMY < 0) {
 		oldMY = y;
 	}
+	if (x < oldMX) {
+		deplMX = -1;
+	}
+	if(x > oldMX) {
+		deplMX = 1;
+	}
+	
 	int diffX = x - oldMX;
 	int diffY = y - oldMY;
 	px += diffX % 2;
 	pz += diffY % 2;
+	if (vueDessus) {
+		ox = px;
+		oz = pz;
+	}
 	oldMX = x;
-	oldMY = y;
-
+	oldMY = y;*/
 }
 
 /* Fonction executee lors du passage            */
@@ -225,17 +294,25 @@ static void passiveMouseMotion(int x, int y) {
 /* lors de l'execution de la fonction exit()    */
 
 static void clean(void) {
-	//   delete ligneTest;
-   //    delete virage;
 	printf("Bye\n");
 }
 
 static void createParcours() {
 	parcours[0] = new MorceauParcoursLigne(Pos3D(0.0, 0.0, 0.0), 8, 42, MorceauParcours::Direction::EST);
 	parcours[1] = new MorceauParcoursVirage(Pos3D(42.0, 0.0, -8.0), 8, 16, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
-	parcours[2] = new MorceauParcoursLigne(Pos3D(50.0, 0.0, -36.0), 8, 24, MorceauParcours::Direction::NORD);
+	parcours[2] = new MorceauParcoursLigne(Pos3D(50.0, 0.0, -32.0), 8, 24, MorceauParcours::Direction::NORD);
+	parcours[3] = new MorceauParcoursVirage(Pos3D(74.0, 0.0, -32.0), 8, 24, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
+	parcours[4] = new MorceauParcoursVirage(Pos3D(74.0, 0.0, -32.0), 8, 24, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
+	parcours[5] = new MorceauParcoursVirage(Pos3D(124.0, 0.0, -32.0), 8, 34, MorceauParcours::Direction::SUD, MorceauParcours::Direction::EST);
+	parcours[6] = new MorceauParcoursLigne(Pos3D(124.0, 0.0, -6.0), 8, 42, MorceauParcours::Direction::EST);
+	parcours[7] = new MorceauParcoursVirage(Pos3D(166.0, 0.0, 18.0), 8, 24, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
+	parcours[8] = new MorceauParcoursVirage(Pos3D(174.0, 0.0, 18.0), 8, 16, MorceauParcours::Direction::SUD, MorceauParcours::Direction::OUEST);
+	parcours[9] = new MorceauParcoursLigne(Pos3D(0.0, 0.0, 26.0), 8, 174, MorceauParcours::Direction::EST);
+	parcours[10] = new MorceauParcoursVirage(Pos3D(0.0, 0.0, 0.0), 8, 34, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::NORD);
+	parcours[11] = new MorceauParcoursVirage(Pos3D(-13.0, 0.0, 0.0), 8, 21, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
+	parcours[12] = new MorceauParcoursVirage(Pos3D(-13.0, 0.0, 0.0), 8, 21, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
 
-	definit = 3;
+	definit = 13;
 }
 /* Fonction principale                          */
 
@@ -248,8 +325,10 @@ int main(int argc, char **argv) {
 	glutInitWindowPosition(wPx, wPy);
 	glutCreateWindow("Projet Kart");
 	init();
+	glutIgnoreKeyRepeat(0);
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(special);
+	glutSpecialUpFunc(specialUp);
 	glutMouseFunc(mouse);
 	glutMotionFunc(mouseMotion);
 	//glutPassiveMotionFunc(passiveMouseMotion);
