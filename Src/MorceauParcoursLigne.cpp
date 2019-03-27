@@ -13,7 +13,7 @@ void MorceauParcoursLigne::modeliser() {
 	glTranslatef(origin.x, 0.0, origin.z);
 	glBegin(GL_QUAD_STRIP);
 
-	if (dir == EST || dir == OUEST) {
+	if (dir == NORD || dir == SUD) {
 		glNormal3f(0.0F, 1.0F, 0.0F);
 		glVertex3f(0.0F, 0.0F, 0.0F);
 		glVertex3f(0.0F, 0.0F, length);

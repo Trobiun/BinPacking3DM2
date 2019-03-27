@@ -26,6 +26,7 @@ static const float blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 static const int nbMorceau = 9;
 
 static MorceauParcours *parcours[nbMorceau];
+static int definit = 0;
 /* Fonction d'initialisation des parametres     */
 /* OpenGL ne changeant pas au cours de la vie   */
 
@@ -44,14 +45,15 @@ static void init(void) {
 /* Scene dessinee                               */
 
 static void scene(void) {
-    glPushMatrix();
-	for (int i = 0; i < nbMorceau; i++) {
+	for (int i = 0; i < definit; i++) {
+		glPushMatrix();
 		parcours[i]->modeliser();
 		Pos3D flouboulou = parcours[i]->getPosition();
 		glTranslated(flouboulou.x, flouboulou.y, flouboulou.z);
 		glutSolidCube(0.5);
-	}
+		glPopMatrix();
 
+	}
 }
 /* Fonction executee lors d'un rafraichissement */
 
@@ -84,9 +86,9 @@ static void reshape(int tx, int ty) {
     glLoadIdentity();
     double ratio = (double) tx / ty;
     if (ratio >= 1.0)
-        gluPerspective(80.0, ratio, 1.0, 30.0);
+        gluPerspective(80.0, ratio, 1.0, 50.0);
     else
-        gluPerspective(80.0 / ratio, ratio, 1.0, 30.0);
+        gluPerspective(80.0 / ratio, ratio, 1.0, 50.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
@@ -122,11 +124,11 @@ static void keyboard(unsigned char key, int x, int y) {
 static void special(int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_UP:
-            pz -= 0.1;
+            pz -= 1;
             glutPostRedisplay();
             break;
         case GLUT_KEY_DOWN:
-            pz += 0.1;
+            pz += 1;
             glutPostRedisplay();
             break;
         case GLUT_KEY_LEFT:
@@ -137,14 +139,14 @@ static void special(int key, int x, int y) {
             px += 1;
             glutPostRedisplay();
             break;
-            //        case GLUT_KEY_PAGE_UP:
-            //            pz -= 0.1;
-            //            glutPostRedisplay();
-            //            break;
-            //        case GLUT_KEY_PAGE_DOWN:
-            //            pz += 0.1;
-            //            glutPostRedisplay();
-            //            break;
+        case GLUT_KEY_PAGE_UP:
+            py -= 1;
+            glutPostRedisplay();
+            break;
+        case GLUT_KEY_PAGE_DOWN:
+            py += 1;
+            glutPostRedisplay();
+            break;
         case GLUT_KEY_F1:
             px = 0.0;
             py = 10.0;
@@ -191,19 +193,11 @@ static void clean(void) {
 }
 
 static void createParcours() {
-	Pos3D pos = Pos3D(0.0,0.0,0.0);
-	Pos3D pos3 = Pos3D();
-	parcours[0] = new MorceauParcoursLigne(pos, 5, 2, MorceauParcours::Direction::EST);
-	parcours[1] = new MorceauParcoursVirage(Pos3D(10.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
-	parcours[2] = new MorceauParcoursVirage(Pos3D(30.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::SUD);
-	parcours[3] = new MorceauParcoursVirage(Pos3D(50.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
-	parcours[4] = new MorceauParcoursVirage(Pos3D(70.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::NORD);
-	parcours[5] = new MorceauParcoursVirage(Pos3D(90.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::NORD, MorceauParcours::Direction::OUEST);
-	parcours[6] = new MorceauParcoursVirage(Pos3D(110.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
-	parcours[7] = new MorceauParcoursVirage(Pos3D(130.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::SUD, MorceauParcours::Direction::OUEST);
-	parcours[8] = new MorceauParcoursVirage(Pos3D(150.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::SUD, MorceauParcours::Direction::EST);
+	parcours[0] = new MorceauParcoursLigne(Pos3D(0.0, 0.0, 0.0) , 8, 42, MorceauParcours::Direction::EST);
+	parcours[1] = new MorceauParcoursVirage(Pos3D(42.0, 0.0, -8.0), 8, 16, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
+	parcours[2] = new MorceauParcoursLigne(Pos3D(50.0, 0.0, -36.0), 8, 24, MorceauParcours::Direction::NORD);
 
-
+	definit = 3;
 }
 /* Fonction principale                          */
 
