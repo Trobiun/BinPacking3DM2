@@ -103,20 +103,24 @@
     <Library Include="..\..\Lib\glut32.ms.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\Car.cpp" />
     <ClCompile Include="..\..\Src\CH3D.cpp" />
     <ClCompile Include="..\..\Src\Dir3D.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
     <ClCompile Include="..\..\Src\MorceauParcours.cpp" />
     <ClCompile Include="..\..\Src\MorceauParcoursLigne.cpp" />
     <ClCompile Include="..\..\Src\MorceauParcoursVirage.cpp" />
+    <ClCompile Include="..\..\Src\Object3D.cpp" />
     <ClCompile Include="..\..\Src\Pos3D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Include\Car.h" />
     <ClInclude Include="..\..\Include\CH3D.h" />
     <ClInclude Include="..\..\Include\Dir3D.h" />
     <ClInclude Include="..\..\Include\MorceauParcours.h" />
     <ClInclude Include="..\..\Include\MorceauParcoursLigne.h" />
     <ClInclude Include="..\..\Include\MorceauParcoursVirage.h" />
+    <ClInclude Include="..\..\Include\Object3D.h" />
     <ClInclude Include="..\..\Include\Pos3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
