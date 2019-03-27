@@ -38,10 +38,9 @@ static int modeCamera = 1;
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
 
-static const int nbMorceau = 50;
+static const int nbMorceau = 13;
 
 static MorceauParcours *parcours[nbMorceau];
-static int definit = 0;
 /* Fonction d'initialisation des parametres     */
 /* OpenGL ne changeant pas au cours de la vie   */
 
@@ -60,7 +59,7 @@ static void init(void) {
 /* Scene dessinee                               */
 
 static void scene(void) {
-	for (int i = 0; i < definit; i++) {
+	for (int i = 0; i < nbMorceau; i++) {
 		glPushMatrix();
 		parcours[i]->modeliser();
 		Pos3D flouboulou = parcours[i]->getPosition();
@@ -267,7 +266,6 @@ static void mouseMotion(int x, int y) {
 	if(x > oldMX) {
 		deplMX = 1;
 	}
-	
 	int diffX = x - oldMX;
 	int diffY = y - oldMY;
 	px += diffX % 2;
@@ -311,8 +309,6 @@ static void createParcours() {
 	parcours[10] = new MorceauParcoursVirage(Pos3D(0.0, 0.0, 0.0), 8, 34, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::NORD);
 	parcours[11] = new MorceauParcoursVirage(Pos3D(-13.0, 0.0, 0.0), 8, 21, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
 	parcours[12] = new MorceauParcoursVirage(Pos3D(-13.0, 0.0, 0.0), 8, 21, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
-
-	definit = 13;
 }
 /* Fonction principale                          */
 
