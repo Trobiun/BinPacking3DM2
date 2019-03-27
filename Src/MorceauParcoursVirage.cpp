@@ -12,6 +12,16 @@ MorceauParcoursVirage::~MorceauParcoursVirage() {
 }
 
 void MorceauParcoursVirage::modeliser() {
+	glPushMatrix();
+	glTranslatef(this->origin.c[0], this->origin.c[1], this->origin.c[2]);
+	if ((dir == EST && dir2 == NORD) || (dir == SUD && dir2 == OUEST)) {
+		glRotated(270.0, 0.0, 1.0, 0.0);
+	} else if ((dir == OUEST && dir2 == NORD) || (dir == SUD && dir2 == EST)) {
+			glRotated(180.0, 0.0, 1.0, 0.0);
+	} else 	if ((dir == NORD && dir2 == EST) || (dir == OUEST && dir2 == SUD)) {
+		glRotated(90.0, 0.0, 1.0, 0.0);
+	}
+
     glBegin(GL_QUAD_STRIP);
     double a;
     double xmax, xmin;
@@ -29,4 +39,5 @@ void MorceauParcoursVirage::modeliser() {
         glVertex3d(xmin, 0, zmin);
     }
     glEnd();
+	glPopMatrix();
 }

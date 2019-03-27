@@ -23,8 +23,9 @@ static float px = 0;
 static float py = 10;
 static float pz = 0;
 static const float blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
-static MorceauParcours *parcours[2];
+static const int nbMorceau = 9;
 
+static MorceauParcours *parcours[nbMorceau];
 /* Fonction d'initialisation des parametres     */
 /* OpenGL ne changeant pas au cours de la vie   */
 
@@ -44,21 +45,12 @@ static void init(void) {
 
 static void scene(void) {
     glPushMatrix();
-	parcours[0]->modeliser();
-    glPopMatrix();
-    glPushMatrix();
-    Pos3D pos = parcours[1]->getPosition();
-    glTranslatef(pos.c[0], pos.c[1], pos.c[2]);
-	parcours[1]->modeliser();
-    glPopMatrix();
-	glPushMatrix();
-	glTranslated(5.0, 0.0, 10.0);
-	glutSolidCube(0.5);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslated(0.0, 0.0, 0.0);
-	glutSolidCube(0.5);
-	glPopMatrix();
+	for (int i = 0; i < nbMorceau; i++) {
+		parcours[i]->modeliser();
+		Pos3D flouboulou = parcours[i]->getPosition();
+		glTranslated(flouboulou.x, flouboulou.y, flouboulou.z);
+		glutSolidCube(0.5);
+	}
 
 }
 /* Fonction executee lors d'un rafraichissement */
@@ -138,11 +130,11 @@ static void special(int key, int x, int y) {
             glutPostRedisplay();
             break;
         case GLUT_KEY_LEFT:
-            px -= 0.1;
+            px -= 1;
             glutPostRedisplay();
             break;
         case GLUT_KEY_RIGHT:
-            px += 0.1;
+            px += 1;
             glutPostRedisplay();
             break;
             //        case GLUT_KEY_PAGE_UP:
@@ -200,10 +192,17 @@ static void clean(void) {
 
 static void createParcours() {
 	Pos3D pos = Pos3D(0.0,0.0,0.0);
-	Pos3D pos2 = Pos3D(5.0, 0.0, 10.0);
 	Pos3D pos3 = Pos3D();
-	parcours[0] = new MorceauParcoursLigne(pos, 5, 1, MorceauParcours::Direction::EST);
-	parcours[1] = new MorceauParcoursVirage(pos2,2,10, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
+	parcours[0] = new MorceauParcoursLigne(pos, 5, 2, MorceauParcours::Direction::EST);
+	parcours[1] = new MorceauParcoursVirage(Pos3D(10.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
+	parcours[2] = new MorceauParcoursVirage(Pos3D(30.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::SUD);
+	parcours[3] = new MorceauParcoursVirage(Pos3D(50.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
+	parcours[4] = new MorceauParcoursVirage(Pos3D(70.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::NORD);
+	parcours[5] = new MorceauParcoursVirage(Pos3D(90.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::NORD, MorceauParcours::Direction::OUEST);
+	parcours[6] = new MorceauParcoursVirage(Pos3D(110.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
+	parcours[7] = new MorceauParcoursVirage(Pos3D(130.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::SUD, MorceauParcours::Direction::OUEST);
+	parcours[8] = new MorceauParcoursVirage(Pos3D(150.0, 0.0, 0.0), 2, 10, MorceauParcours::Direction::SUD, MorceauParcours::Direction::EST);
+
 
 }
 /* Fonction principale                          */
