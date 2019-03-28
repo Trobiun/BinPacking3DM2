@@ -10,6 +10,8 @@ public:
     virtual ~MorceauParcoursVirage();
 
     virtual void modeliser();
+	void creationMorceauVirage(float maxRadius, float width);
+
 protected:
     float maxRadius;
 	Direction dir2;
