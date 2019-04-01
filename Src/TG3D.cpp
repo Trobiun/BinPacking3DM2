@@ -28,7 +28,7 @@ TG3D::~TG3D(void) {
 void TG3D::print(void) {
 	printf("fonction d'affichage qui n'est pas faite la");
 }
-/*
+
 void TG3D::transformation(CH3D *ch) {
 	CH3D aux;
 	for (int i = 0; i < 4; i++) {
@@ -38,17 +38,17 @@ void TG3D::transformation(CH3D *ch) {
 	}
 	for (int i = 0; i < 4; i++)
 		ch->c[i] = aux.c[i];
-}*/
+}
 
 void TG3D::transformation(CH3D *ch, CH3D *res) {
 	CH3D tempch;
-	double temp = 0.0;
+	double temp = 0;
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			temp += this->c[i][j] * ch->c[j];
 		}
 		tempch.c[i] = temp;
-		temp = 0.0;
+		temp = 0;
 	}
 	res->x = tempch.x;
 	res->y = tempch.y;

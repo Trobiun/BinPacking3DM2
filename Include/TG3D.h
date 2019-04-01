@@ -20,7 +20,7 @@ public:
 	/* Methode d'affichage texte                */
 	void print(void);
 	void affectation(TG3D *temp, TG3D *res);
-	//void transformation(CH3D *ch);
+	void transformation(CH3D *ch);
 	void transformation(CH3D *ch, CH3D *res);
 	void composition(TG3D *tg, TG3D *res);
 };
