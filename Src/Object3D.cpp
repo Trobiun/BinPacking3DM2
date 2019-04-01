@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include "Object3D.h"
@@ -5,7 +6,7 @@
 Object3D::Object3D() {
 }
 
-Object3D::Object3D(float height, float width, float length, Pos3D position, float angle) {
+Object3D::Object3D(float height, float width, float length, Pos3D position, double angle) {
     this->height = height;
     this->width = width;
     this->length = length;

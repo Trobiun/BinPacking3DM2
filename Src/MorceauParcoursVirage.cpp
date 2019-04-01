@@ -4,7 +4,7 @@
 #include "MorceauParcoursVirage.h"
 
 MorceauParcoursVirage::MorceauParcoursVirage(Pos3D origin, float width, float maxRadius, Direction dir, Direction dir2) : MorceauParcours(origin, width, dir) {
-    this->maxRadius = maxRadius;
+	this->maxRadius = maxRadius;
 	this->dir2 = dir2;
 }
 
@@ -17,9 +17,11 @@ void MorceauParcoursVirage::modeliser() {
 	glTranslatef(this->origin.c[0], this->origin.c[1], this->origin.c[2]);
 	if ((dir == EST && dir2 == NORD) || (dir == SUD && dir2 == OUEST)) {
 		glRotated(270.0, 0.0, 1.0, 0.0);
-	} else if ((dir == OUEST && dir2 == NORD) || (dir == SUD && dir2 == EST)) {
-			glRotated(180.0, 0.0, 1.0, 0.0);
-	} else 	if ((dir == NORD && dir2 == EST) || (dir == OUEST && dir2 == SUD)) {
+	}
+	else if ((dir == OUEST && dir2 == NORD) || (dir == SUD && dir2 == EST)) {
+		glRotated(180.0, 0.0, 1.0, 0.0);
+	}
+	else if ((dir == NORD && dir2 == EST) || (dir == OUEST && dir2 == SUD)) {
 		glRotated(90.0, 0.0, 1.0, 0.0);
 	}
 
@@ -56,8 +58,6 @@ void MorceauParcoursVirage::modeliser() {
         glVertex3d(xmin, 0, zmin);
     }
     glEnd();*/
-
-
 	glPopMatrix();
 }
 
@@ -65,7 +65,6 @@ void MorceauParcoursVirage::creationMorceauVirage(float maxRadius, float width) 
 	glBegin(GL_QUAD_STRIP);
 	double a;
 	double xmax, xmin;
-	a = (2 * M_PI * NB_FACETS / 4) / NB_FACETS;
 	double zmax, zmin;
 	glNormal3d(0, 1.0, 0.0);
 	for (int i = 0; i <= NB_FACETS; i++) {

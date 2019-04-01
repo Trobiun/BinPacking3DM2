@@ -112,6 +112,9 @@
     <ClCompile Include="..\..\Src\MorceauParcoursVirage.cpp" />
     <ClCompile Include="..\..\Src\Object3D.cpp" />
     <ClCompile Include="..\..\Src\Pos3D.cpp" />
+    <ClCompile Include="..\..\Src\RT3D.cpp" />
+    <ClCompile Include="..\..\Src\TG3D.cpp" />
+    <ClCompile Include="..\..\Src\Vecteur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\Car.h" />
@@ -122,6 +125,9 @@
     <ClInclude Include="..\..\Include\MorceauParcoursVirage.h" />
     <ClInclude Include="..\..\Include\Object3D.h" />
     <ClInclude Include="..\..\Include\Pos3D.h" />
+    <ClInclude Include="..\..\Include\RT3D.h" />
+    <ClInclude Include="..\..\Include\TG3D.h" />
+    <ClInclude Include="..\..\Include\Vecteur.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

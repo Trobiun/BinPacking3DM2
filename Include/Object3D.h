@@ -9,10 +9,10 @@ protected:
     float width;
     float length;
     Pos3D position;
-    float angle;
+    double angle;
 public:
     Object3D();
-    Object3D(float height, float width, float length, Pos3D position, float angle);
+    Object3D(float height, float width, float length, Pos3D position, double angle);
     Object3D(const Object3D& orig);
     virtual ~Object3D();
     void model();
