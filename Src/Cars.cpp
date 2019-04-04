@@ -41,16 +41,14 @@ void Cars::accelerate(int accelerating) {
 		}else if ( vitesse < MAX_VITESSE ) {
 			vitesse += 0.001;
 		}
-	}
-	else if ( accelerating < 0 ){
+	}else if ( accelerating < 0 ){
 		if (vitesse > 0) {
 			vitesse -= 0.003;
 		}
 		else if(vitesse > MAX_RECUL) {
 			vitesse -= 0.001;
 		}
-	}
-	else {
+	}else {
 		if (vitesse > 0) {
 			vitesse -= 0.001;
 		}
@@ -62,7 +60,8 @@ void Cars::accelerate(int accelerating) {
 
 void Cars::move() {
 	double angleT = -angle;
-	
+	printf("angle = %d\n", this->angle);
+
 	if (angleT >= 0 && angleT < 90) {
 		float deplacex = sin(angleT)*vitesse;
 		float deplacez = cos(angleT)*vitesse;
@@ -94,19 +93,23 @@ void Cars::move() {
 }
 
 void Cars::moveG() {
-	angle++;
-	if (angle <= -360) {
-		angle += 360;
+	this->angle++;
+	if (angle > 0) {
+		angle = angle - 360;
 	}
+	printf("angle++\n", angle);
+
+
 }
 
 
 
 void Cars::moveD() {
-	angle--;
-	if (angle > 0) {
-		angle = angle - 360;
+	this->angle--;
+	if (angle <= -360) {
+		angle += 360;
 	}
+	printf("angle--\n", angle);
 }
 
 void modifPos(int i, int j) {

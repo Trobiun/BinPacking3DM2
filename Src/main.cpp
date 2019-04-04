@@ -173,24 +173,21 @@ static void idle(void) {
 	if (keyboardKeys['z']) {
 		car->accelerate(1);
 	}
-	else {
-		//car->accelerate(false);
-	}
+
 	if (keyboardKeys['s']) {
 		car->accelerate(-1);
 	}
+
 	if (!keyboardKeys['z'] && !keyboardKeys['s']) {
 		car->accelerate(0);
 	}
 	if (keyboardKeys['d']) {
 		car->moveD();
-		//        car->setVirage(true);
-	}
-	else {
-		//        car->setVirage(false);
+		printf("on tourne a droite\n");
 	}
 	if (keyboardKeys['q']) {
 		car->moveG();
+		printf("on tourne a gauche\n");
 	}
 	car->move();
 	glutPostRedisplay();
