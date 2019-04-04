@@ -4,7 +4,6 @@
 #include "Pos3D.h"
 #include "Dir3D.h"
 #include "Object3D.h"
-#include "Vecteur.h"
 
 class Car : public Object3D {
 public:

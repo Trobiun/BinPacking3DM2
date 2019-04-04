@@ -11,7 +11,7 @@
 #include "Pos3D.h"
 #include "MorceauParcoursVirage.h"
 #include "MorceauParcours.h"
-#include "Car.h"
+#include "Cars.h"
 
 #define KEY_LEFT 0
 #define KEY_UP 1
@@ -36,7 +36,7 @@ static const float blanc[] = { 1.0F, 1.0F, 1.0F, 1.0F };
 static bool keys[6] = { false };
 static bool keyboardKeys[256] = { false };
 
-static Car *car;
+static Cars *car;
 static int modeCamera = 1;
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
@@ -69,7 +69,7 @@ static void reset() {
 	if (car != NULL) {
 		delete car;
 	}
-	car = new Car(1.0, 2.5, 5.0, Pos3D(0, 0, 0), 0);
+	car = new Cars(1.0, 2.5, 5.0, Pos3D(0, 0, 0), 0);
 }
 
 /* Scene dessinee                               */
@@ -171,34 +171,26 @@ static void idle(void) {
 		//oy = py;
 	}
 	if (keyboardKeys['z']) {
-		//car->accelerate(true);
-		car->setAccelerationInput(1);
-		//car->moveForward();
+		car->accelerate(1);
 	}
 	else {
 		//car->accelerate(false);
 	}
 	if (keyboardKeys['s']) {
-		car->moveBackward();
-		car->setAccelerationInput(-1);
+		car->accelerate(-1);
 	}
 	if (!keyboardKeys['z'] && !keyboardKeys['s']) {
-		car->setAccelerationInput(0);
+		car->accelerate(0);
 	}
 	if (keyboardKeys['d']) {
-		car->moveRight();
+		car->moveD();
 		//        car->setVirage(true);
-		car->setAngleInput(-1.0);
 	}
 	else {
 		//        car->setVirage(false);
 	}
 	if (keyboardKeys['q']) {
-		car->moveLeft();
-		car->setAngleInput(1.0);
-	}
-	if (!keyboardKeys['q'] && !keyboardKeys['d']) {
-		car->setAngleInput(0.0);
+		car->moveG();
 	}
 	car->move();
 	glutPostRedisplay();
