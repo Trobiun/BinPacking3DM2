@@ -37,34 +37,78 @@ void Cars::create() {
 void Cars::accelerate(int accelerating) {
 	if (accelerating > 0) {
 		if (vitesse < 0) {
-			vitesse += 0.00003;
+			vitesse += 0.003;
 		}else if ( vitesse < MAX_VITESSE ) {
-			vitesse += 0.00001;
+			vitesse += 0.001;
 		}
 	}
 	else if ( accelerating < 0 ){
 		if (vitesse > 0) {
-			vitesse -= 0.00003;
+			vitesse -= 0.003;
 		}
 		else if(vitesse > MAX_RECUL) {
-			vitesse -= 0.00001;
+			vitesse -= 0.001;
 		}
 	}
 	else {
 		if (vitesse > 0) {
-			vitesse -= 0.00001;
+			vitesse -= 0.001;
+		}
+		if (vitesse < 0) {
+			vitesse += 0.001;
 		}
 	}
 }
 
 void Cars::move() {
-	position.x+=vitesse;
+	double angleT = -angle;
+	
+	if (angleT >= 0 && angleT < 90) {
+		float deplacex = sin(angleT)*vitesse;
+		float deplacez = cos(angleT)*vitesse;
+		position.x += deplacex;
+		position.z += deplacez;
+	}
+
+	if (angleT >= 90 && angleT < 180) {
+		angleT -= 90;
+		float deplacex = sin(angleT)*vitesse;
+		float deplacez = cos(angleT)*vitesse;
+		position.x += deplacex;
+		position.z += deplacez;
+	}	
+	if (angleT >= 180 && angleT < 170) {
+		angleT -= 180;
+		float deplacex = -cos(angleT)*vitesse;
+		float deplacez = sin(angleT)*vitesse;
+		position.x += deplacex;
+		position.z += deplacez;
+	}	
+	if (angleT >= 270 && angleT < 360) {
+		angleT -= 270;
+		float deplacex = sin(angleT)*vitesse;
+		float deplacez = -cos(angleT)*vitesse;
+		position.x += deplacex;
+		position.z += deplacez;
+	}
 }
 
 void Cars::moveG() {
-	angle--;
+	angle++;
+	if (angle <= -360) {
+		angle += 360;
+	}
 }
 
+
+
 void Cars::moveD() {
-	angle++;
+	angle--;
+	if (angle > 0) {
+		angle = angle - 360;
+	}
+}
+
+void modifPos(int i, int j) {
+
 }
