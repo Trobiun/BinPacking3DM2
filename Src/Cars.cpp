@@ -60,31 +60,37 @@ void Cars::accelerate(int accelerating) {
 
 void Cars::move() {
 	double angleT = -angle;
-	printf("angle = %d\n", this->angle);
+	printf("angle = %lf\n", this->angle);
 
 	if (angleT >= 0 && angleT < 90) {
-		float deplacex = sin(angleT)*vitesse;
-		float deplacez = cos(angleT)*vitesse;
+		angleT = angleT * 3.14 / 180;
+		float deplacex = cos(angleT)*vitesse;
+		float deplacez = sin(angleT)*vitesse;
+		printf("angle = %lf, virage x %lf\n", angleT, cos(angleT));
+
 		position.x += deplacex;
 		position.z += deplacez;
 	}
 
 	if (angleT >= 90 && angleT < 180) {
 		angleT -= 90;
-		float deplacex = sin(angleT)*vitesse;
+		angleT = angleT * 3.14 / 180;
+		float deplacex = -sin(angleT)*vitesse;
 		float deplacez = cos(angleT)*vitesse;
 		position.x += deplacex;
 		position.z += deplacez;
 	}	
-	if (angleT >= 180 && angleT < 170) {
+	if (angleT >= 180 && angleT < 270) {
 		angleT -= 180;
+		angleT = angleT * 3.14 / 180;
 		float deplacex = -cos(angleT)*vitesse;
-		float deplacez = sin(angleT)*vitesse;
+		float deplacez = -sin(angleT)*vitesse;
 		position.x += deplacex;
 		position.z += deplacez;
 	}	
 	if (angleT >= 270 && angleT < 360) {
 		angleT -= 270;
+		angleT = angleT * 3.14 / 180;
 		float deplacex = sin(angleT)*vitesse;
 		float deplacez = -cos(angleT)*vitesse;
 		position.x += deplacex;
