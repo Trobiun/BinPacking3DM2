@@ -16,108 +16,108 @@ Cars::Cars() {
 }
 
 Cars::Cars(float height, float width, float length, Pos3D pos, float angle)
-	: Object3D(height, width, length, pos, angle) {
-	accel = 0;
-	vitesse = 0;
-	rotation = 0;
+: Object3D(height, width, length, pos, angle) {
+    accel = 0;
+    vitesse = 0;
+    rotation = 0;
+    deplacex = 0;
+    deplacez = 0;
 }
 
 Cars::~Cars() {
 }
 
 void Cars::create() {
-	glutSolidCube(1.0);
-	glBegin(GL_LINES);
-	//glVertex3f(0, 0, 0);
-	//glVertex3f(1.0, 0.0, 0.0);
-
-	glEnd();
+    glutSolidCube(1.0);
 }
 
 void Cars::accelerate(int accelerating) {
-	if (accelerating > 0) {
-		if (vitesse < 0) {
-			vitesse += 0.003;
-		}else if ( vitesse < MAX_VITESSE ) {
-			vitesse += 0.001;
-		}
-	}else if ( accelerating < 0 ){
-		if (vitesse > 0) {
-			vitesse -= 0.003;
-		}
-		else if(vitesse > MAX_RECUL) {
-			vitesse -= 0.001;
-		}
-	}else {
-		if (vitesse > 0) {
-			vitesse -= 0.001;
-		}
-		if (vitesse < 0) {
-			vitesse += 0.001;
-		}
-	}
+    if (accelerating > 0) {
+        if (vitesse < 0) {
+            vitesse += 0.003;
+        }
+        else if (vitesse < MAX_VITESSE) {
+            vitesse += 0.001;
+        }
+    }
+    else if (accelerating < 0) {
+        if (vitesse > 0) {
+            vitesse -= 0.003;
+        }
+        else if (vitesse > MAX_RECUL) {
+            vitesse -= 0.001;
+        }
+    }
+    else {
+        if (vitesse > 0) {
+            vitesse -= 0.001;
+        }
+        if (vitesse < 0) {
+            vitesse += 0.001;
+        }
+    }
 }
 
 void Cars::move() {
-	double angleT = -angle;
-	printf("angle = %lf\n", this->angle);
-
-	if (angleT >= 0 && angleT < 90) {
-		angleT = angleT * 3.14 / 180;
-		float deplacex = cos(angleT)*vitesse;
-		float deplacez = sin(angleT)*vitesse;
-		printf("angle = %lf, virage x %lf\n", angleT, cos(angleT));
-
-		position.x += deplacex;
-		position.z += deplacez;
-	}
-
-	if (angleT >= 90 && angleT < 180) {
-		angleT -= 90;
-		angleT = angleT * 3.14 / 180;
-		float deplacex = -sin(angleT)*vitesse;
-		float deplacez = cos(angleT)*vitesse;
-		position.x += deplacex;
-		position.z += deplacez;
-	}	
-	if (angleT >= 180 && angleT < 270) {
-		angleT -= 180;
-		angleT = angleT * 3.14 / 180;
-		float deplacex = -cos(angleT)*vitesse;
-		float deplacez = -sin(angleT)*vitesse;
-		position.x += deplacex;
-		position.z += deplacez;
-	}	
-	if (angleT >= 270 && angleT < 360) {
-		angleT -= 270;
-		angleT = angleT * 3.14 / 180;
-		float deplacex = sin(angleT)*vitesse;
-		float deplacez = -cos(angleT)*vitesse;
-		position.x += deplacex;
-		position.z += deplacez;
-	}
+    double angleT = -angle;
+    //	printf("angle = %lf\n", this->angle);
+    deplacex = 0.0, deplacez = 0.0;
+    if (angleT >= 0 && angleT < 90) {
+        angleT = angleT * 3.14 / 180;
+        deplacex = cos(angleT) * vitesse;
+        deplacez = sin(angleT) * vitesse;
+        //		printf("angle = %lf, virage x %lf\n", angleT, cos(angleT));
+    }
+    if (angleT >= 90 && angleT < 180) {
+        angleT -= 90;
+        angleT = angleT * 3.14 / 180;
+        deplacex = -sin(angleT) * vitesse;
+        deplacez = cos(angleT) * vitesse;
+    }
+    if (angleT >= 180 && angleT < 270) {
+        angleT -= 180;
+        angleT = angleT * 3.14 / 180;
+        deplacex = -cos(angleT) * vitesse;
+        deplacez = -sin(angleT) * vitesse;
+    }
+    if (angleT >= 270 && angleT < 360) {
+        angleT -= 270;
+        angleT = angleT * 3.14 / 180;
+        deplacex = sin(angleT) * vitesse;
+        deplacez = -cos(angleT) * vitesse;
+    }
+    position.x += deplacex;
+    position.z += deplacez;
 }
 
 void Cars::moveG() {
-	this->angle++;
-	if (angle > 0) {
-		angle = angle - 360;
-	}
-	printf("angle++\n", angle);
-
-
+    this->angle++;
+    if (angle > 0) {
+        angle = angle - 360;
+    }
+    //    printf("angle++\n", angle);
 }
 
-
-
 void Cars::moveD() {
-	this->angle--;
-	if (angle <= -360) {
-		angle += 360;
-	}
-	printf("angle--\n", angle);
+    this->angle--;
+    if (angle <= -360) {
+        angle += 360;
+    }
+    //    printf("angle--\n", angle);
 }
 
 void modifPos(int i, int j) {
 
+}
+
+float Cars::getVitesse() {
+    return vitesse;
+}
+
+float Cars::getDeplaceX() {
+    return deplacex;
+}
+
+float Cars::getDeplaceZ() {
+    return deplacez;
 }

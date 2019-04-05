@@ -7,24 +7,29 @@
 
 class Cars : public Object3D {
 public:
-	Cars();
-	Cars(float height, float width, float length, Pos3D pos, float angle);
-	virtual ~Cars();
-	void create();
-	void accelerate(int accelerating);
-	void move();
-	void moveG();
-	void moveD();
-
+    Cars();
+    Cars(float height, float width, float length, Pos3D pos, float angle);
+    virtual ~Cars();
+    void create();
+    void accelerate(int accelerating);
+    void move();
+    void moveG();
+    void moveD();
+    float getVitesse();
+    float getDeplaceX();
+    float getDeplaceZ();
 private:
-	float accel;
-	float rotation;
-	float vitesse;
+    float accel;
+    float rotation;
+    float vitesse;
 
-	/*float height;
-	float width;
-	float length;
-	Pos3D position;*/
+    float deplacex;
+    float deplacez;
+
+    /*float height;
+    float width;
+    float length;
+    Pos3D position;*/
 };
 
 #endif 
