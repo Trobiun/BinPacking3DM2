@@ -11,13 +11,16 @@ public:
     Cars(float height, float width, float length, Pos3D pos, float angle);
     virtual ~Cars();
     void create();
-    void accelerate(int accelerating, double timeSincelastFrame);
-    void move();
+    void accelerate(int accelerating, double timeSinceLastFrame);
+    void move(double timeSinceLastFrame);
+    void moveTest(double timeSinceLastFrame);
+    void calculDirection();
     void moveG();
     void moveD();
     float getVitesse();
     float getDeplaceX();
     float getDeplaceZ();
+
 private:
     float accel;
     float rotation;

@@ -70,16 +70,12 @@ static void reset() {
     py = 30;
     pz = 0;
     ox = 0;
-    oy = 30;
+    oy = 0;
     oz = 0;
     if (car != NULL) {
         delete car;
     }
-    //    std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
     car = new Cars(1.0, 2.5, 5.0, Pos3D(0, 0, 0), 0);
-    //    auto end = std::chrono::system_clock::now();
-    //    std::chrono::duration<double> elapsedSeconds = end - start;
-    //    printf("%lf\n", elapsedSeconds.count());
 }
 
 /* Scene dessinee                               */
@@ -116,16 +112,15 @@ static void display(void) {
         gluLookAt(pos.x, py, pos.z, pos.x, 0, pos.z, 0.0, 0.0, -1.0);
     }
     if (modeCamera == 3) {
+        std::chrono::time_point<std::chrono::system_clock> test = std::chrono::system_clock::now();
+        std::chrono::duration<double> diff = test - lastFrame;
+        double diffDouble = diff.count();
         Pos3D pos = car->getPosition();
-        float depX = car->getDeplaceX();
-        float depZ = car->getDeplaceZ();
-        int signx = -1 + 2 * std::signbit(depX);
-        //        printf("signx : %d\n", signx);
-        int signz = -1 + 2 * std::signbit(depZ);
-        //        printf("signz : %d\n", signz);
-        int isZero = depX == 0 && depZ == 0;
-        //        printf("%f\n", depX);
-        //        printf("%f\n", depZ);
+        double depX = car->getDeplaceX() / 100;
+        double depZ = car->getDeplaceZ() / 100;
+        //        int signx = -1 + 2 * std::signbit(depX);
+        //        int signz = -1 + 2 * std::signbit(depZ);
+        //        int isZero = depX == 0 && depZ == 0;
         gluLookAt(pos.x - depX * 25, py / 3, pos.z - depZ * 25, pos.x + depX * 25, 0, pos.z + depZ * 25, 0.0, 1.0, 0.0);
     }
     scene();
@@ -167,7 +162,7 @@ static void idle(void) {
     std::chrono::time_point<std::chrono::system_clock> test = std::chrono::system_clock::now();
     std::chrono::duration<double> diff = test - lastFrame;
     double diffDouble = diff.count();
-    printf("%lf\n", diffDouble);
+    //    printf("%lf\n", diffDouble);
     if (keys[KEY_UP]) {
         pz -= 1;
         if (modeCamera == 1) {
@@ -223,7 +218,7 @@ static void idle(void) {
         car->moveG();
         //        printf("on tourne a gauche\n");
     }
-    car->move();
+    car->move(diffDouble);
     Pos3D pos = car->getPosition();
     //    if (modeCamera == 1) {
     //        px = pos.x;
