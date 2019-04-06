@@ -11,7 +11,7 @@ public:
     Cars(float height, float width, float length, Pos3D pos, float angle);
     virtual ~Cars();
     void create();
-    void accelerate(int accelerating);
+    void accelerate(int accelerating, double timeSincelastFrame);
     void move();
     void moveG();
     void moveD();

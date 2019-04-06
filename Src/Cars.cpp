@@ -31,29 +31,29 @@ void Cars::create() {
     glutSolidCube(1.0);
 }
 
-void Cars::accelerate(int accelerating) {
+void Cars::accelerate(int accelerating, double timeSinceLastFrame) {
     if (accelerating > 0) {
         if (vitesse < 0) {
-            vitesse += 0.003;
+            vitesse += timeSinceLastFrame; //0.003;
         }
         else if (vitesse < MAX_VITESSE) {
-            vitesse += 0.001;
+            vitesse += timeSinceLastFrame / 3; //0.001;
         }
     }
     else if (accelerating < 0) {
         if (vitesse > 0) {
-            vitesse -= 0.003;
+            vitesse -= timeSinceLastFrame; //0.003;
         }
         else if (vitesse > MAX_RECUL) {
-            vitesse -= 0.001;
+            vitesse -= timeSinceLastFrame / 3; //0.001;
         }
     }
     else {
         if (vitesse > 0) {
-            vitesse -= 0.001;
+            vitesse -= timeSinceLastFrame / 3; //0.001;
         }
         if (vitesse < 0) {
-            vitesse += 0.001;
+            vitesse += timeSinceLastFrame / 3; //0.001;
         }
     }
 }

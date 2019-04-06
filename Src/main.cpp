@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <cmath>
+#include <chrono>
 #include <ctime>
 #include <GL/glut.h>
 #include <GL/gl.h>
@@ -37,6 +38,7 @@ static bool keys[6] = {false};
 static bool keyboardKeys[256] = {false};
 
 static Cars *car;
+std::chrono::time_point<std::chrono::system_clock> lastFrame;
 //modeCamera = 1 ==> 1ère personne
 //modeCamera = 2 ==> vue du dessus
 //modeCamera = 3 ==> 3ème personne
@@ -73,7 +75,11 @@ static void reset() {
     if (car != NULL) {
         delete car;
     }
+    //    std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
     car = new Cars(1.0, 2.5, 5.0, Pos3D(0, 0, 0), 0);
+    //    auto end = std::chrono::system_clock::now();
+    //    std::chrono::duration<double> elapsedSeconds = end - start;
+    //    printf("%lf\n", elapsedSeconds.count());
 }
 
 /* Scene dessinee                               */
@@ -120,7 +126,7 @@ static void display(void) {
         int isZero = depX == 0 && depZ == 0;
         //        printf("%f\n", depX);
         //        printf("%f\n", depZ);
-        gluLookAt(pos.x - depX * 25, py / 2, pos.z - depZ * 25, pos.x + depX * 25, 0, pos.z + depZ * 25, 0.0, 1.0, 0.0);
+        gluLookAt(pos.x - depX * 25, py / 3, pos.z - depZ * 25, pos.x + depX * 25, 0, pos.z + depZ * 25, 0.0, 1.0, 0.0);
     }
     scene();
     glPopMatrix();
@@ -158,6 +164,10 @@ static void reshape(int tx, int ty) {
 
 static void idle(void) {
     //printf("I\n");
+    std::chrono::time_point<std::chrono::system_clock> test = std::chrono::system_clock::now();
+    std::chrono::duration<double> diff = test - lastFrame;
+    double diffDouble = diff.count();
+    printf("%lf\n", diffDouble);
     if (keys[KEY_UP]) {
         pz -= 1;
         if (modeCamera == 1) {
@@ -192,15 +202,18 @@ static void idle(void) {
         //oy = py;
     }
     if (keyboardKeys['z']) {
-        car->accelerate(1);
+        //        car->setAccelerationInput(1);
+        car->accelerate(1, diffDouble);
     }
 
     if (keyboardKeys['s']) {
-        car->accelerate(-1);
+        //        car->setAccelerationInput(-1);
+        car->accelerate(-1, diffDouble);
     }
 
     if (!keyboardKeys['z'] && !keyboardKeys['s']) {
-        car->accelerate(0);
+        //        car->setAccelerationInput(0);
+        car->accelerate(0, diffDouble);
     }
     if (keyboardKeys['d']) {
         car->moveD();
@@ -219,6 +232,7 @@ static void idle(void) {
     //        ox = px;
     //        oz = pz;
     //    }
+    lastFrame = test;
     glutPostRedisplay();
 }
 
@@ -407,6 +421,7 @@ int main(int argc, char **argv) {
     glutReshapeFunc(reshape);
     glutIdleFunc(idle);
 
+    lastFrame = std::chrono::system_clock::now();
     reset();
 
     glutMainLoop();
