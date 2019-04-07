@@ -14,9 +14,6 @@ Object3D::Object3D(float height, float width, float length, Pos3D position, doub
     this->angle = angle;
 }
 
-Object3D::Object3D(const Object3D& orig) {
-}
-
 Object3D::~Object3D() {
 }
 
@@ -25,6 +22,10 @@ void Object3D::model() {
     init();
     create();
     glPopMatrix();
+}
+
+Pos3D Object3D::getPosition() {
+    return position;
 }
 
 void Object3D::init() {
@@ -42,5 +43,5 @@ void Object3D::rotate() {
 }
 
 void Object3D::scale() {
-    glScalef(width, height, length);
+    glScalef(length, height, width);
 }
