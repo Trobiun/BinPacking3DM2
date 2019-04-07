@@ -4,18 +4,19 @@
 #include "Pos3D.h"
 
 class Object3D {
+public:
+    double angle;
 protected:
     float height;
     float width;
     float length;
     Pos3D position;
-    double angle;
 public:
     Object3D();
     Object3D(float height, float width, float length, Pos3D position, double angle);
-    Object3D(const Object3D& orig);
     virtual ~Object3D();
     void model();
+    Pos3D getPosition();
 protected:
     virtual void create() = 0;
 private:
