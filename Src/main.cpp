@@ -21,6 +21,8 @@
 #define KEY_PAGE_UP 4
 #define KEY_PAGE_DOWN 5
 
+#define EPSILON 0.001
+
 /* Variables globales                           */
 
 static int wTx = 1024; // Resolution horizontale de la fenetre
@@ -31,7 +33,7 @@ static float px = 0;
 static float py = 30;
 static float pz = 0;
 static float ox = 0;
-static float oy = 30;
+static float oy = 0;
 static float oz = 0;
 static const float blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 static bool keys[6] = {false};
@@ -118,6 +120,8 @@ static void display(void) {
         Pos3D pos = car->getPosition();
         double depX = car->getDeplaceX() / 100;
         double depZ = car->getDeplaceZ() / 100;
+        double signeX = fabs(depX) / (depX + (fabs(depX) < EPSILON));
+        double signeZ = fabs(depZ) / (depZ + (fabs(depZ) < EPSILON));
         //        int signx = -1 + 2 * std::signbit(depX);
         //        int signz = -1 + 2 * std::signbit(depZ);
         //        int isZero = depX == 0 && depZ == 0;
@@ -129,6 +133,7 @@ static void display(void) {
     glutSwapBuffers();
     int error = glGetError();
     if (error != GL_NO_ERROR) {
+
         printf("Attention erreur %d\n", error);
     }
 }
@@ -147,6 +152,7 @@ static void reshape(int tx, int ty) {
         gluPerspective(80.0, ratio, 1.0, 100.0);
     }
     else {
+
         gluPerspective(80.0 / ratio, ratio, 1.0, 100.0);
     }
     glMatrixMode(GL_MODELVIEW);
@@ -215,6 +221,7 @@ static void idle(void) {
         //        printf("on tourne a droite\n");
     }
     if (keyboardKeys['q']) {
+
         car->moveG();
         //        printf("on tourne a gauche\n");
     }
@@ -252,6 +259,7 @@ static void keyboard(unsigned char key, int x, int y) {
         glutPostRedisplay();
     }
     if (key == '3') {
+
         modeCamera = 3;
         glutPostRedisplay();
     }
@@ -259,6 +267,7 @@ static void keyboard(unsigned char key, int x, int y) {
 }
 
 static void keyboardUp(unsigned char key, int x, int y) {
+
     keyboardKeys[key] = false;
 }
 
@@ -281,6 +290,7 @@ static void specialUp(int key, int x, int y) {
             break;
         case GLUT_KEY_PAGE_DOWN:
             keys[KEY_PAGE_DOWN] = false;
+
             break;
     }
 }
@@ -311,6 +321,7 @@ static void special(int key, int x, int y) {
             break;
         case GLUT_KEY_PAGE_DOWN:
             keys[KEY_PAGE_DOWN] = true;
+
             break;
     }
 }
@@ -347,6 +358,7 @@ static void mouseMotion(int x, int y) {
     px += diffX % 3;
     pz += diffY % 3;
     if (modeCamera == 1) {
+
         ox = px;
         oz = pz;
     }
@@ -369,12 +381,14 @@ static void passiveMouseMotion(int x, int y) {
 
 static void clean(void) {
     if (car != NULL) {
+
         delete car;
     }
     //printf("Bye\n");
 }
 
 static void createParcours() {
+
     parcours[0] = new MorceauParcoursLigne(Pos3D(24.0, 0.0, 0.0), 8, 18, MorceauParcours::Direction::EST);
     parcours[1] = new MorceauParcoursVirage(Pos3D(42.0, 0.0, -8.0), 8, 16, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
     parcours[2] = new MorceauParcoursLigne(Pos3D(50.0, 0.0, -32.0), 8, 24, MorceauParcours::Direction::NORD);
