@@ -17,17 +17,17 @@ public:
     void calculDirection();
     void moveG();
     void moveD();
-    float getVitesse();
-    float getDeplaceX();
-    float getDeplaceZ();
+    double getVitesse();
+    double getDeplaceX();
+    double getDeplaceZ();
 
 private:
-    float accel;
-    float rotation;
-    float vitesse;
+    double accel;
+    double rotation;
+    double vitesse;
 
-    float deplacex;
-    float deplacez;
+    double deplacex;
+    double deplacez;
 
     /*float height;
     float width;

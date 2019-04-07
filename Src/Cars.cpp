@@ -32,18 +32,19 @@ void Cars::create() {
 }
 
 void Cars::accelerate(int accelerating, double timeSinceLastFrame) {
-    if (accelerating > 0) {
-        if (vitesse < 0) {
+    if (accelerating > 0.0F) {
+        if (vitesse < 0.0F) {
             vitesse += timeSinceLastFrame / (0.003 * ACCELERATION_FACTOR);
         }
         else if (vitesse < MAX_VITESSE) {
             vitesse += timeSinceLastFrame / (0.001 * ACCELERATION_FACTOR);
-            vitesse = fmax(vitesse, MAX_VITESSE);
+            vitesse = fmin(vitesse, MAX_VITESSE);
         }
     }
-    else if (accelerating < 0) {
-        if (vitesse > 0) {
+    else if (accelerating < 0.0F) {
+        if (vitesse > 0.0F) {
             vitesse -= timeSinceLastFrame / (0.003 * ACCELERATION_FACTOR);
+            vitesse = fmax(vitesse, MAX_RECUL);
         }
         else if (vitesse > MAX_RECUL) {
             vitesse -= timeSinceLastFrame / (0.001 * ACCELERATION_FACTOR);
@@ -51,11 +52,13 @@ void Cars::accelerate(int accelerating, double timeSinceLastFrame) {
         }
     }
     else {
-        if (vitesse > 0) {
+        if (vitesse > 0.0F) {
             vitesse -= timeSinceLastFrame / (0.001 * ACCELERATION_FACTOR);
+            vitesse = fmax(vitesse, MAX_RECUL);
         }
-        if (vitesse < 0) {
+        if (vitesse < 0.0F) {
             vitesse += timeSinceLastFrame / (0.001 * ACCELERATION_FACTOR);
+            vitesse = fmin(vitesse, MAX_VITESSE);
         }
     }
 }
@@ -90,6 +93,7 @@ void Cars::move(double timeSinceLastFrame) {
     }
     deplacex *= vitesse;
     deplacez *= vitesse;
+    //    printf("%lf\n", deplacex);
     position.x += deplacex * timeSinceLastFrame;
     position.z += deplacez * timeSinceLastFrame;
 }
@@ -97,7 +101,6 @@ void Cars::move(double timeSinceLastFrame) {
 void Cars::moveG() {
     this->angle++;
     if (angle > 0) {
-
         angle = angle - 360;
     }
     //    printf("angle++\n", angle);
@@ -116,16 +119,16 @@ void modifPos(int i, int j) {
 
 }
 
-float Cars::getVitesse() {
+double Cars::getVitesse() {
 
     return vitesse;
 }
 
-float Cars::getDeplaceX() {
+double Cars::getDeplaceX() {
 
     return deplacex;
 }
 
-float Cars::getDeplaceZ() {
+double Cars::getDeplaceZ() {
     return deplacez;
 }
