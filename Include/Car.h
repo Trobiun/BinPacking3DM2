@@ -18,12 +18,14 @@ public:
     void move3();
     void moveG();
     void moveD();
-    float steering(float inputAngle);
+    float steering(float inputAngle, double timeSinceLastFrame);
     void setVirage(bool virage);
     void setAccelerationInput(double input);
     void rotateAngle(int diff);
     void setAngleInput(double input);
     double accelerationFunction(long accelTime);
+    double getDeplaceX();
+    double getDeplaceZ();
 private:
     Dir3D acceleration;
     Dir3D vitesse;

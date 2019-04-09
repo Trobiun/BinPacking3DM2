@@ -9,7 +9,7 @@
 #define MAX_ACCELERATION 150.0
 #define MAX_SPEED 80.0
 #define ACCELERATION_FACTOR 30.0
-#define ANGLE_FACTOR 30.0
+#define ANGLE_FACTOR 1.0
 #define LERP_FACTOR 20.0
 #define MAX_STEER 5.0f
 #define BACKWARD_FRICTION_FACTOR 0.1f
@@ -127,7 +127,7 @@ void Car::move(double timeSinceLastFrame) {
     vitesse.y += (backwardFriction.y + lateralFriction.y) * 1.0 / 60.0;
     vitesse.z += (backwardFriction.z + lateralFriction.z) * 1.0 / 60.0;
 
-    double steer_angle = steering(steerInput);
+    double steer_angle = steering(steerInput, timeSinceLastFrame);
     printf("%lf\n", steer_angle);
     if (vitesse.norme() > 0) {
         steer_angle = steerInput * ANGLE_FACTOR; // * (vitesse.norme() / MAX_SPEED);
@@ -135,6 +135,7 @@ void Car::move(double timeSinceLastFrame) {
     else {
         steer_angle = steerInput * ANGLE_FACTOR; // * (1 / 2);
     }
+    this->angle += steer_angle;
     steerInput = 0.00;
     Dir3D dirTemp;
     RT3D rotation = RT3D(steer_angle, 0.0, 1.0, 0.0);
@@ -154,7 +155,7 @@ void Car::move(double timeSinceLastFrame) {
 }
 
 void Car::move2() {
-    float steerAngle = steering(steerInput);
+    float steerAngle = steering(steerInput, 1);
     printf("%f\n", steerAngle);
     float sn = std::sin(steerAngle);
     float cs = std::cos(steerAngle);
@@ -252,9 +253,9 @@ void Car::setAccelerationInput(double input) {
     this->accelerationInput = input;
 }
 
-float Car::steering(float inputAngle) {
+float Car::steering(float inputAngle, double timeSinceLastFrame) {
     float smoothedAngle = 0;
-    float dt = 1;
+    float dt = timeSinceLastFrame;
     float CHANGE_MODIFIER = 12.0f;
     float MIN_LIMIT = -15.0f;
     float MAX_LIMIT = 15.0f;
@@ -283,4 +284,12 @@ float Car::steering(float inputAngle) {
         }
     }
     return smoothedAngle;
+}
+
+double Car::getDeplaceX() {
+    return direction.x;
+}
+
+double Car::getDeplaceZ() {
+    return direction.z;
 }

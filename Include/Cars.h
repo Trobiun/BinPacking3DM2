@@ -15,8 +15,8 @@ public:
     void move(double timeSinceLastFrame);
     void moveTest(double timeSinceLastFrame);
     void calculDirection();
-    void moveG();
-    void moveD();
+    void moveG(double timeSinceLastFrame);
+    void moveD(double timeSinceLastFrame);
     double getVitesse();
     double getDeplaceX();
     double getDeplaceZ();
