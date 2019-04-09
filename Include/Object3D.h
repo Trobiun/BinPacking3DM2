@@ -4,9 +4,9 @@
 #include "Pos3D.h"
 
 class Object3D {
-public:
-    double angle;
 protected:
+    double angle;
+public:
     float height;
     float width;
     float length;
