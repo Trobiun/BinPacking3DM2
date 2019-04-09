@@ -10,7 +10,7 @@
 #define MAX_RECUL -20
 #define MAX_SPEED 80.0
 #define ACCELERATION_FACTOR 30
-#define ANGLE_FACTOR 20.0
+#define ANGLE_FACTOR 180.0
 
 Cars::Cars() {
 }
@@ -43,7 +43,7 @@ void Cars::accelerate(int accelerating, double timeSinceLastFrame) {
     }
     else if (accelerating < 0.0F) {
         if (vitesse > 0.0F) {
-            vitesse -= timeSinceLastFrame / (0.003 * ACCELERATION_FACTOR);
+            vitesse -= timeSinceLastFrame / (0.001 * ACCELERATION_FACTOR);
             vitesse = fmax(vitesse, MAX_RECUL);
         }
         else if (vitesse > MAX_RECUL) {
@@ -91,25 +91,26 @@ void Cars::move(double timeSinceLastFrame) {
         deplacex = sin(angleT);
         deplacez = -cos(angleT);
     }
-    deplacex *= vitesse;
-    deplacez *= vitesse;
+    if (fabs(deplacex) < 1 || fabs(deplacez) < 1) {
+        deplacex *= vitesse;
+        deplacez *= vitesse;
+    }
     //    printf("%lf\n", deplacex);
     position.x += deplacex * timeSinceLastFrame;
     position.z += deplacez * timeSinceLastFrame;
 }
 
-void Cars::moveG() {
-    this->angle++;
+void Cars::moveG(double timeSinceLastFrame) {
+    this->angle += timeSinceLastFrame * ANGLE_FACTOR;
     if (angle > 0) {
         angle = angle - 360;
     }
     //    printf("angle++\n", angle);
 }
 
-void Cars::moveD() {
-    this->angle--;
+void Cars::moveD(double timeSinceLastFrame) {
+    this->angle -= timeSinceLastFrame * ANGLE_FACTOR;
     if (angle <= -360) {
-
         angle += 360;
     }
     //    printf("angle--\n", angle);
