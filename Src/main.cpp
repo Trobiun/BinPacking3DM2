@@ -87,7 +87,6 @@ static void reset() {
         delete car;
     }
     cars = new Cars(1.0, 2.5, 5.0, Pos3D(0, 0, 0), 0);
-    //    car = new Car(1.0, 2.5, 5.0, Pos3D(0, 0, 0), 0);
 }
 
 /* Scene dessinee                               */
@@ -103,7 +102,6 @@ static void scene(void) {
     }
     glPushMatrix();
     cars->model();
-    //    car->model();
     glPopMatrix();
 }
 /* Fonction executee lors d'un rafraichissement */
@@ -117,21 +115,21 @@ static void display(void) {
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
     Pos3D pos = cars->getPosition();
+    double norme = sqrt(cars->getDeplaceX() * cars->getDeplaceX() + cars->getDeplaceZ() * cars->getDeplaceZ());
+    if (norme != 0) {
+        camDepX = cars->getDeplaceX() / norme * 10 + cars->getDeplaceX() / 10;
+        camDepZ = cars->getDeplaceZ() / norme * 10 + cars->getDeplaceZ() / 10;
+    }
+    px = pos.x + cars->length / 2;
+    pz = pos.z + cars->width / 2;
     if (modeCamera == 1) {
-        //TODO : calculer la position de la caméra
-        gluLookAt(px, py, pz, ox, 0, oz, 0.0, 0.0, -1.0);
+        gluLookAt(px, pos.y + cars->height * 4, pz, px + camDepX * 50, 0, pz + camDepZ * 50, 0.0, 1.0, 0.0);
     }
     if (modeCamera == 2) {
-        gluLookAt(pos.x + cars->length / 2, py, pos.z + cars->width / 2, pos.x + cars->length / 2, 0, pos.z + cars->width / 2, 0.0, 0.0, -1.0);
+        gluLookAt(px, py, pz, px, 0, pz, camDepX, 0.0, camDepZ);
     }
     if (modeCamera == 3) {
-        double norme = sqrt(cars->getDeplaceX() * cars->getDeplaceX() + cars->getDeplaceZ() * cars->getDeplaceZ());
-        if (norme != 0) {
-            camDepX = cars->getDeplaceX() / norme * 10;
-            camDepZ = cars->getDeplaceZ() / norme * 10;
-        }
-        gluLookAt(pos.x - camDepX + cars->length / 2, py / 3, pos.z - camDepZ + cars->width / 2,
-                pos.x + cars->length / 2, 0, pos.z + cars->width / 2, 0.0, 1.0, 0.0);
+        gluLookAt(px - camDepX, py / 3, pz - camDepZ, px + camDepX, 0, pz + camDepZ, 0.0, 1.0, 0.0);
     }
     scene();
     glPopMatrix();
@@ -170,9 +168,8 @@ static void reshape(int tx, int ty) {
 static void idle(void) {
     //printf("I\n");
     std::chrono::time_point<std::chrono::system_clock> test = std::chrono::system_clock::now();
-    std::chrono::duration<double> diff = test - lastFrame;
-    double diffDouble = diff.count();
-    //    printf("%lf\n", diffDouble);
+    std::chrono::duration<double> diffTime = test - lastFrame;
+    double diffTimeDoublee = diffTime.count();
     if (keys[KEY_UP]) {
         pz -= 1;
         if (modeCamera == 1) {
@@ -200,38 +197,28 @@ static void idle(void) {
     }
     if (keys[KEY_PAGE_UP]) {
         py -= 1;
-        //oy = py;
     }
     if (keys[KEY_PAGE_DOWN]) {
         py += 1;
-        //oy = py;
     }
     if (keyboardKeys['z']) {
-        cars->accelerate(1, diffDouble);
-        //        car->accelerate(1, diffDouble);
+        cars->accelerate(1, diffTimeDoublee);
     }
 
     if (keyboardKeys['s']) {
-        cars->accelerate(-1, diffDouble);
-        //        car->accelerate(-1, diffDouble);
+        cars->accelerate(-1, diffTimeDoublee);
     }
 
     if (!keyboardKeys['z'] && !keyboardKeys['s']) {
-        cars->accelerate(0, diffDouble);
-        //        car->accelerate(0, diffDouble);
+        cars->accelerate(0, diffTimeDoublee);
     }
     if (keyboardKeys['d']) {
-        cars->moveD(diffDouble);
-        //        car->moveD();
-        //        printf("on tourne a droite\n");
+        cars->moveD(diffTimeDoublee);
     }
     if (keyboardKeys['q']) {
-        cars->moveG(diffDouble);
-        //        car->moveG();
-        //        printf("on tourne a gauche\n");
+        cars->moveG(diffTimeDoublee);
     }
-    cars->move(diffDouble);
-    //    car->move(diffDouble);
+    cars->move(diffTimeDoublee);
     lastFrame = test;
     glutPostRedisplay();
 }

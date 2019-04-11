@@ -22,6 +22,10 @@ Cars::Cars(float height, float width, float length, Pos3D pos, float angle)
     rotation = 0;
     deplacex = 0;
     deplacez = 0;
+    wheels[0] = new Wheel(Pos3D(-width / 4, 0, -width / 4), 0);
+    wheels[1] = new Wheel(Pos3D(width / 4, 0, -width / 3), 0);
+    wheels[2] = new Wheel(Pos3D(-width / 4, 0, width / 4), 0);
+    wheels[3] = new Wheel(Pos3D(width / 4, 0, width / 4), 0);
 }
 
 Cars::~Cars() {
@@ -29,6 +33,9 @@ Cars::~Cars() {
 
 void Cars::create() {
     glutSolidCube(1.0);
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->model();
+    }
 }
 
 void Cars::accelerate(int accelerating, double timeSinceLastFrame) {
@@ -65,13 +72,11 @@ void Cars::accelerate(int accelerating, double timeSinceLastFrame) {
 
 void Cars::move(double timeSinceLastFrame) {
     double angleT = -angle;
-    //	printf("angle = %lf\n", this->angle);
     deplacex = 0.0, deplacez = 0.0;
     if (angleT >= 0 && angleT < 90) {
         angleT = angleT * 3.14 / 180;
         deplacex = cos(angleT);
         deplacez = sin(angleT);
-        //		printf("angle = %lf, virage x %lf\n", angleT, cos(angleT));
     }
     if (angleT >= 90 && angleT < 180) {
         angleT -= 90;
@@ -95,25 +100,26 @@ void Cars::move(double timeSinceLastFrame) {
         deplacex *= vitesse;
         deplacez *= vitesse;
     }
-    //    printf("%lf\n", deplacex);
     position.x += deplacex * timeSinceLastFrame;
     position.z += deplacez * timeSinceLastFrame;
 }
 
 void Cars::moveG(double timeSinceLastFrame) {
-    this->angle += timeSinceLastFrame * ANGLE_FACTOR;
-    if (angle > 0) {
-        angle = angle - 360;
+    if (vitesse) {
+        this->angle += timeSinceLastFrame * ANGLE_FACTOR;
+        if (angle > 0) {
+            angle = angle - 360;
+        }
     }
-    //    printf("angle++\n", angle);
 }
 
 void Cars::moveD(double timeSinceLastFrame) {
-    this->angle -= timeSinceLastFrame * ANGLE_FACTOR;
-    if (angle <= -360) {
-        angle += 360;
+    if (vitesse) {
+        this->angle -= timeSinceLastFrame * ANGLE_FACTOR;
+        if (angle <= -360) {
+            angle += 360;
+        }
     }
-    //    printf("angle--\n", angle);
 }
 
 void modifPos(int i, int j) {
@@ -126,7 +132,6 @@ double Cars::getVitesse() {
 }
 
 double Cars::getDeplaceX() {
-
     return deplacex;
 }
 

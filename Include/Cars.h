@@ -4,6 +4,7 @@
 #include "Pos3D.h"
 #include "Dir3D.h"
 #include "Object3D.h"
+#include "Wheel.h"
 
 class Cars : public Object3D {
 public:
@@ -28,6 +29,8 @@ private:
 
     double deplacex;
     double deplacez;
+
+    Wheel* wheels[4];
 
     /*float height;
     float width;
