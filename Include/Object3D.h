@@ -19,6 +19,10 @@ public:
     Pos3D getPosition();
 protected:
     virtual void create() = 0;
+    virtual void beforeTranslate();
+    virtual void beforeRotate();
+    virtual void beforeScale();
+    virtual void afterScale();
 private:
     void init();
     void translate();

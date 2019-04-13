@@ -4,8 +4,10 @@
 #include "Object3D.h"
 
 class Wheel : public Object3D {
+protected:
+    float radius;
 public:
-    Wheel(Pos3D pos, float angle);
+    Wheel(float radius, Pos3D pos, float angle);
     virtual ~Wheel();
 private:
     void create();

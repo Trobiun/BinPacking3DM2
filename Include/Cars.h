@@ -11,7 +11,6 @@ public:
     Cars();
     Cars(float height, float width, float length, Pos3D pos, float angle);
     virtual ~Cars();
-    void create();
     void accelerate(int accelerating, double timeSinceLastFrame);
     void move(double timeSinceLastFrame);
     void moveTest(double timeSinceLastFrame);
@@ -36,6 +35,10 @@ private:
     float width;
     float length;
     Pos3D position;*/
+
+    void create() override;
+    void beforeScale() override;
+
 };
 
 #endif 

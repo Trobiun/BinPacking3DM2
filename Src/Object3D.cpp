@@ -15,11 +15,18 @@ Object3D::Object3D(float height, float width, float length, Pos3D position, doub
 }
 
 Object3D::~Object3D() {
+
 }
 
 void Object3D::model() {
     glPushMatrix();
-    init();
+    beforeTranslate();
+    translate();
+    beforeRotate();
+    rotate();
+    beforeScale();
+    scale();
+    afterScale();
     create();
     glPopMatrix();
 }
@@ -44,4 +51,20 @@ void Object3D::rotate() {
 
 void Object3D::scale() {
     glScalef(length, height, width);
+}
+
+void Object3D::beforeTranslate() {
+
+}
+
+void Object3D::beforeRotate() {
+
+}
+
+void Object3D::beforeScale() {
+
+}
+
+void Object3D::afterScale() {
+
 }

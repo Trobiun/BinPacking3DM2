@@ -1,12 +1,13 @@
 #include "Wheel.h"
 #include "GL/glut.h"
 
-Wheel::Wheel(Pos3D pos, float angle) : Object3D(0.3, 0.3, 0.3, pos, angle) {
+Wheel::Wheel(float radius, Pos3D pos, float angle) : Object3D(radius, radius, radius, pos, angle) {
+    this->radius = radius;
 }
 
 Wheel::~Wheel() {
 }
 
 void Wheel::create() {
-    glutSolidTorus(0.5, 0.75, 10, 10);
+    glutSolidTorus(radius * 1, radius * 1.5, 10, 10);
 }

@@ -22,20 +22,27 @@ Cars::Cars(float height, float width, float length, Pos3D pos, float angle)
     rotation = 0;
     deplacex = 0;
     deplacez = 0;
-    wheels[0] = new Wheel(Pos3D(-width / 4, 0, -width / 4), 0);
-    wheels[1] = new Wheel(Pos3D(width / 4, 0, -width / 3), 0);
-    wheels[2] = new Wheel(Pos3D(-width / 4, 0, width / 4), 0);
-    wheels[3] = new Wheel(Pos3D(width / 4, 0, width / 4), 0);
+    float radius = 0.65;
+    wheels[0] = new Wheel(radius, Pos3D(-length / 2, -height, -width + radius), 0);
+    wheels[1] = new Wheel(radius, Pos3D(length / 2 - radius, -height, -width + radius), 0);
+    wheels[2] = new Wheel(radius, Pos3D(-length / 2, -height, width / 2), 0);
+    wheels[3] = new Wheel(radius, Pos3D(length / 2 - radius, -height, width / 2), 0);
 }
 
 Cars::~Cars() {
+    for (int i = 0; i < 4; i++) {
+        delete wheels[i];
+    }
+}
+
+void Cars::beforeScale() {
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->model();
+    }
 }
 
 void Cars::create() {
     glutSolidCube(1.0);
-    for (int i = 0; i < 4; i++) {
-        wheels[i]->model();
-    }
 }
 
 void Cars::accelerate(int accelerating, double timeSinceLastFrame) {
@@ -127,7 +134,6 @@ void modifPos(int i, int j) {
 }
 
 double Cars::getVitesse() {
-
     return vitesse;
 }
 
