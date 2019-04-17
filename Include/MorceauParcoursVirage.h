@@ -10,11 +10,12 @@ public:
     virtual ~MorceauParcoursVirage();
 
     virtual void modeliser();
-	void creationMorceauVirage(float maxRadius, float width);
-
+    void creationMorceauVirage(float maxRadius, float width);
+    virtual bool testPresenceCar(Pos3D pos);
 protected:
     float maxRadius;
-	Direction dir2;
-
+    Direction dir2;
+    bool testPresenceRectangle(Pos3D pos);
+    bool testPresenceCercle(Pos3D pos);
 };
 

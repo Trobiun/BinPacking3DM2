@@ -9,7 +9,7 @@ public:
     virtual void modeliser();
 	void creationMorceauVertical(float width, float length, float decalage);
 	void creationMorceauHorizontal(float width, float length, float decalage);
-
+    virtual bool testPresenceCar(Pos3D pos) override;
 protected:
     float length;
 };

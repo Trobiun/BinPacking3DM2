@@ -20,7 +20,8 @@ public:
     double getVitesse();
     double getDeplaceX();
     double getDeplaceZ();
-
+    Pos3D getFuturePosition(double timeSinceLastFrame);
+    
 private:
     double accel;
     double rotation;

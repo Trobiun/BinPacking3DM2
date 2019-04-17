@@ -109,6 +109,7 @@ void Cars::move(double timeSinceLastFrame) {
     }
     position.x += deplacex * timeSinceLastFrame;
     position.z += deplacez * timeSinceLastFrame;
+
 }
 
 void Cars::moveG(double timeSinceLastFrame) {
@@ -143,4 +144,40 @@ double Cars::getDeplaceX() {
 
 double Cars::getDeplaceZ() {
     return deplacez;
+}
+
+Pos3D Cars::getFuturePosition(double timeSinceLastFrame) {
+    Pos3D futurPos = Pos3D(this->position);
+    double angleT = -angle;
+    double futurDeplaceX = 0.0, futurDeplaxeZ = 0.0;
+    if (angleT >= 0 && angleT < 90) {
+        angleT = angleT * 3.14 / 180;
+        futurDeplaceX = cos(angleT);
+        futurDeplaxeZ = sin(angleT);
+    }
+    if (angleT >= 90 && angleT < 180) {
+        angleT -= 90;
+        angleT = angleT * 3.14 / 180;
+        futurDeplaceX = -sin(angleT);
+        futurDeplaxeZ = cos(angleT);
+    }
+    if (angleT >= 180 && angleT < 270) {
+        angleT -= 180;
+        angleT = angleT * 3.14 / 180;
+        futurDeplaceX = -cos(angleT);
+        futurDeplaxeZ = -sin(angleT);
+    }
+    if (angleT >= 270 && angleT < 360) {
+        angleT -= 270;
+        angleT = angleT * 3.14 / 180;
+        futurDeplaceX = sin(angleT);
+        futurDeplaxeZ = -cos(angleT);
+    }
+    if (fabs(futurDeplaceX) < 1 || fabs(futurDeplaxeZ) < 1) {
+        futurDeplaceX *= vitesse;
+        futurDeplaxeZ *= vitesse;
+    }
+    futurPos.x += futurDeplaceX * timeSinceLastFrame;
+    futurPos.z += futurDeplaxeZ * timeSinceLastFrame;
+    return futurPos;
 }

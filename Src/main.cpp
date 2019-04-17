@@ -30,6 +30,9 @@ static int wTx = 1024; // Resolution horizontale de la fenetre
 static int wTy = 576; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
 static int wPy = 50; // Position verticale de la fenetre
+static bool camera4Move = true;
+static float zoom = 1;
+static double normeCamera = 1.0;
 static float px = 0;
 static float py = 30;
 static float pz = 0;
@@ -37,6 +40,7 @@ static float ox = 0;
 static float oy = 0;
 static float oz = 0;
 static float camDepX = 0;
+static float camDepY = 30;
 static float camDepZ = 0;
 static const float blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 static bool keys[6] = {false};
@@ -48,8 +52,8 @@ std::chrono::time_point<std::chrono::system_clock> lastFrame;
 //modeCamera = 1 ==> 1ère personne
 //modeCamera = 2 ==> vue du dessus
 //modeCamera = 3 ==> 3ème personne
-//modeCamera = 4 ==> caméra libre ?
-static int modeCamera = 3;
+//modeCamera = 4 ==> caméra libre
+static int modeCamera = 4;
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
 
@@ -86,7 +90,11 @@ static void reset() {
     if (car != NULL) {
         delete car;
     }
-    cars = new Cars(1.0, 2.5, 5.0, Pos3D(0, 0, 0), 0);
+    for (int i = 0; i < nbMorceau; i++) {
+        parcours[i]->setCar(NULL);
+    }
+    cars = new Cars(1.0, 2.5, 5.0, Pos3D(0, 1.0, 0), 0);
+    parcours[0]->setCar(cars);
 }
 
 /* Scene dessinee                               */
@@ -120,8 +128,10 @@ static void display(void) {
         camDepX = cars->getDeplaceX() / norme * 10 + cars->getDeplaceX() / 10;
         camDepZ = cars->getDeplaceZ() / norme * 10 + cars->getDeplaceZ() / 10;
     }
-    px = pos.x + cars->length / 2;
-    pz = pos.z + cars->width / 2;
+    if (modeCamera != 4) {
+        px = pos.x + cars->length / 2;
+        pz = pos.z + cars->width / 2;
+    }
     if (modeCamera == 1) {
         gluLookAt(px, pos.y + cars->height * 4, pz, px + camDepX * 50, 0, pz + camDepZ * 50, 0.0, 1.0, 0.0);
     }
@@ -129,7 +139,20 @@ static void display(void) {
         gluLookAt(px, py, pz, px, 0, pz, camDepX, 0.0, camDepZ);
     }
     if (modeCamera == 3) {
-        gluLookAt(px - camDepX, py / 3, pz - camDepZ, px + camDepX, 0, pz + camDepZ, 0.0, 1.0, 0.0);
+        gluLookAt(px - camDepX, py / 3.0, pz - camDepZ, px + camDepX, 0, pz + camDepZ, 0.0, 1.0, 0.0);
+    }
+    if (modeCamera == 4) {
+        if (camera4Move) {
+            gluLookAt(px, py / 3.0 * zoom, pz, px, 0, pz, 0.0, 0.0, -1.0);
+        }
+        else {
+            normeCamera = sqrt(px * px + py * py + pz * pz);
+            normeCamera /= 20.0;
+            normeCamera /= zoom;
+            //            printf("%lf\n", normeCamera);
+            //            gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / 1, 0, oz / 1, 0.0, 0.0, -1.0);
+            gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / normeCamera, 0, oz / normeCamera, 0.0, 0.0, -1.0);
+        }
     }
     scene();
     glPopMatrix();
@@ -169,29 +192,29 @@ static void idle(void) {
     //printf("I\n");
     std::chrono::time_point<std::chrono::system_clock> test = std::chrono::system_clock::now();
     std::chrono::duration<double> diffTime = test - lastFrame;
-    double diffTimeDoublee = diffTime.count();
+    double diffTimeDouble = diffTime.count();
     if (keys[KEY_UP]) {
         pz -= 1;
-        if (modeCamera == 1) {
+        if (modeCamera == 4 && camera4Move) {
             oz = pz;
         }
     }
     if (keys[KEY_DOWN]) {
         pz += 1;
-        if (modeCamera == 1) {
+        if (modeCamera == 4 && camera4Move) {
             oz = pz;
         }
     }
     if (keys[KEY_LEFT]) {
         px -= 1;
-        if (modeCamera == 1) {
+        if (modeCamera == 4 && camera4Move) {
             ox = px;
         }
         glutPostRedisplay();
     }
     if (keys[KEY_RIGHT]) {
         px += 1;
-        if (modeCamera == 1) {
+        if (modeCamera == 4 && camera4Move) {
             ox = px;
         }
     }
@@ -202,23 +225,50 @@ static void idle(void) {
         py += 1;
     }
     if (keyboardKeys['z']) {
-        cars->accelerate(1, diffTimeDoublee);
+        cars->accelerate(1, diffTimeDouble);
     }
-
     if (keyboardKeys['s']) {
-        cars->accelerate(-1, diffTimeDoublee);
+        cars->accelerate(-1, diffTimeDouble);
     }
-
     if (!keyboardKeys['z'] && !keyboardKeys['s']) {
-        cars->accelerate(0, diffTimeDoublee);
+        cars->accelerate(0, diffTimeDouble);
     }
     if (keyboardKeys['d']) {
-        cars->moveD(diffTimeDoublee);
+        cars->moveD(diffTimeDouble);
     }
     if (keyboardKeys['q']) {
-        cars->moveG(diffTimeDoublee);
+        cars->moveG(diffTimeDouble);
     }
-    cars->move(diffTimeDoublee);
+    Pos3D futurePos = cars->getFuturePosition(diffTimeDouble);
+    int indexBefore = 0, indexAfter = 0;
+    bool presenceI = false, presenceBefore = false, presenceAfter = false;
+    for (int i = 0; i < nbMorceau; i++) {
+        if (parcours[i]->hasCar()) {
+            presenceI = parcours[i]->testPresenceCar(futurePos);
+            indexBefore = i - 1;
+            indexAfter = (i + 1) % nbMorceau;
+            if (indexBefore < 0) {
+                indexBefore += nbMorceau;
+            }
+            presenceBefore = parcours[indexBefore]->testPresenceCar(futurePos);
+            presenceAfter = parcours[indexAfter]->testPresenceCar(futurePos);
+            if (presenceBefore) {
+                parcours[i]->setCar(NULL);
+                parcours[indexBefore]->setCar(cars);
+            }
+            else {
+                if (presenceAfter) {
+                    parcours[i]->setCar(NULL);
+                    parcours[indexAfter]->setCar(cars);
+                }
+            }
+            printf("%d\n", i);
+            break;
+        }
+    }
+    if (presenceI || presenceBefore || presenceAfter) {
+        cars->move(diffTimeDouble);
+    }
     lastFrame = test;
     glutPostRedisplay();
 }
@@ -245,6 +295,10 @@ static void keyboard(unsigned char key, int x, int y) {
     }
     if (key == '3') {
         modeCamera = 3;
+        glutPostRedisplay();
+    }
+    if (key == '4') {
+        modeCamera = 4;
         glutPostRedisplay();
     }
     keyboardKeys[key] = true;
@@ -311,8 +365,26 @@ static void special(int key, int x, int y) {
 
 /* de la souris sur la fenetre                  */
 
-static void mouse(int buton, int state, int x, int y) {
-    //printf("M  %4d %4d %4d %4d\n", buton, state, x, y);
+static void mouse(int button, int state, int x, int y) {
+    //printf("M  %4d %4d %4d %4d\n", button, state, x, y);
+    if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN) {
+        camera4Move = true;
+        px = ox;
+        pz = oz;
+    }
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        camera4Move = false;
+        ox = px;
+        oz = pz;
+        //        px = ox * normeCamera;
+        //        pz = oz * normeCamera;
+    }
+    if (button == 3 && state == GLUT_DOWN) {
+        zoom -= 0.1;
+    }
+    if (button == 4 && state == GLUT_DOWN) {
+        zoom += 0.1;
+    }
 }
 
 /* Fonction executee lors du passage            */
@@ -338,7 +410,7 @@ static void mouseMotion(int x, int y) {
     int diffY = y - oldMY;
     px += diffX % 3;
     pz += diffY % 3;
-    if (modeCamera == 1) {
+    if (modeCamera == 4 && camera4Move) {
         ox = px;
         oz = pz;
     }
@@ -390,7 +462,7 @@ static void createParcours() {
      */
     int posLastx = 0;
     int posLastz = 0;
-    parcours[0] = new MorceauParcoursLigne(Pos3D(posLastz = 0.0, 0.0, posLastx = 0.0), 16, 254, MorceauParcours::Direction::EST);
+    parcours[0] = new MorceauParcoursLigne(Pos3D(posLastz = 0.0, 0.0, posLastx = 0.0), 16, 254, MorceauParcours::Direction::OUEST);
     parcours[1] = new MorceauParcoursVirage(Pos3D(posLastx += 254.0, 0.0, posLastz += -8.0), 16, 24, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
     parcours[2] = new MorceauParcoursLigne(Pos3D(posLastx += (24.0 - 16.0), 0.0, posLastz += -64.0), 16, 64, MorceauParcours::Direction::NORD);
     parcours[3] = new MorceauParcoursVirage(Pos3D(posLastx += 54.0, 0.0, posLastz), 16, 54, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);

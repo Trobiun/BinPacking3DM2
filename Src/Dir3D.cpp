@@ -68,3 +68,15 @@ Dir3D *Dir3D::produitVectoriel(Dir3D *d1, Dir3D *d2) {
     return (new Dir3D(x, y, z));
 }
 
+double Dir3D::angle(Dir3D *d1, Dir3D *d2) {
+    double norme1 = d1->norme();
+    double norme2 = d2->norme();
+    double produitScalaire = Dir3D::produitScalaire(d1, d2);
+    double normesDiv = norme1 * norme2;
+    double angle = acos(produitScalaire / normesDiv);
+    return angle;
+}
+
+Pos3D Dir3D::intersection(Dir3D *d1, Dir3D *d2) {
+
+}
