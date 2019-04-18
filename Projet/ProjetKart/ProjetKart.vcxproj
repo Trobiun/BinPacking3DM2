@@ -115,6 +115,8 @@
     <ClCompile Include="..\..\Src\Pos3D.cpp" />
     <ClCompile Include="..\..\Src\RT3D.cpp" />
     <ClCompile Include="..\..\Src\TG3D.cpp" />
+    <ClCompile Include="..\..\Src\TR3D.cpp" />
+    <ClCompile Include="..\..\Src\Wheel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\Car.h" />
@@ -128,6 +130,8 @@
     <ClInclude Include="..\..\Include\Pos3D.h" />
     <ClInclude Include="..\..\Include\RT3D.h" />
     <ClInclude Include="..\..\Include\TG3D.h" />
+    <ClInclude Include="..\..\Include\TR3D.h" />
+    <ClInclude Include="..\..\Include\Wheel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
