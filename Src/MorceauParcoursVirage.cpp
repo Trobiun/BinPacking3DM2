@@ -1,6 +1,8 @@
 #include <GL/gl.h>
+#include <GL/freeglut.h>
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <stdio.h>
 #include "MorceauParcoursVirage.h"
 
 MorceauParcoursVirage::MorceauParcoursVirage(Pos3D origin, float width, float maxRadius, Direction dir, Direction dir2) : MorceauParcours(origin, width, dir) {
@@ -14,14 +16,15 @@ MorceauParcoursVirage::~MorceauParcoursVirage() {
 void MorceauParcoursVirage::modeliser() {
     glPushMatrix();
     // fait tourner le virage dans le bon sens
-    glTranslatef(this->origin.c[0], this->origin.c[1], this->origin.c[2]);
+    glTranslatef(this->origin.x, this->origin.y, this->origin.z);
+    glutSolidCube(0.5);
     if ((dir == EST && dir2 == NORD) || (dir == SUD && dir2 == OUEST)) {
         glRotated(270.0, 0.0, 1.0, 0.0);
     }
-    else if ((dir == OUEST && dir2 == NORD) || (dir == SUD && dir2 == EST)) {
+    if ((dir == OUEST && dir2 == NORD) || (dir == SUD && dir2 == EST)) {
         glRotated(180.0, 0.0, 1.0, 0.0);
     }
-    else if ((dir == NORD && dir2 == EST) || (dir == OUEST && dir2 == SUD)) {
+    if ((dir == NORD && dir2 == EST) || (dir == OUEST && dir2 == SUD)) {
         glRotated(90.0, 0.0, 1.0, 0.0);
     }
 
@@ -81,25 +84,37 @@ void MorceauParcoursVirage::creationMorceauVirage(float maxRadius, float width) 
     glEnd();
 }
 
+bool entreBornes(double x, double min, double max) {
+    return min <= x && x <= max;
+}
+
 bool MorceauParcoursVirage::testPresenceRectangle(Pos3D pos) {
-    bool res = true;
+    double length = maxRadius;
+    bool res = false;
+    //origine en haut à gauche de l'arc de cercle
     if ((dir == EST && dir2 == NORD) || (dir == SUD && dir2 == OUEST)) {
-        res = true;
+        res = entreBornes(pos.x, origin.x, origin.x + length) && entreBornes(pos.z, origin.z, origin.z + length);
     }
+    //origine en haut à droite de l'arc de cercle
     if ((dir == OUEST && dir2 == NORD) || (dir == SUD && dir2 == EST)) {
-        res = true;
+        res = entreBornes(pos.x, origin.x - length, origin.x) && entreBornes(pos.z, origin.z, origin.z + length);
     }
+    //origine en bas à droite de l'arc de cercle
     if ((dir == NORD && dir2 == EST) || (dir == OUEST && dir2 == SUD)) {
-        res = true;
+        res = entreBornes(pos.x, origin.x - length, origin.x) && entreBornes(pos.z, origin.z - length, origin.z);
+    }
+    //origine en bas à gauche de l'arc de cercle
+    if ((dir == EST && dir2 == SUD) || (dir == NORD && dir2 == OUEST)) {
+        res = entreBornes(pos.x, origin.x, origin.x + length) && entreBornes(pos.z, origin.z - length, origin.z);
     }
     return res;
 }
 
 bool MorceauParcoursVirage::testPresenceCercle(Pos3D pos) {
     double distanceOrigin = origin.distance(&pos);
-    return distanceOrigin >= maxRadius - width && distanceOrigin < maxRadius;
+    return distanceOrigin >= maxRadius - width && distanceOrigin <= maxRadius;
 }
 
 bool MorceauParcoursVirage::testPresenceCar(Pos3D pos) {
-    return testPresenceRectangle(pos) && testPresenceCercle(pos);
+    return testPresenceCercle(pos) && testPresenceRectangle(pos);
 }

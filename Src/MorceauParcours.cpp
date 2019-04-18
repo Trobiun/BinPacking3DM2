@@ -13,15 +13,3 @@ MorceauParcours::~MorceauParcours() {
 Pos3D MorceauParcours::getPosition() {
     return origin;
 }
-
-void MorceauParcours::modeliser() {
-
-}
-
-void MorceauParcours::setCar(Cars* car) {
-    this->car = car;
-}
-
-bool MorceauParcours::hasCar() {
-    return car != NULL;
-}

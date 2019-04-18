@@ -1,6 +1,5 @@
 #pragma once
 #include "Pos3D.h"
-#include "Cars.h"
 
 class MorceauParcours {
 public:
@@ -17,14 +16,12 @@ public:
     virtual ~MorceauParcours();
 
     Pos3D getPosition();
-    virtual void modeliser();
+    virtual void modeliser() = 0;
     virtual bool testPresenceCar(Pos3D pos) = 0;
-    virtual void setCar(Cars* car);
-    virtual bool hasCar();
+    
 protected:
     float width;
     Pos3D origin;
     Direction dir;
-    Cars* car;
 };
 
