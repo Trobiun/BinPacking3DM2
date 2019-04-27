@@ -7,13 +7,13 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include "Tree.h"
 #include "CH3D.h"
 #include "MorceauParcoursLigne.h"
 #include "Pos3D.h"
 #include "MorceauParcoursVirage.h"
 #include "MorceauParcours.h"
 #include "Cars.h"
-#include "Car.h"
 
 #define KEY_LEFT 0
 #define KEY_UP 1
@@ -45,9 +45,7 @@ static float camDepZ = 0;
 static const float blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 static bool keys[6] = {false};
 static bool keyboardKeys[256] = {false};
-
 static Cars *cars;
-static Car *car;
 std::chrono::time_point<std::chrono::system_clock> lastFrame;
 //modeCamera = 1 ==> 1ère personne
 //modeCamera = 2 ==> vue du dessus
@@ -56,6 +54,11 @@ std::chrono::time_point<std::chrono::system_clock> lastFrame;
 static int modeCamera = 3;
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
+
+
+static const int nbObject = 1;
+
+static Object3D *decor[nbObject];
 
 static const int nbMorceau = 24;
 
@@ -87,9 +90,6 @@ static void reset() {
     if (cars != NULL) {
         delete cars;
     }
-    if (car != NULL) {
-        delete car;
-    }
     cars = new Cars(1.0, 2.5, 5.0, Pos3D(0, 1.0, 0), 0);
     cars->setCurrentMorceauParcoursIndex(0);
 }
@@ -100,12 +100,12 @@ static void scene(void) {
     for (int i = 0; i < nbMorceau; i++) {
         glPushMatrix();
         parcours[i]->modeliser();
-        //        Pos3D flouboulou = parcours[i]->getPosition();
-        //        glTranslated(flouboulou.x, flouboulou.y, flouboulou.z);
-        //        glutSolidCube(0.5);
         glPopMatrix();
     }
-    glPushMatrix();
+	for (int i = 0; i < nbObject; i++) {
+		decor[i]->model();
+	}
+	glPushMatrix();
     cars->model();
     glPopMatrix();
 }
@@ -442,10 +442,10 @@ static void clean(void) {
     if (cars != NULL) {
         delete cars;
     }
-    if (car != NULL) {
-        delete car;
-    }
     //printf("Bye\n");
+}
+static void createDecor() {
+	decor[0] = new Tree(2, 0.4, new Pos3D(), 0);
 }
 
 static void createParcours() {
@@ -484,6 +484,7 @@ int main(int argc, char **argv) {
     atexit(clean);
     glutInit(&argc, argv);
     createParcours();
+	createDecor();
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);

@@ -1,8 +1,8 @@
-#include <GL/gl.h>
-#include <GL/freeglut.h>
 #define _USE_MATH_DEFINES
 #include <cmath>
-#include <stdio.h>
+#include <GL/glut.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include "MorceauParcoursVirage.h"
 
 MorceauParcoursVirage::MorceauParcoursVirage(Pos3D origin, float width, float maxRadius, Direction dir, Direction dir2) : MorceauParcours(origin, width, dir) {

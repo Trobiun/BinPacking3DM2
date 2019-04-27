@@ -103,7 +103,6 @@
     <Library Include="..\..\Lib\glut32.ms.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Car.cpp" />
     <ClCompile Include="..\..\Src\Cars.cpp" />
     <ClCompile Include="..\..\Src\CH3D.cpp" />
     <ClCompile Include="..\..\Src\Dir3D.cpp" />
@@ -116,10 +115,10 @@
     <ClCompile Include="..\..\Src\RT3D.cpp" />
     <ClCompile Include="..\..\Src\TG3D.cpp" />
     <ClCompile Include="..\..\Src\TR3D.cpp" />
+    <ClCompile Include="..\..\Src\Tree.cpp" />
     <ClCompile Include="..\..\Src\Wheel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Include\Car.h" />
     <ClInclude Include="..\..\Include\Cars.h" />
     <ClInclude Include="..\..\Include\CH3D.h" />
     <ClInclude Include="..\..\Include\Dir3D.h" />
@@ -131,6 +130,7 @@
     <ClInclude Include="..\..\Include\RT3D.h" />
     <ClInclude Include="..\..\Include\TG3D.h" />
     <ClInclude Include="..\..\Include\TR3D.h" />
+    <ClInclude Include="..\..\Include\Tree.h" />
     <ClInclude Include="..\..\Include\Wheel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
