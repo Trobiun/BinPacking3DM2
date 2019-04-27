@@ -11,6 +11,7 @@ public:
 
     virtual void modeliser();
     void creationMorceauVirage(float maxRadius, float width);
+	void creationBordureVirage(float maxRadius, float width);
     virtual bool testPresenceCar(Pos3D pos);
 protected:
     float maxRadius;

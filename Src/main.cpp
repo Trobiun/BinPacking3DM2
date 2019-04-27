@@ -14,6 +14,7 @@
 #include "MorceauParcoursVirage.h"
 #include "MorceauParcours.h"
 #include "Cars.h"
+#include "PNG\ChargePngFile.h"
 
 #define KEY_LEFT 0
 #define KEY_UP 1
@@ -62,6 +63,8 @@ static Object3D *decor[nbObject];
 
 static const int nbMorceau = 24;
 
+static unsigned int textureID = 0;
+
 static MorceauParcours *parcours[nbMorceau];
 /* Fonction d'initialisation des parametres     */
 /* OpenGL ne changeant pas au cours de la vie   */
@@ -75,7 +78,12 @@ static void init(void) {
     glEnable(GL_LIGHT0);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_NORMALIZE);
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_NORMALIZE);
+	glGenTextures(1, &textureID);
+	for (int i = 0; i < nbMorceau; i++) {
+		parcours[i]->chargementTexture("road.png", textureID);
+	}
 }
 
 static void reset() {

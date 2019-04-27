@@ -20,37 +20,63 @@ void MorceauParcoursLigne::modeliser() {
     if (dir == NORD || dir == SUD) {
         glNormal3f(0.0F, 1.0F, 0.0F);
         creationMorceauVertical(width, length, 0.0);
+		glEnd();
+		glBegin(GL_QUADS);
 
         //creation des deux bordures	
         glMaterialfv(GL_FRONT, GL_DIFFUSE, rouge);
-        creationMorceauVertical(-2, length, 0.0);
-        creationMorceauVertical(2, length, width);
+        creationBordureVerticale(-2, length, 0.0);
+        creationBordureVerticale(2, length, width);
     }
     else {
         glNormal3f(0.0F, 1.0F, 0.0F);
         creationMorceauHorizontal(width, length, 0.0);
+		glEnd();
+		glBegin(GL_QUADS);
 
         //creation des deux bordures
         glMaterialfv(GL_FRONT, GL_DIFFUSE, rouge);
-        creationMorceauHorizontal(-2, length, 0.0);
-        creationMorceauHorizontal(2.0, length, width);
+        creationBordureHorizontale(-2, length, 0.0);
+        creationBordureHorizontale(2.0, length, width);
     }
     glEnd();
     glPopMatrix();
 }
 
 void MorceauParcoursLigne::creationMorceauVertical(float width, float length, float decalage) {
-    glVertex3f(decalage, 0.0F, 0.0F);
-    glVertex3f(decalage, 0.0F, length);
-    glVertex3f(decalage + width, 0.0F, length);
-    glVertex3f(decalage + width, 0.0F, 0.0F);
+	glTexCoord2d(0, 0);
+	glVertex3f(decalage, 0.0F, 0.0F);
+	glTexCoord2d(0, length);
+	glVertex3f(decalage, 0.0F, length);
+	glTexCoord2d(width, length);
+	glVertex3f(decalage + width, 0.0F, length);
+	glTexCoord2d(width, 0);
+	glVertex3f(decalage + width, 0.0F, 0.0F);
+}
+
+void MorceauParcoursLigne::creationBordureVerticale(float width, float length, float decalage) {
+	glVertex3f(decalage, 0.0F, 0.0F);
+	glVertex3f(decalage, 0.0F, length);
+	glVertex3f(decalage + width, 0.0F, length);
+	glVertex3f(decalage + width, 0.0F, 0.0F);
 }
 
 void MorceauParcoursLigne::creationMorceauHorizontal(float width, float length, float decalage) {
-    glVertex3f(0.0F, 0.0F, decalage);
-    glVertex3f(length, 0.0F, decalage);
-    glVertex3f(length, 0.0F, decalage + width);
-    glVertex3f(0.0F, 0.0F, decalage + width);
+	glTexCoord2d(0, 0);
+	glVertex3f(0.0F, 0.0F, decalage);
+	glTexCoord2d(0, length);
+	glVertex3f(length, 0.0F, decalage);
+	glTexCoord2d(width, length);
+	glVertex3f(length, 0.0F, decalage + width);
+	glTexCoord2d(width, 0);
+	glVertex3f(0.0F, 0.0F, decalage + width);
+}
+
+void MorceauParcoursLigne::creationBordureHorizontale(float width, float length, float decalage) {
+	glVertex3f(0.0F, 0.0F, decalage);
+	glVertex3f(length, 0.0F, decalage);
+	glVertex3f(length, 0.0F, decalage + width);
+	glVertex3f(0.0F, 0.0F, decalage + width);
 }
 
 bool MorceauParcoursLigne::testPresenceCar(Pos3D pos) {

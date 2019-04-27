@@ -42,23 +42,44 @@ void MorceauParcoursVirage::modeliser() {
 }
 
 void MorceauParcoursVirage::creationMorceauVirage(float maxRadius, float width) {
-    glBegin(GL_QUAD_STRIP);
-    double a;
-    double xmax, xmin;
-    double zmax, zmin;
-    glNormal3d(0, 1.0, 0.0);
-    for (int i = 0; i <= NB_FACETS; i++) {
-        a = (2 * M_PI * i / 4) / NB_FACETS;
-        xmax = maxRadius * cos(a);
-        zmax = -maxRadius * sin(a);
-        glVertex3d(xmax, 0, zmax);
+	glBegin(GL_QUAD_STRIP);
+	double a;
+	double xmax, xmin;
+	double zmax, zmin;
+	glNormal3d(0, 1.0, 0.0);
+	for (int i = 0; i <= NB_FACETS; i++) {
+		a = (2 * M_PI * i / 4) / NB_FACETS;
+		xmax = maxRadius * cos(a);
+		zmax = -maxRadius * sin(a);
+		glTexCoord2d(xmax, zmax);
+		glVertex3d(xmax, 0, zmax);
+		xmin = (maxRadius - width) * cos(a);
+		zmin = -(maxRadius - width) * sin(a);
+		//glNormal3f(cos(a), 0.0, -sin(a));
+		glTexCoord2d(xmin, zmin);
+		glVertex3d(xmin, 0, zmin);
+	}
+	glEnd();
+}
 
-        xmin = (maxRadius - width) * cos(a);
-        zmin = -(maxRadius - width) * sin(a);
-        //glNormal3f(cos(a), 0.0, -sin(a));
-        glVertex3d(xmin, 0, zmin);
-    }
-    glEnd();
+void MorceauParcoursVirage::creationBordureVirage(float maxRadius, float width) {
+	glBegin(GL_QUAD_STRIP);
+	double a;
+	double xmax, xmin;
+	double zmax, zmin;
+	glNormal3d(0, 1.0, 0.0);
+	for (int i = 0; i <= NB_FACETS; i++) {
+		a = (2 * M_PI * i / 4) / NB_FACETS;
+		xmax = maxRadius * cos(a);
+		zmax = -maxRadius * sin(a);
+		glVertex3d(xmax, 0, zmax);
+
+		xmin = (maxRadius - width) * cos(a);
+		zmin = -(maxRadius - width) * sin(a);
+		//glNormal3f(cos(a), 0.0, -sin(a));
+		glVertex3d(xmin, 0, zmin);
+	}
+	glEnd();
 }
 
 bool entreBornes(double x, double min, double max) {

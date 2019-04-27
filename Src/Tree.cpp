@@ -21,7 +21,7 @@ static void makeCylinder(float height, float base) {
 	glRotatef(-90, 1.0, 0.0, 0.0);
 	gluCylinder(obj, base, base - (0.2*base), height, 20, 20);
 	glPopMatrix();
-	glutSwapBuffers();
+	//glutSwapBuffers();
 }
 
 void Tree::makeTree(float height, float base) {
