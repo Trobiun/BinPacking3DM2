@@ -7,13 +7,14 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include "Tree.h"
 #include "CH3D.h"
 #include "MorceauParcoursLigne.h"
 #include "Pos3D.h"
 #include "MorceauParcoursVirage.h"
 #include "MorceauParcours.h"
 #include "Cars.h"
-#include "Car.h"
+#include "PNG\ChargePngFile.h"
 
 #define KEY_LEFT 0
 #define KEY_UP 1
@@ -45,9 +46,7 @@ static float camDepZ = 0;
 static const float blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 static bool keys[6] = {false};
 static bool keyboardKeys[256] = {false};
-
 static Cars *cars;
-static Car *car;
 std::chrono::time_point<std::chrono::system_clock> lastFrame;
 //modeCamera = 1 ==> 1ère personne
 //modeCamera = 2 ==> vue du dessus
@@ -57,7 +56,13 @@ static int modeCamera = 4;
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
 
-static const int nbMorceau = 25;
+static const int nbObject = 1;
+
+static Object3D *decor[nbObject];
+
+static const int nbMorceau = 24;
+
+static unsigned int textureID = 0;
 
 static MorceauParcours *parcours[nbMorceau];
 /* Fonction d'initialisation des parametres     */
@@ -72,7 +77,12 @@ static void init(void) {
     glEnable(GL_LIGHT0);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_NORMALIZE);
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_NORMALIZE);
+	glGenTextures(1, &textureID);
+	for (int i = 0; i < nbMorceau; i++) {
+		parcours[i]->chargementTexture("road.png", textureID);
+	}
 }
 
 static void reset() {
@@ -87,14 +97,8 @@ static void reset() {
     if (cars != NULL) {
         delete cars;
     }
-    if (car != NULL) {
-        delete car;
-    }
-    for (int i = 0; i < nbMorceau; i++) {
-        parcours[i]->setCar(NULL);
-    }
     cars = new Cars(1.0, 2.5, 5.0, Pos3D(0, 1.0, 0), 0);
-    parcours[0]->setCar(cars);
+	cars->setCurrentMorceauParcoursIndex(0);
 }
 
 /* Scene dessinee                               */
@@ -103,12 +107,12 @@ static void scene(void) {
     for (int i = 0; i < nbMorceau; i++) {
         glPushMatrix();
         parcours[i]->modeliser();
-        Pos3D flouboulou = parcours[i]->getPosition();
-        glTranslated(flouboulou.x, flouboulou.y, flouboulou.z);
-        glutSolidCube(0.5);
         glPopMatrix();
     }
-    glPushMatrix();
+	for (int i = 0; i < nbObject; i++) {
+		decor[i]->model();
+	}
+	glPushMatrix();
     cars->model();
     glPopMatrix();
 }
@@ -435,10 +439,10 @@ static void clean(void) {
     if (cars != NULL) {
         delete cars;
     }
-    if (car != NULL) {
-        delete car;
-    }
     //printf("Bye\n");
+}
+static void createDecor() {
+	decor[0] = new Tree(4, 1, new Pos3D(), 0);
 }
 
 static void createParcours() {
@@ -478,6 +482,7 @@ int main(int argc, char **argv) {
     atexit(clean);
     glutInit(&argc, argv);
     createParcours();
+	createDecor();
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);

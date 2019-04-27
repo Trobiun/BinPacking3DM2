@@ -17,7 +17,12 @@ public:
     virtual ~MorceauParcours();
 
     Pos3D getPosition();
+<<<<<<< HEAD
     virtual void modeliser();
+=======
+	void chargementTexture(char * filename, unsigned int textureID);
+    virtual void modeliser() = 0;
+>>>>>>> 22a79f2a1f94ad7ce8a129fd8a110802265bb15e
     virtual bool testPresenceCar(Pos3D pos) = 0;
     virtual void setCar(Cars* car);
     virtual bool hasCar();
