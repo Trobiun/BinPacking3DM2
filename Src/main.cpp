@@ -53,11 +53,11 @@ std::chrono::time_point<std::chrono::system_clock> lastFrame;
 //modeCamera = 2 ==> vue du dessus
 //modeCamera = 3 ==> 3ème personne
 //modeCamera = 4 ==> caméra libre
-static int modeCamera = 3;
+static int modeCamera = 4;
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
 
-static const int nbMorceau = 24;
+static const int nbMorceau = 25;
 
 static MorceauParcours *parcours[nbMorceau];
 /* Fonction d'initialisation des parametres     */
@@ -90,8 +90,11 @@ static void reset() {
     if (car != NULL) {
         delete car;
     }
+    for (int i = 0; i < nbMorceau; i++) {
+        parcours[i]->setCar(NULL);
+    }
     cars = new Cars(1.0, 2.5, 5.0, Pos3D(0, 1.0, 0), 0);
-    cars->setCurrentMorceauParcoursIndex(0);
+    parcours[0]->setCar(cars);
 }
 
 /* Scene dessinee                               */
@@ -100,9 +103,9 @@ static void scene(void) {
     for (int i = 0; i < nbMorceau; i++) {
         glPushMatrix();
         parcours[i]->modeliser();
-        //        Pos3D flouboulou = parcours[i]->getPosition();
-        //        glTranslated(flouboulou.x, flouboulou.y, flouboulou.z);
-        //        glutSolidCube(0.5);
+        Pos3D flouboulou = parcours[i]->getPosition();
+        glTranslated(flouboulou.x, flouboulou.y, flouboulou.z);
+        glutSolidCube(0.5);
         glPopMatrix();
     }
     glPushMatrix();
@@ -146,6 +149,7 @@ static void display(void) {
             normeCamera = sqrt(px * px + py * py + pz * pz);
             normeCamera /= 20.0;
             normeCamera /= zoom;
+            //            printf("%lf\n", normeCamera);
             //            gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / 1, 0, oz / 1, 0.0, 0.0, -1.0);
             gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / normeCamera, 0, oz / normeCamera, 0.0, 0.0, -1.0);
         }
@@ -236,45 +240,34 @@ static void idle(void) {
         cars->moveG(diffTimeDouble);
     }
     Pos3D futurePos = cars->getFuturePosition(diffTimeDouble);
-    int indexBefore, indexBefore2, indexAfter, indexAfter2;
-    bool presenceCurr, presenceBefore, presenceBefore2, presenceAfter, presenceAfter2;
-    int indexCurrent = cars->getCurrentMorceauParcoursIndex();
-    indexBefore = indexCurrent - 1;
-    if (indexBefore < 0) {
-        indexBefore += nbMorceau;
-    }
-    indexBefore2 = indexBefore - 1;
-    if (indexBefore2 < 0) {
-        indexBefore2 += nbMorceau;
-    }
-    indexAfter = (indexCurrent + 1) % nbMorceau;
-    indexAfter2 = (indexAfter + 1) % nbMorceau;
-
-    presenceCurr = parcours[indexCurrent]->testPresenceCar(futurePos);
-    if (!presenceCurr) {
-        presenceAfter = parcours[indexAfter]->testPresenceCar(futurePos);
-        presenceBefore = parcours[indexBefore]->testPresenceCar(futurePos);
-        presenceBefore2 = parcours[indexBefore2]->testPresenceCar(futurePos);
-        presenceAfter2 = parcours[indexAfter2]->testPresenceCar(futurePos);
-
-        if (presenceAfter) {
-            cars->setCurrentMorceauParcoursIndex(indexAfter);
-        }
-        if (presenceBefore) {
-            cars->setCurrentMorceauParcoursIndex(indexBefore);
-        }
-        if (presenceAfter2) {
-            cars->setCurrentMorceauParcoursIndex(indexAfter2);
-        }
-        if (presenceBefore2) {
-            cars->setCurrentMorceauParcoursIndex(indexBefore2);
+    int indexBefore = 0, indexAfter = 0;
+    bool presenceI = false, presenceBefore = false, presenceAfter = false;
+    for (int i = 0; i < nbMorceau; i++) {
+        if (parcours[i]->hasCar()) {
+            presenceI = parcours[i]->testPresenceCar(futurePos);
+            indexBefore = i - 1;
+            indexAfter = (i + 1) % nbMorceau;
+            if (indexBefore < 0) {
+                indexBefore += nbMorceau;
+            }
+            presenceBefore = parcours[indexBefore]->testPresenceCar(futurePos);
+            presenceAfter = parcours[indexAfter]->testPresenceCar(futurePos);
+            if (presenceBefore) {
+                parcours[i]->setCar(NULL);
+                parcours[indexBefore]->setCar(cars);
+            }
+            else {
+                if (presenceAfter) {
+                    parcours[i]->setCar(NULL);
+                    parcours[indexAfter]->setCar(cars);
+                }
+            }
+            printf("%d\n", i);
+            break;
         }
     }
-    if (presenceBefore2 || presenceBefore || presenceCurr || presenceAfter || presenceAfter2) {
+    if (presenceI || presenceBefore || presenceAfter) {
         cars->move(diffTimeDouble);
-    }
-    else {
-        cars->stop();
     }
     lastFrame = test;
     glutPostRedisplay();
@@ -457,25 +450,26 @@ static void createParcours() {
     parcours[3] = new MorceauParcoursVirage(Pos3D(posLastx += 54.0, 0.0, posLastz), 16, 54, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
     parcours[4] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz += -54.0 * 2 + 16.0), 16, 54, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
     parcours[5] = new MorceauParcoursLigne(Pos3D(posLastx += 54.0 - 16.0, 0.0, posLastz += -64.0), 16, 64, MorceauParcours::Direction::NORD);
-    //    parcours[6] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz), 16, 16, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
-    parcours[6] = new MorceauParcoursVirage(Pos3D(posLastx += 66, 0.0, posLastz), 16, 66, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
-    parcours[7] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz), 16, 66, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
-    parcours[8] = new MorceauParcoursVirage(Pos3D(posLastx += 55 + 66 - 16, 0.0, posLastz), 16, 55, MorceauParcours::Direction::SUD, MorceauParcours::Direction::EST);
-    parcours[9] = new MorceauParcoursLigne(Pos3D(posLastx, 0.0, posLastz += 55 - 16), 16, 58, MorceauParcours::Direction::EST);
-    parcours[10] = new MorceauParcoursVirage(Pos3D(posLastx += 58, 0.0, posLastz += 28), 16, 28, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
-    parcours[11] = new MorceauParcoursLigne(Pos3D(posLastx += 28 - 16, 0.0, posLastz), 16, 127, MorceauParcours::Direction::NORD);
-    parcours[12] = new MorceauParcoursVirage(Pos3D(posLastx += -32 + 16, 0.0, posLastz += 127), 16, 32, MorceauParcours::Direction::SUD, MorceauParcours::Direction::OUEST);
-    parcours[13] = new MorceauParcoursLigne(Pos3D(posLastx += -58, 0.0, posLastz += 32 - 16), 16, 58, MorceauParcours::Direction::EST);
-    parcours[14] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz += -58 + 16), 16, 58, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::NORD);
-    parcours[15] = new MorceauParcoursVirage(Pos3D(posLastx += -58 - 36 + 16, 0.0, posLastz), 16, 36, MorceauParcours::Direction::NORD, MorceauParcours::Direction::OUEST);
-    parcours[16] = new MorceauParcoursLigne(Pos3D(posLastx += -75, 0.0, posLastz += -36), 16, 75, MorceauParcours::Direction::EST);
-    parcours[17] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz += 25), 16, 25, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::SUD);
-    parcours[18] = new MorceauParcoursLigne(Pos3D(posLastx += -25, 0.0, posLastz), 16, 120, MorceauParcours::Direction::NORD);
-    parcours[19] = new MorceauParcoursVirage(Pos3D(posLastx += -32 + 16, 0.0, posLastz += 120), 16, 32, MorceauParcours::Direction::SUD, MorceauParcours::Direction::OUEST);
-    parcours[20] = new MorceauParcoursLigne(Pos3D(posLastx += -320, 0.0, posLastz += 32 - 16), 16, 320, MorceauParcours::Direction::EST);
-    parcours[21] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz += -43 + 16), 16, 43, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::NORD);
-    parcours[22] = new MorceauParcoursLigne(Pos3D(posLastx += -43, 0.0, posLastz += -2), 16, 2, MorceauParcours::Direction::NORD);
-    parcours[23] = new MorceauParcoursVirage(Pos3D(posLastx += -7 + 43, 0.0, posLastz), 16, 36, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
+    parcours[6] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz), 16, 16, MorceauParcours::Direction::EST, MorceauParcours::Direction::NORD);
+    parcours[7] = new MorceauParcoursVirage(Pos3D(posLastx += 66, 0.0, posLastz), 16, 66, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
+    parcours[8] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz), 16, 66, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
+    parcours[9] = new MorceauParcoursVirage(Pos3D(posLastx+=55+66-16, 0.0, posLastz), 16, 55, MorceauParcours::Direction::SUD, MorceauParcours::Direction::EST);
+    parcours[10] = new MorceauParcoursLigne(Pos3D(posLastx, 0.0, posLastz+= 55-16), 16, 58, MorceauParcours::Direction::EST);
+    parcours[11] = new MorceauParcoursVirage(Pos3D(posLastx+= 58, 0.0, posLastz+=28), 16, 28, MorceauParcours::Direction::EST, MorceauParcours::Direction::SUD);
+    parcours[12] = new MorceauParcoursLigne(Pos3D(posLastx+=28-16, 0.0, posLastz), 16, 127, MorceauParcours::Direction::NORD);
+    parcours[13] = new MorceauParcoursVirage(Pos3D(posLastx+= -32+16, 0.0, posLastz+=127), 16, 32, MorceauParcours::Direction::SUD, MorceauParcours::Direction::OUEST);
+    parcours[14] = new MorceauParcoursLigne(Pos3D(posLastx+= -58, 0.0, posLastz+=32-16), 16, 58, MorceauParcours::Direction::EST);
+    parcours[15] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz+=-58+16), 16, 58, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::NORD);
+	parcours[16] = new MorceauParcoursVirage(Pos3D(posLastx+= -58-36+16, 0.0, posLastz), 16, 36, MorceauParcours::Direction::NORD, MorceauParcours::Direction::OUEST);
+	parcours[17] = new MorceauParcoursLigne(Pos3D(posLastx+=-75, 0.0, posLastz+=-36), 16, 75, MorceauParcours::Direction::EST);
+	parcours[18] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz+=25), 16, 25, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::SUD);
+	parcours[19] = new MorceauParcoursLigne(Pos3D(posLastx += -25, 0.0, posLastz), 16, 120, MorceauParcours::Direction::NORD);
+	parcours[20] = new MorceauParcoursVirage(Pos3D(posLastx+=-32+16, 0.0, posLastz+=120), 16, 32, MorceauParcours::Direction::SUD, MorceauParcours::Direction::OUEST);
+	parcours[21] = new MorceauParcoursLigne(Pos3D(posLastx+= -320 , 0.0, posLastz+=32-16), 16, 320, MorceauParcours::Direction::EST);
+	parcours[22] = new MorceauParcoursVirage(Pos3D(posLastx, 0.0, posLastz+=-43+16), 16, 43, MorceauParcours::Direction::OUEST, MorceauParcours::Direction::NORD);
+	parcours[23] = new MorceauParcoursLigne(Pos3D(posLastx +=-43, 0.0, posLastz+=-2), 16, 2, MorceauParcours::Direction::NORD);
+	parcours[24] = new MorceauParcoursVirage(Pos3D(posLastx+=-7+43, 0.0, posLastz), 16, 36, MorceauParcours::Direction::NORD, MorceauParcours::Direction::EST);
+
 }
 
 /* Fonction principale                          */

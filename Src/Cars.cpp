@@ -27,7 +27,6 @@ Cars::Cars(float height, float width, float length, Pos3D pos, float angle)
     wheels[1] = new Wheel(radius, Pos3D(length / 2 - radius, -height, -width + radius), 0);
     wheels[2] = new Wheel(radius, Pos3D(-length / 2, -height, width / 2), 0);
     wheels[3] = new Wheel(radius, Pos3D(length / 2 - radius, -height, width / 2), 0);
-    currMorceau = 0;
 }
 
 Cars::~Cars() {
@@ -131,10 +130,6 @@ void Cars::moveD(double timeSinceLastFrame) {
     }
 }
 
-void Cars::stop() {
-    vitesse = 0.0;
-}
-
 void modifPos(int i, int j) {
 
 }
@@ -185,12 +180,4 @@ Pos3D Cars::getFuturePosition(double timeSinceLastFrame) {
     futurPos.x += futurDeplaceX * timeSinceLastFrame;
     futurPos.z += futurDeplaxeZ * timeSinceLastFrame;
     return futurPos;
-}
-
-int Cars::getCurrentMorceauParcoursIndex() {
-    return currMorceau;
-}
-
-void Cars::setCurrentMorceauParcoursIndex(int index) {
-    this->currMorceau = index;
 }

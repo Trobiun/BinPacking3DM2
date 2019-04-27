@@ -5,7 +5,6 @@
 #include "Dir3D.h"
 #include "Object3D.h"
 #include "Wheel.h"
-#include "MorceauParcours.h"
 
 class Cars : public Object3D {
 public:
@@ -18,17 +17,10 @@ public:
     void calculDirection();
     void moveG(double timeSinceLastFrame);
     void moveD(double timeSinceLastFrame);
-    void stop();
     double getVitesse();
     double getDeplaceX();
     double getDeplaceZ();
     Pos3D getFuturePosition(double timeSinceLastFrame);
-    int getCurrentMorceauParcoursIndex();
-    void setCurrentMorceauParcoursIndex(int index);
-
-protected:
-    void create() override;
-    void beforeScale() override;
     
 private:
     double accel;
@@ -38,9 +30,16 @@ private:
     double deplacex;
     double deplacez;
 
-    int currMorceau;
-    
     Wheel* wheels[4];
+
+    /*float height;
+    float width;
+    float length;
+    Pos3D position;*/
+
+    void create() override;
+    void beforeScale() override;
+
 };
 
 #endif 
