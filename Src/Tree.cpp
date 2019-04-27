@@ -26,6 +26,7 @@ static void makeCylinder(float height, float base) {
 
 void Tree::makeTree(float height, float base) {
 
+	branch.push_front(new Branch(1.0, 1.0, new Pos3D(), 1.0));
 	float angle;
 	makeCylinder(height, base); glTranslatef(0.0, height, 0.0);
 	height -= height * .2; base -= base * 0.3;

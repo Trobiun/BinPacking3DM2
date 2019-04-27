@@ -445,7 +445,7 @@ static void clean(void) {
     //printf("Bye\n");
 }
 static void createDecor() {
-	decor[0] = new Tree(2, 0.4, new Pos3D(), 0);
+	decor[0] = new Tree(4, 1, new Pos3D(), 0);
 }
 
 static void createParcours() {

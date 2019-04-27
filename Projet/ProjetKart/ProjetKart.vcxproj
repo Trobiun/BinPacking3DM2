@@ -103,6 +103,7 @@
     <Library Include="..\..\Lib\glut32.ms.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\Branch.cpp" />
     <ClCompile Include="..\..\Src\Cars.cpp" />
     <ClCompile Include="..\..\Src\CH3D.cpp" />
     <ClCompile Include="..\..\Src\Dir3D.cpp" />
@@ -119,6 +120,7 @@
     <ClCompile Include="..\..\Src\Wheel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Include\Branch.h" />
     <ClInclude Include="..\..\Include\Cars.h" />
     <ClInclude Include="..\..\Include\CH3D.h" />
     <ClInclude Include="..\..\Include\Dir3D.h" />
