@@ -8,6 +8,7 @@
 #include <GL/glu.h>
 
 #include "2D/Rectangle.h"
+#include <2D\Conteneur.h>
 /* Variables globales                           */
 
 static int wTx = 480; // Resolution horizontale de la fenetre
@@ -277,6 +278,13 @@ static void clean(void) {
 }
 
 /* Fonction principale                          */
+static void RecupConteneurEtObjets() {
+	Conteneur* conteneur0 = new Conteneur(0, 8, 8);
+	Conteneur* conteneur1 = new Conteneur(1, 16, 8);
+	Conteneur* conteneur2 = new Conteneur(2, 8, 16);
+	Conteneur* conteneur3 = new Conteneur(3, 10, 10);
+
+}
 
 int main(int argc, char **argv) {
     atexit(clean);
@@ -287,6 +295,7 @@ int main(int argc, char **argv) {
     glutInitWindowPosition(wPx, wPy);
     glutCreateWindow("Title");
     init();
+	RecupConteneurEtObjets();
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
     glutMouseFunc(mouse);
