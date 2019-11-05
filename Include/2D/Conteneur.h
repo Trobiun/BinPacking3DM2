@@ -1,3 +1,4 @@
+#include <list>
 #ifndef ____CONTENEUR____
 #define ____CONTENEUR____
 
@@ -8,7 +9,7 @@ class Conteneur {
 		int id;
 		float largeur;
 		float longueur;
-
+		std::list <Composant> tableauObjet;
 
 	public:
 
