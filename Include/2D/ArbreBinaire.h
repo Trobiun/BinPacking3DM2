@@ -33,6 +33,8 @@ public:
 	ArbreBinaire * getSousArbreDroite();
 	ArbreBinaire * getParent();
 
+	Composant * recherchePremierEspaceLibreValide(float largeur, float longueur);
+
 };
 
 #endif 

@@ -53,3 +53,6 @@ ArbreBinaire * ArbreBinaire::getSousArbreDroite() {
 ArbreBinaire * ArbreBinaire::getParent() {
 	return parent;
 }
+Composant * recherchePremierEspaceLibreValide(float largeur, float longueur) {
+	return nullptr;
+}
