@@ -7,8 +7,9 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-
+#include "2D/Rectangle.h"
 /* Variables globales                           */
+
 static int wTx = 480; // Resolution horizontale de la fenetre
 static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
@@ -40,6 +41,7 @@ static double normeCamera = 1.0;
 
 /* Fonction d'initialisation des parametres     */
 /* OpenGL ne changeant pas au cours de la vie   */
+
 /* du programme                                 */
 
 static void init(void) {
@@ -73,6 +75,7 @@ static void scene(void) {
 }
 
 /* Fonction executee lors d'un rafraichissement */
+
 /* de la fenetre de dessin                      */
 
 static void display(void) {
@@ -87,7 +90,8 @@ static void display(void) {
         normeCamera = sqrt(px * px + py * py + pz * pz);
         normeCamera /= 20.0;
         normeCamera /= zoom;
-        //gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / 1, 0, oz / 1, 0.0, 0.0, -1.0);
+        //            printf("%lf\n", normeCamera);
+        //            gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / 1, 0, oz / 1, 0.0, 0.0, -1.0);
         gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / normeCamera, 0, oz / normeCamera, 0.0, 0.0, -1.0);
     }
     scene();
@@ -100,6 +104,7 @@ static void display(void) {
 }
 
 /* Fonction executee lors d'un changement       */
+
 /* de la taille de la fenetre OpenGL            */
 
 static void reshape(int wx, int wy) {
@@ -204,6 +209,7 @@ static void special(int specialKey, int x, int y) {
 }
 
 /* Fonction executee lors de l'utilisation      */
+
 /* de la souris sur la fenetre                  */
 
 static void mouse(int button, int state, int x, int y) {
@@ -228,6 +234,7 @@ static void mouse(int button, int state, int x, int y) {
 
 /* Fonction executee lors du passage            */
 /* de la souris sur la fenetre                  */
+
 /* avec un boutton presse                       */
 
 static void mouseMotion(int x, int y) {
@@ -254,6 +261,7 @@ static void mouseMotion(int x, int y) {
 
 /* Fonction executee lors du passage            */
 /* de la souris sur la fenetre                  */
+
 /* sans boutton presse                          */
 
 static void passiveMouseMotion(int x, int y) {
@@ -261,6 +269,7 @@ static void passiveMouseMotion(int x, int y) {
 }
 
 /* Fonction executee automatiquement            */
+
 /* lors de l'execution de la fonction exit()    */
 
 static void clean(void) {
@@ -268,6 +277,7 @@ static void clean(void) {
 }
 
 /* Fonction principale                          */
+
 int main(int argc, char **argv) {
     atexit(clean);
 
