@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <2D\Composant.h>
 
 Conteneur::Conteneur(void) {
 	id = 0;
@@ -9,7 +10,7 @@ Conteneur::Conteneur(void) {
 
 }
 
-Conteneur::Conteneur(int nid, float nLargeur, float nLongueur) {
+Conteneur::Conteneur(int nid, float nLargeur, float nLongueur){
 	id = nid;
 	largeur = nLargeur;
 	longueur = nLongueur;

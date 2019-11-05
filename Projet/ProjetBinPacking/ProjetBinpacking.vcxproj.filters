@@ -10,6 +10,18 @@
     <Filter Include="3D">
       <UniqueIdentifier>{ddaea287-47bd-4263-9163-e08f30f9a4ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{29371ba3-a7da-405e-8a9c-f249069ef9a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{8f40b1f1-bf7b-48bc-bc4a-2fd053092f75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\3D">
+      <UniqueIdentifier>{ce558e8a-9ed3-40c1-8792-0b55c5a3a22d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\2D">
+      <UniqueIdentifier>{b181eefc-522c-40cc-a654-6c63d5d6341d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\3D\Position3D.cpp">
@@ -27,5 +39,22 @@
     <ClCompile Include="..\..\Src\2D\Composant.cpp">
       <Filter>2D</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\2D\Composant.h">
+      <Filter>Include\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\2D\Conteneur.h">
+      <Filter>Include\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\2D\Position2D.h">
+      <Filter>Include\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\2D\Rectangle.h">
+      <Filter>Include\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\3D\Position3D.h">
+      <Filter>Include\3D</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

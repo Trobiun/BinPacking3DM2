@@ -111,6 +111,13 @@
     <ClCompile Include="..\..\Src\3D\Position3D.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\2D\Composant.h" />
+    <ClInclude Include="..\..\Include\2D\Conteneur.h" />
+    <ClInclude Include="..\..\Include\2D\Position2D.h" />
+    <ClInclude Include="..\..\Include\2D\Rectangle.h" />
+    <ClInclude Include="..\..\Include\3D\Position3D.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
