@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Library Include="..\..\Lib\glut32.ms.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="2D">
+      <UniqueIdentifier>{190a8743-66c8-434d-9db6-021c2afb1805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D">
+      <UniqueIdentifier>{ddaea287-47bd-4263-9163-e08f30f9a4ee}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Src\3D\Position3D.cpp">
+      <Filter>3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\2D\Rectangle.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\2D\Position2D.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\2D\Conteneur.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\2D\Composant.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
