@@ -104,6 +104,11 @@
     <Library Include="..\..\Lib\glut32.ms.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\2D\Composant.cpp" />
+    <ClCompile Include="..\..\Src\2D\Conteneur.cpp" />
+    <ClCompile Include="..\..\Src\2D\Position2D.cpp" />
+    <ClCompile Include="..\..\Src\2D\Rectangle.cpp" />
+    <ClCompile Include="..\..\Src\3D\Position3D.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
