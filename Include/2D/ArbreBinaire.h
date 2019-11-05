@@ -14,6 +14,7 @@ public:
 
 	ArbreBinaire(Conteneur * conteneur);
 	ArbreBinaire(Conteneur * conteneur, ArbreBinaire * parent);
+	ArbreBinaire(Composant* composant, ArbreBinaire* p);
 
 	/* Destructeur                              */
 
@@ -33,8 +34,12 @@ public:
 	ArbreBinaire * getSousArbreDroite();
 	ArbreBinaire * getParent();
 
-	Composant * recherchePremierEspaceLibreValide(float largeur, float longueur);
+	ArbreBinaire* recherchePremierEspaceLibreValide(ArbreBinaire* noeud, float largeur, float longueur);
 
+	bool creationFils(ArbreBinaire* noeud, float largeur, float longueur, int choix);
+	bool decoupeHorizontale(ArbreBinaire* noeud, float largeur, float longueur);
+	bool decoupeVerticale(ArbreBinaire* noeud, float largeur, float longueur);
+	bool decoupeSelonAire(ArbreBinaire* noeud, float largeur, float longueur);
 };
 
 #endif 

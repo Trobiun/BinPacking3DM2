@@ -15,6 +15,14 @@ ArbreBinaire::ArbreBinaire(Conteneur * conteneur, ArbreBinaire * p) {
 	parent = p;
 }
 
+ArbreBinaire::ArbreBinaire(Composant* composant, ArbreBinaire* p) {
+	espace_libre->setLargeur(composant->getLargeur());
+	espace_libre->setLongueur(composant->getLongueur());
+	sous_arbre_gauche = nullptr;
+	sous_arbre_droite = nullptr;
+	parent = p;
+}
+
 ArbreBinaire::~ArbreBinaire() {
 }
 
@@ -53,6 +61,95 @@ ArbreBinaire * ArbreBinaire::getSousArbreDroite() {
 ArbreBinaire * ArbreBinaire::getParent() {
 	return parent;
 }
-Composant * recherchePremierEspaceLibreValide(float largeur, float longueur) {
+
+ArbreBinaire* recherchePremierEspaceLibreValide(ArbreBinaire* noeud, float largeur, float longueur) {
+	Composant* racine = noeud->getEspaceLibre();
+	ArbreBinaire* res = nullptr;
+	if (racine->getLargeur >= largeur && racine->getLongueur >= longueur) {
+		return noeud;
+	}
+	else {
+		if (noeud->getSousArbreGauche != nullptr) {
+			 res = recherchePremierEspaceLibreValide(noeud->getSousArbreGauche, largeur, longueur);
+			if (res != nullptr) {
+				return res;
+			}
+		}
+		if (noeud->getSousArbreDroite != nullptr) {
+			res = recherchePremierEspaceLibreValide(noeud->getSousArbreDroite, largeur, longueur);
+			if (res != nullptr) {
+				return res;
+			}
+		}
+	}
 	return nullptr;
+}
+
+bool creationFils(ArbreBinaire* noeud, float largeur, float longueur, int choix) {
+	Composant* libre = noeud->getEspaceLibre();
+	Position2D* pos = libre->getPosition();
+	Composant* gauche = nullptr;
+	Composant* droite = nullptr;
+	switch (choix)
+	{
+	case 0:
+		return decoupeHorizontale(largeur, longueur, libre, pos);
+		break;
+	case 1:
+		return decoupeVerticale(largeur, longueur, libre, pos);
+		break;
+	case 2:
+		return decoupeSelonAire(largeur, longueur, libre, pos);
+		break;
+	default:
+		return false;
+	}
+	libre->setLargeur(0);
+	libre->setLongueur(0);
+	ArbreBinaire* arbreGauche = new ArbreBinaire(gauche, noeud);
+	ArbreBinaire* arbreDroite = new ArbreBinaire(droite, noeud);
+	noeud->setSousArbreGauche(arbreGauche);
+	noeud->setSousArbreDroite(arbreDroite);
+	return true;
+
+}
+
+bool decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos) {
+	int posX = pos->getX;
+	int posY = pos->getY;
+	int posXnew = posY + longueur;
+	int posYnew = posX + largeur;
+	Composant* gauche = new Composant(0, libre->getLongueur(), libre->getLargeur() - largeur, new Position2D(posX, posYnew));
+	Composant* droite = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur() - largeur, new Position2D(posXnew, posY));
+	return true;
+}
+
+bool decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos) {
+	int posX = pos->getX;
+	int posY = pos->getY;
+	int posXnew = posY + longueur;
+	int posYnew = posX + largeur;
+	Composant* gauche = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur() - largeur, new Position2D(posX, posYnew));
+	Composant* droite = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur(), new Position2D(posXnew, posY));
+	return true;
+}
+
+bool decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos) {
+	int posX = pos->getX;
+	int posY = pos->getY;
+	int posXnew = posY + longueur;
+	int posYnew = posX + largeur;
+	int gaucheLargeur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
+	int droiteLargeur = (libre->getLongueur() - longueur) * libre->getLargeur();
+	int gaucheLongueur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
+	int droiteLongueur = (libre->getLongueur() - longueur) * libre->getLargeur();
+	if (((gaucheLargeur > gaucheLongueur) && (gaucheLargeur> droiteLongueur)) || ((droiteLargeur > gaucheLongueur) && (droiteLargeur > droiteLongueur))) {
+		Composant* gauche = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur() - largeur, new Position2D(posX, posYnew));
+		Composant* droite = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur(), new Position2D(posXnew, posY));
+	}
+	else {
+		Composant* gauche = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur() - largeur, new Position2D(posX, posYnew));
+		Composant* droite = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur(), new Position2D(posXnew, posY));
+	}
+	return true;
 }

@@ -17,7 +17,7 @@ class Composant {
 		/* Constructeurs                            */
 
 		Composant(void);
-		Composant(int id,float largeur,float longueur);
+		Composant(int nid, float nLargeur, float nLongueur, Position2D* pos);
 
 		/* Destructeur                              */
 

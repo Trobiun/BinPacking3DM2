@@ -10,11 +10,11 @@ Composant::Composant(void) {
 	conteneur = nullptr;
 }
 
-Composant::Composant(int nid, float nLargeur, float nLongueur) {
+Composant::Composant(int nid, float nLargeur, float nLongueur, Position2D* pos) {
 	id = nid;
 	largeur = nLargeur;
 	longueur = nLongueur;
-	position = new Position2D();
+	position = pos;
 	conteneur = nullptr;
 }
 

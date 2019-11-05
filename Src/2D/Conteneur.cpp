@@ -6,7 +6,7 @@
 
 Conteneur::Conteneur(void) {
 	id = 0;
-	largeur = longueur = 100.0;
+	largeur = longueur = 0.0;
 
 }
 
