@@ -9,7 +9,7 @@
 
 
 //#include "2D/Rectangle.h"
-//#include <2D\Conteneur.h>
+#include "2D/Conteneur.h"
 
 /* Variables globales                           */
 
@@ -72,8 +72,15 @@ static void reset() {
 /* Scene dessinee                               */
 
 static void scene(void) {
+	Conteneur* conteneur0 = new Conteneur(0, 8, 8);
+	Conteneur* conteneur1 = new Conteneur(1, 16, 8);
+	Conteneur* conteneur2 = new Conteneur(2, 8, 16);
+	Conteneur* conteneur3 = new Conteneur(3, 10, 10);
     glPushMatrix();
-    glutSolidCube(1.0);
+	conteneur0->model();
+	conteneur1->model();
+	conteneur2->model();
+	conteneur3->model();
     glPopMatrix();
 }
 
@@ -87,6 +94,7 @@ static void display(void) {
     const GLfloat light0_position[] = {0.0, 0.0, 10.0, 1.0};
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+	printf("zoom = %d\n",zoom);
     if (cameraMove) {
         gluLookAt(px, py / 3.0 * zoom, pz, px, 0, pz, 0.0, 0.0, -1.0);
     } else {

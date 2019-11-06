@@ -1,7 +1,8 @@
-#include "../../Include/2D/Composant.h"
-
 #include <stdlib.h>
 #include <stdio.h>
+#include <GL/glut.h>
+
+#include "2D/Composant.h"
 
 Composant::Composant(void) {
 	id = 0;
@@ -60,11 +61,21 @@ bool Composant::setLongueur(float nlongueur) {
 }
 bool Composant::setPosition(Position2D *pos) {
 	position->setX(pos->getX());
-	position->setY(pos->getY());
+	position->setZ(pos->getZ());
 	return true;
 }
 
 bool Composant::setConteneur(Conteneur* cont) {
 	conteneur = cont;
 	return true;
+}
+
+
+/* Modélisation */
+void Composant::model() {
+	glPushMatrix();
+	glTranslatef(position->getX(), 0.0, position->getZ());
+	glScalef(largeur, 0.0, longueur);
+	glutSolidCube(1.0);
+	glPopMatrix();
 }

@@ -38,6 +38,9 @@ class Composant {
 		float getLongueur();
 		float getAire();
 		Position2D* getPosition();
+
+		/* Modélisation */
+		void model();
 };
 
 #endif

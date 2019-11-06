@@ -1,11 +1,14 @@
 #ifndef ____CONTENEUR____
 #define ____CONTENEUR____
 
+#include "Position2D.h"
+
 class Conteneur {
 	protected:
 		int id;
 		float largeur;
 		float longueur;
+		Position2D pos;
 
 	public:
 
@@ -28,6 +31,9 @@ class Conteneur {
 		int getId();
 		float getLargeur();
 		float getLongueur();
+
+		/* Modélisation */
+		void model();
 };
 
 #endif

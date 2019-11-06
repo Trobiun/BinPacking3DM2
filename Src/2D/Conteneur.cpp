@@ -1,8 +1,8 @@
-#include "../../Include/2D/Conteneur.h"
-
 #include <stdlib.h>
 #include <stdio.h>
-//#include <2D\Composant.h>
+#include <GL/glut.h>
+
+#include "2D/Conteneur.h"
 
 Conteneur::Conteneur(void) {
 	id = 0;
@@ -30,6 +30,14 @@ float Conteneur::getLargeur(void) {
 }
 float Conteneur::getLongueur(void) {
 	return longueur;
+}
+
+void Conteneur::model() {
+	glPushMatrix();
+	glTranslatef(pos.getX(), 0.0, pos.getZ());
+	glScalef(largeur,0.0, longueur);
+	glutWireCube(1.0);
+	glPopMatrix();
 }
 
 
