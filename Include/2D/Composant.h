@@ -2,7 +2,6 @@
 #define ____COMPOSANT____
 
 #include "Position2D.h"
-#include "Conteneur.h"
 
 class Composant {
 	protected :
@@ -10,13 +9,13 @@ class Composant {
 		float largeur;
 		float longueur;
 		Position2D *position;
-		Conteneur *conteneur;
 
 	public :
 
 		/* Constructeurs                            */
 
 		Composant(void);
+		Composant(int nid, float nLargeur, float nLongueur);
 		Composant(int nid, float nLargeur, float nLongueur, Position2D* pos);
 
 		/* Destructeur                              */
@@ -28,7 +27,6 @@ class Composant {
 		virtual bool setLargeur(float largeur);
 		virtual bool setLongueur(float longueur);
 		virtual bool setPosition(Position2D *pos);
-		virtual bool setConteneur(Conteneur* cont);
 
 		/* Getters                                  */
 

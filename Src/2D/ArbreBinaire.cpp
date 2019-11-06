@@ -62,21 +62,21 @@ ArbreBinaire * ArbreBinaire::getParent() {
 	return parent;
 }
 
-ArbreBinaire* recherchePremierEspaceLibreValide(ArbreBinaire* noeud, float largeur, float longueur) {
+ArbreBinaire* ArbreBinaire::recherchePremierEspaceLibreValide(ArbreBinaire* noeud, float largeur, float longueur) {
 	Composant* racine = noeud->getEspaceLibre();
 	ArbreBinaire* res = nullptr;
-	if (racine->getLargeur >= largeur && racine->getLongueur >= longueur) {
+	if (racine->getLargeur() >= largeur && racine->getLongueur() >= longueur) {
 		return noeud;
 	}
 	else {
-		if (noeud->getSousArbreGauche != nullptr) {
-			 res = recherchePremierEspaceLibreValide(noeud->getSousArbreGauche, largeur, longueur);
+		if (noeud->getSousArbreGauche() != nullptr) {
+			 res = recherchePremierEspaceLibreValide(noeud->getSousArbreGauche(), largeur, longueur);
 			if (res != nullptr) {
 				return res;
 			}
 		}
-		if (noeud->getSousArbreDroite != nullptr) {
-			res = recherchePremierEspaceLibreValide(noeud->getSousArbreDroite, largeur, longueur);
+		if (noeud->getSousArbreDroite() != nullptr) {
+			res = recherchePremierEspaceLibreValide(noeud->getSousArbreDroite(), largeur, longueur);
 			if (res != nullptr) {
 				return res;
 			}
@@ -85,7 +85,7 @@ ArbreBinaire* recherchePremierEspaceLibreValide(ArbreBinaire* noeud, float large
 	return nullptr;
 }
 
-bool creationFils(ArbreBinaire* noeud, float largeur, float longueur, int choix) {
+bool ArbreBinaire::creationFils(ArbreBinaire* noeud, float largeur, float longueur, int choix) {
 	Composant* libre = noeud->getEspaceLibre();
 	Position2D* pos = libre->getPosition();
 	Composant* gauche = nullptr;
@@ -114,9 +114,9 @@ bool creationFils(ArbreBinaire* noeud, float largeur, float longueur, int choix)
 
 }
 
-bool decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos) {
-	int posX = pos->getX;
-	int posY = pos->getY;
+bool ArbreBinaire::decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos) {
+	int posX = pos->getX();
+	int posY = pos->getY();
 	int posXnew = posY + longueur;
 	int posYnew = posX + largeur;
 	Composant* gauche = new Composant(0, libre->getLongueur(), libre->getLargeur() - largeur, new Position2D(posX, posYnew));
@@ -124,9 +124,9 @@ bool decoupeHorizontale(float largeur, float longueur, Composant* libre, Positio
 	return true;
 }
 
-bool decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos) {
-	int posX = pos->getX;
-	int posY = pos->getY;
+bool ArbreBinaire::decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos) {
+	int posX = pos->getX();
+	int posY = pos->getY();
 	int posXnew = posY + longueur;
 	int posYnew = posX + largeur;
 	Composant* gauche = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur() - largeur, new Position2D(posX, posYnew));
@@ -134,9 +134,9 @@ bool decoupeVerticale(float largeur, float longueur, Composant* libre, Position2
 	return true;
 }
 
-bool decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos) {
-	int posX = pos->getX;
-	int posY = pos->getY;
+bool ArbreBinaire::decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos) {
+	int posX = pos->getX();
+	int posY = pos->getY();
 	int posXnew = posY + longueur;
 	int posYnew = posX + largeur;
 	int gaucheLargeur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);

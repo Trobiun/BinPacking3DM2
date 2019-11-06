@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <2D\Composant.h>
+//#include <2D\Composant.h>
 
 Conteneur::Conteneur(void) {
 	id = 0;

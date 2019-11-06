@@ -1,8 +1,8 @@
 #include <list>
+#include "Composant.h"
+using namespace std;
 #ifndef ____CONTENEUR____
 #define ____CONTENEUR____
-
-
 
 class Conteneur {
 	protected:

@@ -37,9 +37,9 @@ public:
 	ArbreBinaire* recherchePremierEspaceLibreValide(ArbreBinaire* noeud, float largeur, float longueur);
 
 	bool creationFils(ArbreBinaire* noeud, float largeur, float longueur, int choix);
-	bool decoupeHorizontale(ArbreBinaire* noeud, float largeur, float longueur);
-	bool decoupeVerticale(ArbreBinaire* noeud, float largeur, float longueur);
-	bool decoupeSelonAire(ArbreBinaire* noeud, float largeur, float longueur);
+	bool decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos);
+	bool decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos);
+	bool decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos);
 };
 
 #endif 
