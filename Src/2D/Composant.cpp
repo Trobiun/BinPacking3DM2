@@ -7,18 +7,21 @@ Composant::Composant(void) {
 	id = 0;
 	largeur = longueur = 0.0;
 	position = new Position2D();
+	conteneur = nullptr;
 }
 Composant::Composant(int nid, float nLargeur, float nLongueur) {
 	id = nid;
 	largeur = nLargeur;
 	longueur = nLongueur;
 	position = new Position2D();
+	conteneur = nullptr;
 }
 Composant::Composant(int nid, float nLargeur, float nLongueur, Position2D* pos) {
 	id = nid;
 	largeur = nLargeur;
 	longueur = nLongueur;
 	position = pos;
+	conteneur = nullptr;
 }
 
 Composant::~Composant(void) {
@@ -58,5 +61,10 @@ bool Composant::setLongueur(float nlongueur) {
 bool Composant::setPosition(Position2D *pos) {
 	position->setX(pos->getX());
 	position->setY(pos->getY());
+	return true;
+}
+
+bool Composant::setConteneur(Conteneur* cont) {
+	conteneur = cont;
 	return true;
 }
