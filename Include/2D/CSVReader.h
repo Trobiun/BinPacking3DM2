@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include <list>
 #include "Composant.h"
 using namespace std;
 #ifndef ____CSVREADER____
@@ -14,7 +13,7 @@ using namespace std;
 class CSVReader {
 	protected:
 		std::string filename;
-		std::list <Composant> listComposant;
+		std::vector <Composant> listComposant;
 
 	public:
 
@@ -29,12 +28,12 @@ class CSVReader {
 		/* Setters                                  */
 
 		virtual bool setFilename(std::string filename);
-		virtual bool setListComposant(std::list <Composant> listComposant);
+		virtual bool setListComposant(std::vector <Composant> listComposant);
 
 		/* Getters                                  */
 
 		std::string getFilename();
-		std::list <Composant> getListComposant();
+		std::vector <Composant> getListComposant();
 
 		void lireCSV();
 		void ajoutComposant(std::vector <string> row);

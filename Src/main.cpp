@@ -8,8 +8,8 @@
 #include <GL/glu.h>
 
 
-//#include "2D/Rectangle.h"
 #include "2D/Conteneur.h"
+#include "2D/CSVReader.h"
 
 /* Variables globales                           */
 
@@ -89,12 +89,11 @@ static void scene(void) {
 /* de la fenetre de dessin                      */
 
 static void display(void) {
-    printf("D\n");
+    //printf("D\n");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     const GLfloat light0_position[] = {0.0, 0.0, 10.0, 1.0};
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-	printf("zoom = %d\n",zoom);
     if (cameraMove) {
         gluLookAt(px, py / 3.0 * zoom, pz, px, 0, pz, 0.0, 0.0, -1.0);
     } else {
@@ -119,7 +118,7 @@ static void display(void) {
 /* de la taille de la fenetre OpenGL            */
 
 static void reshape(int wx, int wy) {
-    printf("R\n");
+    //printf("R\n");
     wTx = wx;
     wTy = wy;
     glViewport(0, 0, wx, wy);
@@ -140,7 +139,7 @@ static void reshape(int wx, int wy) {
 /* n'est en file d'attente                      */
 
 static void idle(void) {
-    printf("I\n");
+    //printf("I\n");
     if (keys[KEY_UP]) {
         pz -= 1;
         if (cameraMove) {
@@ -196,7 +195,7 @@ static void keyboard(unsigned char key, int x, int y) {
 /*   - touches de fonction                      */
 
 static void special(int specialKey, int x, int y) {
-    printf("S  %4d %4d %4d\n", specialKey, x, y);
+    //printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
         case GLUT_KEY_LEFT:
             keys[KEY_LEFT] = false;
@@ -224,7 +223,7 @@ static void special(int specialKey, int x, int y) {
 /* de la souris sur la fenetre                  */
 
 static void mouse(int button, int state, int x, int y) {
-    printf("M  %4d %4d %4d %4d\n", button, state, x, y);
+    //printf("M  %4d %4d %4d %4d\n", button, state, x, y);
     if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN) {
         cameraMove = true;
         px = ox;
@@ -249,7 +248,7 @@ static void mouse(int button, int state, int x, int y) {
 /* avec un boutton presse                       */
 
 static void mouseMotion(int x, int y) {
-    printf("MM %4d %4d\n", x, y);
+    //printf("MM %4d %4d\n", x, y);
     if (oldMX < 0) {
         oldMX = x;
     }
@@ -276,7 +275,7 @@ static void mouseMotion(int x, int y) {
 /* sans boutton presse                          */
 
 static void passiveMouseMotion(int x, int y) {
-    printf("PM %4d %4d\n", x, y);
+    //printf("PM %4d %4d\n", x, y);
 }
 
 /* Fonction executee automatiquement            */
@@ -295,6 +294,22 @@ static void clean(void) {
 	Conteneur* conteneur3 = new Conteneur(3, 10, 10);
 
 }*/
+static void verifCompo(std::vector <Composant> liste) {
+	printf("LISTE DES COMPOSANTS DU FICHIER CSV : \n");
+	for (int i = 0; i < liste.size(); i++) {
+		printf("COMPOSANT %d : Largeur %.2f et Longueur %.2f \n", liste[i].getId(), liste[i].getLargeur(), liste[i].getLongueur());
+	}
+}
+static void testCSV() {
+	//Changer possiblement le nom du fichier/lien en fonction d'où se trouve le fichier CSV
+	std::string filename = "test3DBinPacking.csv";
+	CSVReader *fichierCSV = new CSVReader(filename);
+	fichierCSV->lireCSV();
+	std::vector <Composant> listeDesComposant = fichierCSV->getListComposant();
+	verifCompo(listeDesComposant);
+}
+
+
 
 int main(int argc, char **argv) {
     atexit(clean);
@@ -306,6 +321,7 @@ int main(int argc, char **argv) {
     glutCreateWindow("Title");
     init();
 	//RecupConteneurEtObjets();
+	//testCSV();
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
     glutMouseFunc(mouse);
