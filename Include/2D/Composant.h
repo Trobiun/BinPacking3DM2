@@ -1,8 +1,8 @@
 #ifndef ____COMPOSANT____
 #define ____COMPOSANT____
 
-#include "Position2D.h"
-#include "Conteneur.h"
+#include "2D/Position2D.h"
+#include "2D/Conteneur.h"
 
 class Composant {
 	protected :

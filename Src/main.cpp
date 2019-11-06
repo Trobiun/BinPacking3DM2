@@ -8,7 +8,7 @@
 #include <GL/glu.h>
 
 #include "2D/Rectangle.h"
-#include <2D\Conteneur.h>
+#include "2D/Conteneur.h"
 /* Variables globales                           */
 
 static int wTx = 480; // Resolution horizontale de la fenetre
