@@ -52,10 +52,38 @@ void CSVReader::lireCSV() {
 	fichierCSV.close();
 }
 void CSVReader::ajoutComposant(std::vector <string> row) {
-	//Faire les verif pour chacun des champs
-	int id = atoi(row[0].c_str());
-	float largeur = atof(row[1].c_str());
-	float longueur = atof(row[2].c_str());
-	printf("AJOUT D'UN COMPOSANT : id = %d, largeur %.2f, longueur %.2f \n", id, largeur, longueur);
-	listComposant.push_back(Composant(id, largeur, longueur));
+	char * verifErreur;
+	size_t indiceCourant = 0;
+	bool erreur = false;
+	int id = 0;
+	float largeur = 0.0, longueur = 0.0;
+	while (erreur == false && indiceCourant < row.size()) {
+		if (indiceCourant == 0) {
+			id = strtol(row[indiceCourant].c_str(), &verifErreur, 10);
+			if (*verifErreur != '\0') {
+				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : ID non valide, le composant %s n'est pas ajouté. \n", row[0].c_str());
+				erreur = true;
+			}
+		}
+		if (indiceCourant == 1) {
+			largeur = strtod(row[indiceCourant].c_str(), &verifErreur);
+			if (*verifErreur != '\0') {
+				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : largeur non valide, le composant %s n'est pas ajouté. \n", row[0].c_str());
+				erreur = true;
+			}
+		}
+		if (indiceCourant == 2) {
+			longueur = strtod(row[indiceCourant].c_str(), &verifErreur);
+			if (*verifErreur != '\0') {
+				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : longueur non valide, le composant %s n'est pas ajouté. \n", row[0].c_str());
+				erreur = true;
+			}
+		}
+		
+		indiceCourant++;
+	}
+	if (erreur == false) {
+		printf("AJOUT D'UN COMPOSANT : id = %d, largeur %.2f, longueur %.2f \n", id, largeur, longueur);
+		listComposant.push_back(Composant(id, largeur, longueur));
+	}
 }
