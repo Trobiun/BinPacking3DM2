@@ -7,14 +7,19 @@ Algorithm::Algorithm(std::list<Composant *> composantsMain, std::list<Conteneur 
 }
 
 std::list<Composant*> Algorithm::calculRangement() {
-	std::list<Composant*>::iterator test = composants.begin();
-	while (test != composants.end()) {
-		test++;
+	bool place = false;
+	std::list<Conteneur *>::iterator cont = conteneurs.begin();
+	while (cont != conteneurs.end()) {
+		std::list<Composant*>::iterator comp = composants.begin();
+		while (comp != composants.end()) {
+
+			place = (*cont)->rechercheLibre((*comp)->getLargeur(), (*comp)->getLongueur());
+			if (place) {
+				composants.erase(comp);
+				place = false;
+			}
+			comp++;
+		}
 	}
-
-
-
-
-
 	return composants;
 }

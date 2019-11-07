@@ -12,7 +12,7 @@ protected :
 	std::list<Composant *> composants;
 	std::list<Conteneur *> conteneurs;
 public:
-	Algorithm(std::list<Composant*> composantsMain, std::list<Conteneur*> conteneursMain, ArbreBinaire* arbreMain);
+	Algorithm(std::list<Composant*> composantsMain, std::list<Conteneur*> conteneursMain);
 
 	~Algorithm(void);
 

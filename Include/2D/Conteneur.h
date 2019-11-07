@@ -37,6 +37,8 @@ class Conteneur {
 
 		/* Modélisation */
 		void model();
+
+		bool Conteneur::rechercheLibre(float largeur, float longueur);
 };
 
 #endif

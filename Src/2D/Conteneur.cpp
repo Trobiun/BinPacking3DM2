@@ -53,3 +53,7 @@ bool Conteneur::setLongueur(float nlongueur) {
 	longueur = nlongueur;
 	return true;
 }
+
+bool Conteneur::rechercheLibre(float largeur, float longueur) {
+	return arbre->recherchePremierEspaceLibreValide(largeur, longueur);
+}
