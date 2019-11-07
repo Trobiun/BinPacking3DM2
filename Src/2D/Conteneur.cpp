@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 
 #include "2D/Conteneur.h"
+#include "2D/ArbreBinaire.h"
 
 Conteneur::Conteneur(void) {
 	id = 0;
@@ -13,6 +14,7 @@ Conteneur::Conteneur(int nid, float nLargeur, float nLongueur){
 	id = nid;
 	largeur = nLargeur;
 	longueur = nLongueur;
+	arbre = new ArbreBinaire(nLargeur, nLongueur);
 }
 
 Conteneur::~Conteneur(void) {
@@ -50,4 +52,8 @@ bool Conteneur::setLargeur(float nlargeur) {
 bool Conteneur::setLongueur(float nlongueur) {
 	longueur = nlongueur;
 	return true;
+}
+
+bool Conteneur::rechercheLibre(float largeur, float longueur) {
+	return arbre->recherchePremierEspaceLibreValide(largeur, longueur);
 }

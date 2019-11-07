@@ -1,23 +1,14 @@
 #include "2D/ArbreBinaire.h"
 
-ArbreBinaire::ArbreBinaire(Conteneur * conteneur) {
-	espace_libre->setLargeur(conteneur->getLargeur());
-	espace_libre->setLongueur(conteneur->getLongueur());
+ArbreBinaire::ArbreBinaire(float cLargeur, float cLongueur) {
+	espace_libre = new Composant(0, cLargeur, cLongueur);
 	sous_arbre_gauche = nullptr;
 	sous_arbre_droite = nullptr;
 	parent = nullptr;
 }
-ArbreBinaire::ArbreBinaire(Conteneur * conteneur, ArbreBinaire * p) {
-	espace_libre->setLargeur(conteneur->getLargeur());
-	espace_libre->setLongueur(conteneur->getLongueur());
-	sous_arbre_gauche = nullptr;
-	sous_arbre_droite = nullptr;
-	parent = p;
-}
 
 ArbreBinaire::ArbreBinaire(Composant* composant, ArbreBinaire* p) {
-	espace_libre->setLargeur(composant->getLargeur());
-	espace_libre->setLongueur(composant->getLongueur());
+	espace_libre = new Composant(0, composant->getLargeur(), composant->getLongueur());
 	sous_arbre_gauche = nullptr;
 	sous_arbre_droite = nullptr;
 	parent = p;
@@ -62,21 +53,21 @@ ArbreBinaire * ArbreBinaire::getParent() {
 	return parent;
 }
 
-ArbreBinaire* ArbreBinaire::recherchePremierEspaceLibreValide(ArbreBinaire* noeud, float largeur, float longueur) {
-	Composant* racine = noeud->getEspaceLibre();
+ArbreBinaire* ArbreBinaire::recherchePremierEspaceLibreValide(float largeur, float longueur) {
+	Composant* racine = espace_libre;
 	ArbreBinaire* res = nullptr;
 	if (racine->getLargeur() >= largeur && racine->getLongueur() >= longueur) {
-		return noeud;
+		return this;
 	}
 	else {
-		if (noeud->getSousArbreGauche() != nullptr) {
-			 res = recherchePremierEspaceLibreValide(noeud->getSousArbreGauche(), largeur, longueur);
+		if (this->getSousArbreGauche() != nullptr) {
+			 res = this->getSousArbreGauche()->recherchePremierEspaceLibreValide(largeur, longueur);
 			if (res != nullptr) {
 				return res;
 			}
 		}
-		if (noeud->getSousArbreDroite() != nullptr) {
-			res = recherchePremierEspaceLibreValide(noeud->getSousArbreDroite(), largeur, longueur);
+		if (this->getSousArbreDroite() != nullptr) {
+			res = this->getSousArbreDroite()->recherchePremierEspaceLibreValide( largeur, longueur);
 			if (res != nullptr) {
 				return res;
 			}
@@ -85,8 +76,8 @@ ArbreBinaire* ArbreBinaire::recherchePremierEspaceLibreValide(ArbreBinaire* noeu
 	return nullptr;
 }
 
-bool ArbreBinaire::creationFils(ArbreBinaire* noeud, float largeur, float longueur, int choix) {
-	Composant* libre = noeud->getEspaceLibre();
+bool ArbreBinaire::creationFils(float largeur, float longueur, int choix) {
+	Composant* libre =espace_libre;
 	Position2D* pos = libre->getPosition();
 	Composant* gauche = nullptr;
 	Composant* droite = nullptr;
@@ -106,10 +97,10 @@ bool ArbreBinaire::creationFils(ArbreBinaire* noeud, float largeur, float longue
 	}
 	libre->setLargeur(0);
 	libre->setLongueur(0);
-	ArbreBinaire* arbreGauche = new ArbreBinaire(gauche, noeud);
-	ArbreBinaire* arbreDroite = new ArbreBinaire(droite, noeud);
-	noeud->setSousArbreGauche(arbreGauche);
-	noeud->setSousArbreDroite(arbreDroite);
+	ArbreBinaire* arbreGauche = new ArbreBinaire(gauche, this);
+	ArbreBinaire* arbreDroite = new ArbreBinaire(droite, this);
+	sous_arbre_droite = arbreDroite;
+	sous_arbre_gauche = arbreGauche;
 	return true;
 
 }

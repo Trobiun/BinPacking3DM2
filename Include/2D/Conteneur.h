@@ -2,7 +2,8 @@
 #define ____CONTENEUR____
 
 #include <list>
-#include "../../Include/2D/Composant.h"
+#include "2D/Composant.h"
+#include "2D/ArbreBinaire.h"
 
 class Conteneur {
 	protected:
@@ -11,6 +12,7 @@ class Conteneur {
 		float longueur;
 		Position2D pos;
 		std::list<Composant *> composants;
+		ArbreBinaire* arbre;
 	public:
 
 		/* Constructeurs                            */
@@ -35,6 +37,8 @@ class Conteneur {
 
 		/* Modélisation */
 		void model();
+
+		bool Conteneur::rechercheLibre(float largeur, float longueur);
 };
 
 #endif

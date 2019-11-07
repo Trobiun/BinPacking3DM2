@@ -1,7 +1,6 @@
 #ifndef ____ARBREBINAIRE____
 #define ____ARBREBINAIRE____
 #include "Composant.h"
-#include "Conteneur.h"
 
 class ArbreBinaire {
 protected :
@@ -12,8 +11,7 @@ protected :
 public:
 	/* Constructeurs                            */
 
-	ArbreBinaire(Conteneur * conteneur);
-	ArbreBinaire(Conteneur * conteneur, ArbreBinaire * parent);
+	ArbreBinaire(float largeur, float longueur);
 	ArbreBinaire(Composant* composant, ArbreBinaire* p);
 
 	/* Destructeur                              */
@@ -34,9 +32,9 @@ public:
 	ArbreBinaire * getSousArbreDroite();
 	ArbreBinaire * getParent();
 
-	ArbreBinaire* recherchePremierEspaceLibreValide(ArbreBinaire* noeud, float largeur, float longueur);
+	ArbreBinaire* recherchePremierEspaceLibreValide(float largeur, float longueur);
 
-	bool creationFils(ArbreBinaire* noeud, float largeur, float longueur, int choix);
+	bool creationFils(float largeur, float longueur, int choix);
 	bool decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos);
 	bool decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos);
 	bool decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos);
