@@ -5,17 +5,17 @@
 #include "2D/Composant.h"
 
 Composant::Composant(void) {
-	id = 0;
-	largeur = longueur = 0.0;
-	position = new Position2D();
-	conteneur = -1;
+	Composant(0, 0.0, 0.0);
+	//position = new Position2D();
+	//conteneur = -1;
 }
 Composant::Composant(int nid, float nLargeur, float nLongueur) {
-	id = nid;
-	largeur = nLargeur;
-	longueur = nLongueur;
-	position = new Position2D();
-	conteneur = -1;
+	Composant(nid, nLargeur, nLongueur, new Position2D());
+	//id = nid;
+	//largeur = nLargeur;
+	//longueur = nLongueur;
+	//position = new Position2D();
+	//conteneur = -1;
 }
 Composant::Composant(int nid, float nLargeur, float nLongueur, Position2D* pos) {
 	id = nid;
@@ -26,6 +26,10 @@ Composant::Composant(int nid, float nLargeur, float nLongueur, Position2D* pos) 
 }
 
 Composant::~Composant(void) {
+	if (position != NULL) {
+		//delete position;
+		position = NULL;
+	}
 }
 
 /* Getters                                  */
@@ -84,6 +88,6 @@ void Composant::model() {
 	glPushMatrix();
 	glTranslatef(position->getX(), position->getY(), 0.0);
 	glScalef(largeur, longueur, 0.0);
-	glutWireCube(1.0);
+	glutSolidCube(1.0);
 	glPopMatrix();
 }

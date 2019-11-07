@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include <cmath>
 #include <list>
+#include <vector>
 
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-
+#include "2D/Algorithm.h"
+#include "2D/ArbreBinaire.h"
 #include "2D/Conteneur.h"
 #include "2D/CSVReader.h"
 
@@ -34,7 +36,11 @@ static int deplMX = 0, deplMY = 0;
 static bool cameraMove = false;
 static float zoom = 1;
 static double normeCamera = 1.0;
-static std::list<Conteneur> conteneurs;
+
+static Algorithm* algo;
+static std::list<Conteneur*> conteneurs;
+static std::list<Composant*> composants;
+static std::list<Composant*> restants;
 
 #define KEY_LEFT 0
 #define KEY_UP 1
@@ -74,9 +80,13 @@ static void reset() {
 
 static void scene(void) {
     glPushMatrix();
-	std::list<Conteneur>::iterator it;
+	std::list<Conteneur*>::iterator it;
 	for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
-		it->model();
+		(*it)->model();
+	}
+	std::list<Composant*>::iterator it2;
+	for (it2 = composants.begin(); it2 != composants.end(); it2++) {
+		(*it2)->model();
 	}
     glPopMatrix();
 }
@@ -317,26 +327,38 @@ static void passiveMouseMotion(int x, int y) {
 /* lors de l'execution de la fonction exit()    */
 
 static void clean(void) {
-	/*
-	std::list<Conteneur>::iterator it;
+	std::list<Conteneur*>::iterator it;
 	for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
-		printf("deletion\n");
-		delete &it;
-	}*/
+		delete *it;
+	}
 	conteneurs.clear();
+	std::list<Composant*>::iterator it2;
+	for (it2 = composants.begin(); it2 != composants.end(); it2++) {
+		delete *it2;
+	}
+	composants.clear();
+
+	std::list<Composant*>::iterator it3;
+	for (it3 = restants.begin(); it3 != restants.end(); it3++) {
+		delete *it3;
+	}
+	restants.clear();
+	if (algo != NULL) {
+		delete algo;
+	}
     printf("Bye\n");
 }
 
 /* Fonction principale                          */
 static void createConteneurs() {
-	Conteneur conteneur0 = Conteneur(0, 8, 8);
-	Conteneur conteneur1 = Conteneur(1, 16, 8);
-	Conteneur conteneur2 = Conteneur(2, 8, 16);
-	Conteneur conteneur3 = Conteneur(3, 10, 10);
+	Conteneur* conteneur0 = new Conteneur(0, 8, 8);
+	Conteneur* conteneur1 = new Conteneur(1, 16, 8);
+	Conteneur* conteneur2 = new Conteneur(2, 8, 16);
+	Conteneur* conteneur3 = new Conteneur(3, 10, 10);
 	conteneurs.push_back(conteneur0);
-	conteneurs.push_back(conteneur1);
-	conteneurs.push_back(conteneur2);
-	conteneurs.push_back(conteneur3);
+	//conteneurs.push_back(conteneur1);
+	//conteneurs.push_back(conteneur2);
+	//conteneurs.push_back(conteneur3);
 }
 
 static void verifCompo(std::vector <Composant> liste) {
@@ -350,8 +372,20 @@ static void testCSV() {
 	std::string filename = "test3DBinPacking.csv";
 	CSVReader *fichierCSV = new CSVReader(filename);
 	fichierCSV->lireCSV();
-	std::vector <Composant> listeDesComposant = fichierCSV->getListComposant();
-	verifCompo(listeDesComposant);
+	std::vector<Composant> listeDesComposant = fichierCSV->getListComposant();
+
+
+	/*std::vector<Composant>::iterator it;
+	for (it = listeDesComposant.begin(); it != listeDesComposant.end(); it++) {
+		//composants.push_back(&*it);
+	}*/
+	composants.insert(composants.end(), listeDesComposant.begin(), listeDesComposant.end());
+
+
+	algo = new Algorithm(composants, conteneurs);
+	std::list<Composant*> reste = algo->calculRangement();
+	restants.insert(restants.begin(), reste.begin(), reste.end());
+	//verifCompo(listeDesComposant);
 }
 
 

@@ -23,3 +23,7 @@ std::list<Composant*> Algorithm::calculRangement() {
 	}
 	return composants;
 }
+
+Algorithm::~Algorithm() {
+
+}

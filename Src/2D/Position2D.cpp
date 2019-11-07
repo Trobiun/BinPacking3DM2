@@ -4,8 +4,7 @@
 #include <stdio.h>
 
 Position2D::Position2D(void) {
-	x = 0.0;
-	y = 0.0;
+	Position2D(0.0, 0.0);
 }
 
 Position2D::Position2D(float nx, float ny) {
