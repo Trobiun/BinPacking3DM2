@@ -2,7 +2,6 @@
 
 Algorithm::Algorithm(std::list<Composant *> composantsMain, std::list<Conteneur *> conteneursMain) : composants(composantsMain), conteneurs(conteneursMain){
 	composants.sort();
-	conteneurs.sort();
 }
 
 std::list<Composant*> Algorithm::calculRangement() {
@@ -20,6 +19,7 @@ std::list<Composant*> Algorithm::calculRangement() {
 			}
 			comp++;
 		}
+		cont++;
 	}
 	return composants;
 }
