@@ -11,7 +11,7 @@ bool CSVReader::setFilename(std::string name) {
 	filename = name;
 	return true;
 }
-bool CSVReader::setListComposant(std::vector <Composant> list) {
+bool CSVReader::setListComposant(std::vector <Composant *> list) {
 	listComposant = list;
 	return true;
 }
@@ -19,7 +19,7 @@ bool CSVReader::setListComposant(std::vector <Composant> list) {
 string CSVReader::getFilename() {
 	return filename;
 }
-std::vector <Composant> CSVReader::getListComposant() {
+std::vector <Composant *> CSVReader::getListComposant() {
 	return listComposant;
 }
 
@@ -84,6 +84,6 @@ void CSVReader::ajoutComposant(std::vector <string> row) {
 	}
 	if (erreur == false) {
 		printf("AJOUT D'UN COMPOSANT : id = %d, largeur %.2f, longueur %.2f \n", id, largeur, longueur);
-		listComposant.push_back(Composant(id, largeur, longueur));
+		listComposant.push_back(new Composant(id, largeur, longueur));
 	}
 }

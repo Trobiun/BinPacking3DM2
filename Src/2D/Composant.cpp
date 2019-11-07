@@ -5,17 +5,15 @@
 #include "2D/Composant.h"
 
 Composant::Composant(void) {
-	Composant(0, 0.0, 0.0);
-	//position = new Position2D();
-	//conteneur = -1;
+	position = new Position2D();
+	conteneur = -1;
 }
 Composant::Composant(int nid, float nLargeur, float nLongueur) {
-	Composant(nid, nLargeur, nLongueur, new Position2D());
-	//id = nid;
-	//largeur = nLargeur;
-	//longueur = nLongueur;
-	//position = new Position2D();
-	//conteneur = -1;
+	id = nid;
+	largeur = nLargeur;
+	longueur = nLongueur;
+	position = new Position2D();
+	conteneur = -1;
 }
 Composant::Composant(int nid, float nLargeur, float nLongueur, Position2D* pos) {
 	id = nid;

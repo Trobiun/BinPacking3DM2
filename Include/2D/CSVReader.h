@@ -13,7 +13,7 @@ using namespace std;
 class CSVReader {
 	protected:
 		std::string filename;
-		std::vector <Composant> listComposant;
+		std::vector <Composant *> listComposant;
 
 	public:
 
@@ -28,12 +28,12 @@ class CSVReader {
 		/* Setters                                  */
 
 		virtual bool setFilename(std::string filename);
-		virtual bool setListComposant(std::vector <Composant> listComposant);
+		virtual bool setListComposant(std::vector <Composant *> listComposant);
 
 		/* Getters                                  */
 
 		std::string getFilename();
-		std::vector <Composant> getListComposant();
+		std::vector <Composant *> getListComposant();
 
 		void lireCSV();
 		void ajoutComposant(std::vector <string> row);

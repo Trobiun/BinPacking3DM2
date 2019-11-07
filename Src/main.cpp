@@ -361,31 +361,33 @@ static void createConteneurs() {
 	//conteneurs.push_back(conteneur3);
 }
 
-static void verifCompo(std::vector <Composant> liste) {
+static void verifCompo(std::vector <Composant *> liste) {
 	printf("LISTE DES COMPOSANTS DU FICHIER CSV : \n");
 	for (size_t i = 0; i < liste.size(); i++) {
-		printf("COMPOSANT %d : Largeur %.2f et Longueur %.2f \n", liste[i].getId(), liste[i].getLargeur(), liste[i].getLongueur());
+		printf("COMPOSANT %d : Largeur %.2f et Longueur %.2f \n",liste[i]->getId(), liste[i]->getLargeur(), liste[i]->getLongueur());
 	}
 }
+
 static void testCSV() {
 	//Changer possiblement le nom du fichier/lien en fonction d'où se trouve le fichier CSV
 	std::string filename = "test3DBinPacking.csv";
 	CSVReader *fichierCSV = new CSVReader(filename);
 	fichierCSV->lireCSV();
-	std::vector<Composant> listeDesComposant = fichierCSV->getListComposant();
+	std::vector<Composant *> listeDesComposant = fichierCSV->getListComposant();
 
 
-	/*std::vector<Composant>::iterator it;
+	std::vector<Composant*>::iterator it;
+	Composant* test;
 	for (it = listeDesComposant.begin(); it != listeDesComposant.end(); it++) {
-		//composants.push_back(&*it);
-	}*/
-	composants.insert(composants.end(), listeDesComposant.begin(), listeDesComposant.end());
+		composants.push_back(*it);
+	}
+	//composants.insert(composants.end(), listeDesComposant.begin(), listeDesComposant.end());
 
 
 	algo = new Algorithm(composants, conteneurs);
-	std::list<Composant*> reste = algo->calculRangement();
-	restants.insert(restants.begin(), reste.begin(), reste.end());
-	//verifCompo(listeDesComposant);
+	//std::list<Composant*> reste = algo->calculRangement();
+	//restants.insert(restants.begin(), reste.begin(), reste.end());
+	verifCompo(listeDesComposant);
 }
 
 
