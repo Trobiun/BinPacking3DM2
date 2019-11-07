@@ -9,6 +9,7 @@ class Conteneur {
 		int id;
 		float largeur;
 		float longueur;
+		Position2D pos;
 		std::list<Composant *> composants;
 	public:
 
@@ -31,6 +32,9 @@ class Conteneur {
 		int getId();
 		float getLargeur();
 		float getLongueur();
+
+		/* Modélisation */
+		void model();
 };
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef ____COMPOSANT____
 #define ____COMPOSANT____
 
-#include "Position2D.h"
+#include "2D/Position2D.h"
 
 class Composant {
 	protected :
@@ -39,6 +39,9 @@ class Composant {
 
 		/* Comparateur                             */
 		bool comp(const Composant& a, const Composant& b);
+
+		/* Modélisation */
+		void model();
 };
 
 #endif

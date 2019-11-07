@@ -341,7 +341,7 @@ static void createConteneurs() {
 
 static void verifCompo(std::vector <Composant> liste) {
 	printf("LISTE DES COMPOSANTS DU FICHIER CSV : \n");
-	for (int i = 0; i < liste.size(); i++) {
+	for (size_t i = 0; i < liste.size(); i++) {
 		printf("COMPOSANT %d : Largeur %.2f et Longueur %.2f \n", liste[i].getId(), liste[i].getLargeur(), liste[i].getLongueur());
 	}
 }

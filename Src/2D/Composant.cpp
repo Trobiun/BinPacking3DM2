@@ -1,6 +1,8 @@
-#include "../../Include/2D/Composant.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <GL/glut.h>
+
+#include "../../Include/2D/Composant.h"
 
 Composant::Composant(void) {
 	id = 0;
@@ -74,4 +76,14 @@ bool Composant::setPosition(Position2D *pos) {
 bool Composant::setConteneur(int cont) {
 	conteneur = cont;
 	return true;
+}
+
+
+/* Modélisation */
+void Composant::model() {
+	glPushMatrix();
+	glTranslatef(position->getX(), position->getY(), 0.0);
+	glScalef(largeur, longueur, 0.0);
+	glutWireCube(1.0);
+	glPopMatrix();
 }

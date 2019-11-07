@@ -1,7 +1,7 @@
 #ifndef ____ALGORITHM____
 #define ____ALGORITHM____
 
-#include <2D\ArbreBinaire.h>
+#include "2D/ArbreBinaire.h"
 #include "../../Include/2D/Composant.h"
 #include "../../Include/2D/Conteneur.h"
 
