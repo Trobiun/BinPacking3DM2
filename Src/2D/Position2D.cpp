@@ -5,12 +5,12 @@
 
 Position2D::Position2D(void) {
 	x = 0.0;
-	z = 0.0;
+	y = 0.0;
 }
 
-Position2D::Position2D(float nx, float nz) {
+Position2D::Position2D(float nx, float ny) {
 	x = nx;
-	z = nz;
+	y = ny;
 }
 
 Position2D::~Position2D(void) {
@@ -22,8 +22,8 @@ float Position2D::getX(void) {
 	return x;
 }
 
-float Position2D::getZ(void) {
-	return z;
+float Position2D::getY(void) {
+	return y;
 }
 
 
@@ -34,7 +34,7 @@ bool Position2D::setX(float nx) {
 	return true;
 }
 
-bool Position2D::setZ(float nz) {
-	z = nz;
+bool Position2D::setY(float ny) {
+	y = ny;
 	return true;
 }

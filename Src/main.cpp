@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <cmath>
-#include <cstdbool>
+#include <list>
 
 #include <GL/glut.h>
 #include <GL/gl.h>
@@ -18,22 +18,23 @@ static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
 static int wPy = 50; // Position verticale de la fenetre
 static float px = 0;
-static float py = 30;
-static float pz = 0;
+static float py = 0;
+static float pz = 30;
 static float ox = 0;
 static float oy = 0;
 static float oz = 0;
 static float camDepX = 0;
-static float camDepY = 30;
+static float camDepY = 0;
 static float camDepZ = 0;
 static const float blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 static bool keys[6] = {false};
 static bool keyboardKeys[256] = {false};
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
-static bool cameraMove = true;
+static bool cameraMove = false;
 static float zoom = 1;
 static double normeCamera = 1.0;
+static std::list<Conteneur> conteneurs;
 
 #define KEY_LEFT 0
 #define KEY_UP 1
@@ -60,27 +61,23 @@ static void init(void) {
 
 static void reset() {
     px = 0;
-    py = 30;
-    pz = 0;
+    py = 0;
+    pz = 30;
     ox = 0;
     oy = 0;
     oz = 0;
-    camDepX = 10.0;
+    camDepX = 0;
     camDepZ = 0;
 }
 
 /* Scene dessinee                               */
 
 static void scene(void) {
-	Conteneur* conteneur0 = new Conteneur(0, 8, 8);
-	Conteneur* conteneur1 = new Conteneur(1, 16, 8);
-	Conteneur* conteneur2 = new Conteneur(2, 8, 16);
-	Conteneur* conteneur3 = new Conteneur(3, 10, 10);
     glPushMatrix();
-	conteneur0->model();
-	conteneur1->model();
-	conteneur2->model();
-	conteneur3->model();
+	std::list<Conteneur>::iterator it;
+	for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
+		it->model();
+	}
     glPopMatrix();
 }
 
@@ -94,16 +91,15 @@ static void display(void) {
     const GLfloat light0_position[] = {0.0, 0.0, 10.0, 1.0};
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-    if (cameraMove) {
-        gluLookAt(px, py / 3.0 * zoom, pz, px, 0, pz, 0.0, 0.0, -1.0);
-    } else {
+    //if (cameraMove) {
+    //    gluLookAt(px, py / 3.0 * zoom, pz, px, 0, pz, 0.0, 1.0, 0.0);
+    //} else {
         normeCamera = sqrt(px * px + py * py + pz * pz);
         normeCamera /= 20.0;
         normeCamera /= zoom;
-        //            printf("%lf\n", normeCamera);
-        //            gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / 1, 0, oz / 1, 0.0, 0.0, -1.0);
-        gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / normeCamera, 0, oz / normeCamera, 0.0, 0.0, -1.0);
-    }
+        //gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / 1, oy / 1, oz / 1, 0.0, 1.0, 0.0);
+        gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / normeCamera, oy , oz / normeCamera, 0.0, 1.0, 0.0);
+    //}
     scene();
     glPopMatrix();
     glFlush();
@@ -141,36 +137,39 @@ static void reshape(int wx, int wy) {
 static void idle(void) {
     //printf("I\n");
     if (keys[KEY_UP]) {
-        pz -= 1;
-        if (cameraMove) {
-            oz = pz;
-        }
+        py -= 0.25;
     }
     if (keys[KEY_DOWN]) {
-        pz += 1;
-        if (cameraMove) {
-            oz = pz;
-        }
+        py += 0.25;
     }
     if (keys[KEY_LEFT]) {
-        px -= 1;
-        if (cameraMove) {
-            ox = px;
-        }
-        glutPostRedisplay();
+        px -= 0.25;
     }
     if (keys[KEY_RIGHT]) {
-        px += 1;
-        if (cameraMove) {
-            ox = px;
-        }
+        px += 0.25;
     }
     if (keys[KEY_PAGE_UP]) {
-        py -= 1;
+		zoom -= 0.001;
     }
     if (keys[KEY_PAGE_DOWN]) {
-        py += 1;
+		zoom += 0.001;
     }
+	if (keyboardKeys['z']) {
+		py += 0.05;
+		oy = py;
+	}
+	if (keyboardKeys['s']) {
+		py -= 0.05;
+		oy = py;
+	}
+	if (keyboardKeys['q']) {
+		px -= 0.05;
+		ox = px;
+	}
+	if (keyboardKeys['d']) {
+		px += 0.05;
+		ox = px;
+	}
     glutPostRedisplay();
 }
 
@@ -188,13 +187,18 @@ static void keyboard(unsigned char key, int x, int y) {
     keyboardKeys[key] = true;
 }
 
+
+static void keyboardUp(unsigned char key, int x, int y) {
+	keyboardKeys[key] = false;
+}
+
 /* Fonction executee lors de l'appui            */
 /* d'une touche speciale du clavier :           */
 /*   - touches de curseur                       */
 
 /*   - touches de fonction                      */
 
-static void special(int specialKey, int x, int y) {
+static void specialUp(int specialKey, int x, int y) {
     //printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
         case GLUT_KEY_LEFT:
@@ -216,6 +220,36 @@ static void special(int specialKey, int x, int y) {
             keys[KEY_PAGE_DOWN] = false;
             break;
     }
+}
+
+/* Fonction executee lors de l'appui            */
+/* d'une touche speciale du clavier :           */
+/*   - touches de curseur                       */
+
+/*   - touches de fonction                      */
+
+static void special(int specialKey, int x, int y) {
+	//printf("S  %4d %4d %4d\n", specialKey, x, y);
+	switch (specialKey) {
+	case GLUT_KEY_LEFT:
+		keys[KEY_LEFT] = true;
+		break;
+	case GLUT_KEY_UP:
+		keys[KEY_UP] = true;
+		break;
+	case GLUT_KEY_RIGHT:
+		keys[KEY_RIGHT] = true;
+		break;
+	case GLUT_KEY_DOWN:
+		keys[KEY_DOWN] = true;
+		break;
+	case GLUT_KEY_PAGE_UP:
+		keys[KEY_PAGE_UP] = true;
+		break;
+	case GLUT_KEY_PAGE_DOWN:
+		keys[KEY_PAGE_DOWN] = true;
+		break;
+	}
 }
 
 /* Fonction executee lors de l'utilisation      */
@@ -283,17 +317,28 @@ static void passiveMouseMotion(int x, int y) {
 /* lors de l'execution de la fonction exit()    */
 
 static void clean(void) {
+	/*
+	std::list<Conteneur>::iterator it;
+	for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
+		printf("deletion\n");
+		delete &it;
+	}*/
+	conteneurs.clear();
     printf("Bye\n");
 }
 
 /* Fonction principale                          */
-/*static void RecupConteneurEtObjets() {
-	Conteneur* conteneur0 = new Conteneur(0, 8, 8);
-	Conteneur* conteneur1 = new Conteneur(1, 16, 8);
-	Conteneur* conteneur2 = new Conteneur(2, 8, 16);
-	Conteneur* conteneur3 = new Conteneur(3, 10, 10);
+static void createConteneurs() {
+	Conteneur conteneur0 = Conteneur(0, 8, 8);
+	Conteneur conteneur1 = Conteneur(1, 16, 8);
+	Conteneur conteneur2 = Conteneur(2, 8, 16);
+	Conteneur conteneur3 = Conteneur(3, 10, 10);
+	conteneurs.push_back(conteneur0);
+	conteneurs.push_back(conteneur1);
+	conteneurs.push_back(conteneur2);
+	conteneurs.push_back(conteneur3);
+}
 
-}*/
 static void verifCompo(std::vector <Composant> liste) {
 	printf("LISTE DES COMPOSANTS DU FICHIER CSV : \n");
 	for (int i = 0; i < liste.size(); i++) {
@@ -310,7 +355,6 @@ static void testCSV() {
 }
 
 
-
 int main(int argc, char **argv) {
     atexit(clean);
 
@@ -320,12 +364,14 @@ int main(int argc, char **argv) {
     glutInitWindowPosition(wPx, wPy);
     glutCreateWindow("Title");
     init();
-	//RecupConteneurEtObjets();
-	//testCSV();
+	createConteneurs();
+	testCSV();
     glutKeyboardFunc(keyboard);
+	glutKeyboardUpFunc(keyboardUp);
     glutSpecialFunc(special);
-    glutMouseFunc(mouse);
-    glutMotionFunc(mouseMotion);
+    glutSpecialUpFunc(specialUp);
+    //glutMouseFunc(mouse);
+    //glutMotionFunc(mouseMotion);
     //glutPassiveMotionFunc(passiveMouseMotion);
     glutReshapeFunc(reshape);
     glutIdleFunc(idle);

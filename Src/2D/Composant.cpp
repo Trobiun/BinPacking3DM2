@@ -61,7 +61,7 @@ bool Composant::setLongueur(float nlongueur) {
 }
 bool Composant::setPosition(Position2D *pos) {
 	position->setX(pos->getX());
-	position->setZ(pos->getZ());
+	position->setY(pos->getY());
 	return true;
 }
 
@@ -74,8 +74,8 @@ bool Composant::setConteneur(Conteneur* cont) {
 /* Modélisation */
 void Composant::model() {
 	glPushMatrix();
-	glTranslatef(position->getX(), 0.0, position->getZ());
-	glScalef(largeur, 0.0, longueur);
+	glTranslatef(position->getX(), position->getY(), 0.0);
+	glScalef(largeur, longueur, 0.0);
 	glutSolidCube(1.0);
 	glPopMatrix();
 }

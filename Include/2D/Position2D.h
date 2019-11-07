@@ -5,13 +5,13 @@
 class Position2D {
 	protected :
 		float x;
-		float z;
+		float y;
 	public :
 
 		/* Constructeurs                            */
 
 		Position2D(void);
-		Position2D(float x,float z);
+		Position2D(float x,float y);
 
 		/* Destructeur                              */
 
@@ -20,12 +20,12 @@ class Position2D {
 		/* Setters                             */
 
 		virtual bool setX(float x);
-		virtual bool setZ(float z);
+		virtual bool setY(float y);
 
 		/* Getters                              */
 
 		float getX();
-		float getZ();
+		float getY();
 };
 
 #endif

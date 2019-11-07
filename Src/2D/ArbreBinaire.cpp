@@ -115,34 +115,34 @@ bool ArbreBinaire::creationFils(ArbreBinaire* noeud, float largeur, float longue
 }
 
 bool ArbreBinaire::decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos) {
-	int posX = pos->getX();
-	int posY = pos->getY();
-	int posXnew = posY + longueur;
-	int posYnew = posX + largeur;
+	float posX = pos->getX();
+	float posY = pos->getY();
+	float posXnew = posY + longueur;
+	float posYnew = posX + largeur;
 	Composant* gauche = new Composant(0, libre->getLongueur(), libre->getLargeur() - largeur, new Position2D(posX, posYnew));
 	Composant* droite = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur() - largeur, new Position2D(posXnew, posY));
 	return true;
 }
 
 bool ArbreBinaire::decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos) {
-	int posX = pos->getX();
-	int posY = pos->getY();
-	int posXnew = posY + longueur;
-	int posYnew = posX + largeur;
+	float posX = pos->getX();
+	float posY = pos->getY();
+	float posXnew = posY + longueur;
+	float posYnew = posX + largeur;
 	Composant* gauche = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur() - largeur, new Position2D(posX, posYnew));
 	Composant* droite = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur(), new Position2D(posXnew, posY));
 	return true;
 }
 
 bool ArbreBinaire::decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos) {
-	int posX = pos->getX();
-	int posY = pos->getY();
-	int posXnew = posY + longueur;
-	int posYnew = posX + largeur;
-	int gaucheLargeur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
-	int droiteLargeur = (libre->getLongueur() - longueur) * libre->getLargeur();
-	int gaucheLongueur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
-	int droiteLongueur = (libre->getLongueur() - longueur) * libre->getLargeur();
+	float posX = pos->getX();
+	float posY = pos->getY();
+	float posXnew = posY + longueur;
+	float posYnew = posX + largeur;
+	float gaucheLargeur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
+	float droiteLargeur = (libre->getLongueur() - longueur) * libre->getLargeur();
+	float gaucheLongueur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
+	float droiteLongueur = (libre->getLongueur() - longueur) * libre->getLargeur();
 	if (((gaucheLargeur > gaucheLongueur) && (gaucheLargeur> droiteLongueur)) || ((droiteLargeur > gaucheLongueur) && (droiteLargeur > droiteLongueur))) {
 		Composant* gauche = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur() - largeur, new Position2D(posX, posYnew));
 		Composant* droite = new Composant(0, libre->getLongueur() - longueur, libre->getLargeur(), new Position2D(posXnew, posY));

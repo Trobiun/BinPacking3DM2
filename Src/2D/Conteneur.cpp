@@ -34,8 +34,8 @@ float Conteneur::getLongueur(void) {
 
 void Conteneur::model() {
 	glPushMatrix();
-	glTranslatef(pos.getX(), 0.0, pos.getZ());
-	glScalef(largeur,0.0, longueur);
+	glTranslatef(pos.getX(), pos.getY(), 0.0);
+	glScalef(largeur, longueur, 0.0);
 	glutWireCube(1.0);
 	glPopMatrix();
 }
