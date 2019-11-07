@@ -2,12 +2,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-//#include <2D\Composant.h>
+#include <2D\Composant.h>
 
 Conteneur::Conteneur(void) {
 	id = 0;
 	largeur = longueur = 0.0;
-
 }
 
 Conteneur::Conteneur(int nid, float nLargeur, float nLongueur){

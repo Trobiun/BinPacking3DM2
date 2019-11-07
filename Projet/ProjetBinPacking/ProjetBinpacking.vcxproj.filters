@@ -40,6 +40,15 @@
       <Filter>2D</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\main.cpp" />
+    <ClCompile Include="..\..\Src\2D\ArbreBinaire.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\2D\CSVReader.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\2D\Algorithm.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\2D\Composant.h">
@@ -56,6 +65,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Include\3D\Position3D.h">
       <Filter>Include\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\2D\CSVReader.h">
+      <Filter>Include\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\2D\ArbreBinaire.h">
+      <Filter>Include\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\2D\Algorithm.h">
+      <Filter>Include\2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
