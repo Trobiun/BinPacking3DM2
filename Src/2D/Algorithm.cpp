@@ -1,4 +1,4 @@
-#include "../../Include/2D/Algorithm.h"
+#include "2D/Algorithm.h"
 
 Algorithm::Algorithm(std::list<Composant *> composantsMain, std::list<Conteneur *> conteneursMain, ArbreBinaire* arbreMain) : composants(composantsMain), conteneurs(conteneursMain){
 	arbre = arbreMain;
@@ -7,6 +7,14 @@ Algorithm::Algorithm(std::list<Composant *> composantsMain, std::list<Conteneur 
 }
 
 std::list<Composant*> Algorithm::calculRangement() {
-	std::list<Composant*> test;
-	return test;
+	std::list<Composant*>::iterator test = composants.begin();
+	while (test != composants.end()) {
+		test++;
+	}
+
+
+
+
+
+	return composants;
 }

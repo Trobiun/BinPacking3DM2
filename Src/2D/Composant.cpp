@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <GL/glut.h>
 
-#include "../../Include/2D/Composant.h"
+#include "2D/Composant.h"
 
 Composant::Composant(void) {
 	id = 0;

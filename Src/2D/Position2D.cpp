@@ -1,4 +1,4 @@
-#include "../../Include/2D/Position2D.h"
+#include "2D/Position2D.h"
 
 #include <stdlib.h>
 #include <stdio.h>

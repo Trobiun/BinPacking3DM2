@@ -1,4 +1,4 @@
-#include "../../Include/2D/ArbreBinaire.h"
+#include "2D/ArbreBinaire.h"
 
 ArbreBinaire::ArbreBinaire(Conteneur * conteneur) {
 	espace_libre->setLargeur(conteneur->getLargeur());

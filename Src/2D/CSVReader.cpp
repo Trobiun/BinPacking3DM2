@@ -1,4 +1,4 @@
-#include "../../Include/2D/CSVReader.h"
+#include "2D/CSVReader.h"
 
 
 CSVReader::CSVReader(std::string name) {
