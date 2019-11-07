@@ -36,6 +36,9 @@ class Composant {
 		float getLongueur();
 		float getAire();
 		Position2D* getPosition();
+
+		/* Comparateur                             */
+		bool comp(const Composant& a, const Composant& b);
 };
 
 #endif

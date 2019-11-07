@@ -45,6 +45,14 @@ Position2D* Composant::getPosition(void) {
 	return position;
 }
 
+bool Composant::comp(const Composant& a, const Composant& b)
+{
+	if (a.largeur*a.longueur < b.largeur* b.longueur) {
+		return true;
+	}
+	return false;
+}
+
 /* Setters                                  */
 
 

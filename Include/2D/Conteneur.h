@@ -9,7 +9,7 @@ class Conteneur {
 		int id;
 		float largeur;
 		float longueur;
-		std::list<Composant> composants;
+		std::list<Composant *> composants;
 	public:
 
 		/* Constructeurs                            */
