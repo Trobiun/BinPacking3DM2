@@ -1,7 +1,6 @@
 #ifndef ____ARBREBINAIRE____
 #define ____ARBREBINAIRE____
 #include "Composant.h"
-#include "Conteneur.h"
 
 class ArbreBinaire {
 protected :
@@ -12,8 +11,7 @@ protected :
 public:
 	/* Constructeurs                            */
 
-	ArbreBinaire(Conteneur * conteneur);
-	ArbreBinaire(Conteneur * conteneur, ArbreBinaire * parent);
+	ArbreBinaire(float largeur, float longueur);
 	ArbreBinaire(Composant* composant, ArbreBinaire* p);
 
 	/* Destructeur                              */

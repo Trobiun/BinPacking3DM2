@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 
 #include "2D/Conteneur.h"
+#include "2D/ArbreBinaire.h"
 
 Conteneur::Conteneur(void) {
 	id = 0;
@@ -13,6 +14,7 @@ Conteneur::Conteneur(int nid, float nLargeur, float nLongueur){
 	id = nid;
 	largeur = nLargeur;
 	longueur = nLongueur;
+	arbre = new ArbreBinaire(nLargeur, nLongueur);
 }
 
 Conteneur::~Conteneur(void) {

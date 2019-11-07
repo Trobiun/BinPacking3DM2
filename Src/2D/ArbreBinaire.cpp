@@ -1,23 +1,14 @@
 #include "2D/ArbreBinaire.h"
 
-ArbreBinaire::ArbreBinaire(Conteneur * conteneur) {
-	espace_libre->setLargeur(conteneur->getLargeur());
-	espace_libre->setLongueur(conteneur->getLongueur());
+ArbreBinaire::ArbreBinaire(float cLargeur, float cLongueur) {
+	espace_libre = new Composant(0, cLargeur, cLongueur);
 	sous_arbre_gauche = nullptr;
 	sous_arbre_droite = nullptr;
 	parent = nullptr;
 }
-ArbreBinaire::ArbreBinaire(Conteneur * conteneur, ArbreBinaire * p) {
-	espace_libre->setLargeur(conteneur->getLargeur());
-	espace_libre->setLongueur(conteneur->getLongueur());
-	sous_arbre_gauche = nullptr;
-	sous_arbre_droite = nullptr;
-	parent = p;
-}
 
 ArbreBinaire::ArbreBinaire(Composant* composant, ArbreBinaire* p) {
-	espace_libre->setLargeur(composant->getLargeur());
-	espace_libre->setLongueur(composant->getLongueur());
+	espace_libre = new Composant(0, composant->getLargeur(), composant->getLongueur());
 	sous_arbre_gauche = nullptr;
 	sous_arbre_droite = nullptr;
 	parent = p;
