@@ -105,6 +105,7 @@
     <Library Include="..\..\Lib\glut32.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\2D\Algorithm.cpp" />
     <ClCompile Include="..\..\Src\2D\ArbreBinaire.cpp" />
     <ClCompile Include="..\..\Src\2D\Composant.cpp" />
     <ClCompile Include="..\..\Src\2D\Conteneur.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="..\..\Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Include\2D\Algorithm.h" />
     <ClInclude Include="..\..\Include\2D\ArbreBinaire.h" />
     <ClInclude Include="..\..\Include\2D\Composant.h" />
     <ClInclude Include="..\..\Include\2D\Conteneur.h" />

@@ -1,15 +1,15 @@
 #ifndef ____CONTENEUR____
 #define ____CONTENEUR____
 
-#include "Position2D.h"
+#include <list>
+#include "../../Include/2D/Composant.h"
 
 class Conteneur {
 	protected:
 		int id;
 		float largeur;
 		float longueur;
-		Position2D pos;
-
+		std::list<Composant *> composants;
 	public:
 
 		/* Constructeurs                            */
@@ -31,9 +31,6 @@ class Conteneur {
 		int getId();
 		float getLargeur();
 		float getLongueur();
-
-		/* Modélisation */
-		void model();
 };
 
 #endif

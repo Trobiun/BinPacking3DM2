@@ -1,13 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <GL/glut.h>
 
 #include "2D/Conteneur.h"
 
 Conteneur::Conteneur(void) {
 	id = 0;
 	largeur = longueur = 0.0;
-
 }
 
 Conteneur::Conteneur(int nid, float nLargeur, float nLongueur){
