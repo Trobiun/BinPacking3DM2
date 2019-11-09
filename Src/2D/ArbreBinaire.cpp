@@ -144,3 +144,16 @@ bool ArbreBinaire::decoupeSelonAire(float largeur, float longueur, Composant* li
 	}
 	return true;
 }
+
+void ArbreBinaire::affichageArbre() {
+	printf("ARBRE : Espace Libre = {Largeur = %.2f, Longueur = %.2f, Position = (%.2f,%.2f)}\n"
+		,espace_libre->getLargeur(), espace_libre->getLongueur(), espace_libre->getPosition()->getX(), espace_libre->getPosition()->getY());
+	if (sous_arbre_gauche != nullptr) {
+		printf("SOUS-ARBRE GAUCHE \n");
+		sous_arbre_gauche->affichageArbre();
+	}
+	if (sous_arbre_droite != nullptr) {
+		printf("SOUS-ARBRE DROITE \n");
+		sous_arbre_droite->affichageArbre();
+	}
+}

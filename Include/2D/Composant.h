@@ -42,6 +42,9 @@ class Composant {
 
 		/* Modélisation */
 		void model();
+
+		/*Affichage */
+		void affichageComposant();
 };
 
 #endif

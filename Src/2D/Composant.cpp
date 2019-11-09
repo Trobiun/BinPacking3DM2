@@ -89,3 +89,10 @@ void Composant::model() {
 	glutSolidCube(1.0);
 	glPopMatrix();
 }
+
+/*Affichage */
+
+void Composant::affichageComposant() {
+	printf("COMPOSANT : Id = %d, Largeur = %.2f, Longueur = %.2f, Position = (%.2f,%.2f), Conteneur = %d \n"
+		, id, largeur, longueur, position->getX(), position->getY(), conteneur);
+}

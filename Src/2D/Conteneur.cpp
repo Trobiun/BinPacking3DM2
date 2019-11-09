@@ -54,6 +54,25 @@ bool Conteneur::setLongueur(float nlongueur) {
 	return true;
 }
 
+bool Conteneur::addComposant(Composant * comp) {
+	composants.push_back(comp);
+	return true;
+}
+
 bool Conteneur::rechercheLibre(float largeur, float longueur) {
 	return arbre->recherchePremierEspaceLibreValide(largeur, longueur);
+}
+
+void Conteneur::affichageConteneur() {
+	printf("CONTENEUR : Id = %d, Largeur = %.2f, Longueur = %.2f, Position = (%.2f,%.2f), Liste des composants = \n"
+		, id, largeur, longueur, pos.getX(), pos.getY());
+	if (composants.empty()) {
+		printf("Aucun.  \n");
+	}
+	else {
+		std::list<Composant*>::iterator it;
+		for (it = composants.begin(); it != composants.end(); it++) {
+			(*it)->affichageComposant();
+		}
+	}
 }

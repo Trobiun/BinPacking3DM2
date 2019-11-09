@@ -1,5 +1,6 @@
 #ifndef ____ARBREBINAIRE____
 #define ____ARBREBINAIRE____
+#include <stdio.h>
 #include "Composant.h"
 
 class ArbreBinaire {
@@ -38,6 +39,9 @@ public:
 	bool decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos);
 	bool decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos);
 	bool decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos);
+
+	/*affichage */
+	void affichageArbre();
 };
 
 #endif 

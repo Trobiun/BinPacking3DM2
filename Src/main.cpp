@@ -351,7 +351,7 @@ static void clean(void) {
 
 /* Fonction principale                          */
 static void createConteneurs() {
-	Conteneur* conteneur0 = new Conteneur(0, 8, 8);
+	Conteneur* conteneur0 = new Conteneur(0, 30, 30);
 	Conteneur* conteneur1 = new Conteneur(1, 16, 8);
 	Conteneur* conteneur2 = new Conteneur(2, 8, 16);
 	Conteneur* conteneur3 = new Conteneur(3, 10, 10);
@@ -364,7 +364,7 @@ static void createConteneurs() {
 static void verifCompo(std::vector <Composant *> liste) {
 	printf("LISTE DES COMPOSANTS DU FICHIER CSV : \n");
 	for (size_t i = 0; i < liste.size(); i++) {
-		printf("COMPOSANT %d : Largeur %.2f et Longueur %.2f \n",liste[i]->getId(), liste[i]->getLargeur(), liste[i]->getLongueur());
+		liste[i]->affichageComposant();
 	}
 }
 
@@ -401,6 +401,10 @@ int main(int argc, char **argv) {
     glutCreateWindow("Title");
     init();
 	createConteneurs();
+	std::list<Conteneur*>::iterator it;
+	for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
+		(*it)->affichageConteneur();
+	}
 	testCSV();
     glutKeyboardFunc(keyboard);
 	glutKeyboardUpFunc(keyboardUp);

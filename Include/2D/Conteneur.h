@@ -28,7 +28,7 @@ class Conteneur {
 
 		virtual bool setLargeur(float largeur);
 		virtual bool setLongueur(float longueur);
-
+		virtual bool addComposant(Composant * comp);
 		/* Getters                                  */
 
 		int getId();
@@ -38,7 +38,11 @@ class Conteneur {
 		/* Modélisation */
 		void model();
 
-		bool Conteneur::rechercheLibre(float largeur, float longueur);
+		bool rechercheLibre(float largeur, float longueur);
+
+		/*Affichage*/
+
+		void affichageConteneur();
 };
 
 #endif
