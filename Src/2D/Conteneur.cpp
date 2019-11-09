@@ -32,6 +32,9 @@ float Conteneur::getLargeur(void) {
 float Conteneur::getLongueur(void) {
 	return longueur;
 }
+std::list<Composant*> Conteneur::getListComposant(void) {
+	return composants;
+}
 
 void Conteneur::model() {
 	glPushMatrix();
@@ -55,6 +58,7 @@ bool Conteneur::setLongueur(float nlongueur) {
 }
 
 bool Conteneur::addComposant(Composant * comp) {
+	comp->setConteneur(id);
 	composants.push_back(comp);
 	return true;
 }

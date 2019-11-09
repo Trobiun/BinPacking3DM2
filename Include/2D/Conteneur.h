@@ -34,6 +34,7 @@ class Conteneur {
 		int getId();
 		float getLargeur();
 		float getLongueur();
+		std::list<Composant *> getListComposant();
 
 		/* Modélisation */
 		void model();

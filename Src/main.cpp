@@ -81,13 +81,16 @@ static void reset() {
 static void scene(void) {
     glPushMatrix();
 	std::list<Conteneur*>::iterator it;
+	std::list<Composant *> compo;
 	for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
 		(*it)->model();
+		std::list<Composant*>::iterator it2;
+		compo = (*it)->getListComposant();
+		for (it2 = compo.begin(); it2 != compo.end(); it2++) {
+			(*it2)->model();
+		}
 	}
-	std::list<Composant*>::iterator it2;
-	for (it2 = composants.begin(); it2 != composants.end(); it2++) {
-		(*it2)->model();
-	}
+	
     glPopMatrix();
 }
 
