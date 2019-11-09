@@ -14,6 +14,7 @@ Conteneur::Conteneur(int nid, float nLargeur, float nLongueur){
 	id = nid;
 	largeur = nLargeur;
 	longueur = nLongueur;
+	pos = new Position2D();
 	arbre = new ArbreBinaire(nLargeur, nLongueur);
 }
 
@@ -38,7 +39,7 @@ std::list<Composant*> Conteneur::getListComposant(void) {
 
 void Conteneur::model() {
 	glPushMatrix();
-	glTranslatef(pos.getX(), pos.getY(), 0.0);
+	glTranslatef(pos->getX(), pos->getY(), 0.0);
 	glScalef(largeur, longueur, 0.0);
 	glutWireCube(1.0);
 	glPopMatrix();
@@ -56,6 +57,10 @@ bool Conteneur::setLongueur(float nlongueur) {
 	longueur = nlongueur;
 	return true;
 }
+bool Conteneur::setPosition(Position2D *position) {
+	pos = position ;
+	return true;
+}
 
 bool Conteneur::addComposant(Composant * comp) {
 	comp->setConteneur(id);
@@ -69,7 +74,7 @@ bool Conteneur::rechercheLibre(float largeur, float longueur) {
 
 void Conteneur::affichageConteneur() {
 	printf("CONTENEUR : Id = %d, Largeur = %.2f, Longueur = %.2f, Position = (%.2f,%.2f), Liste des composants = \n"
-		, id, largeur, longueur, pos.getX(), pos.getY());
+		, id, largeur, longueur, pos->getX(), pos->getY());
 	if (composants.empty()) {
 		printf("Aucun.  \n");
 	}

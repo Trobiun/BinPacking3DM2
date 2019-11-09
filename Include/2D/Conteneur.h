@@ -10,7 +10,7 @@ class Conteneur {
 		int id;
 		float largeur;
 		float longueur;
-		Position2D pos;
+		Position2D *pos;
 		std::list<Composant *> composants;
 		ArbreBinaire* arbre;
 	public:
@@ -28,6 +28,7 @@ class Conteneur {
 
 		virtual bool setLargeur(float largeur);
 		virtual bool setLongueur(float longueur);
+		virtual bool setPosition(Position2D * position);
 		virtual bool addComposant(Composant * comp);
 		/* Getters                                  */
 
