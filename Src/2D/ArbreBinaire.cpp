@@ -8,7 +8,7 @@ ArbreBinaire::ArbreBinaire(float cLargeur, float cLongueur) {
 }
 
 ArbreBinaire::ArbreBinaire(Composant* composant, ArbreBinaire* p) {
-	espace_libre = new Composant(0, composant->getLargeur(), composant->getLongueur());
+	espace_libre = new Composant(0, composant->getLargeur(), composant->getLongueur(),composant->getPosition());
 	sous_arbre_gauche = nullptr;
 	sous_arbre_droite = nullptr;
 	parent = p;
@@ -79,11 +79,8 @@ ArbreBinaire* ArbreBinaire::recherchePremierEspaceLibreValide(float largeur, flo
 bool ArbreBinaire::creationFils(float largeur, float longueur, int choix) {
 	Composant* libre = espace_libre;
 	Position2D* pos = libre->getPosition();
-	printf("la pos est x et y : %f et %f\n", libre->getPosition()->getX(), libre->getPosition()->getY());
-
 	Composant* gauche = new Composant();
 	Composant* droite = new Composant();
-	printf("la pos du fils gauche est x et y : %f et %f\n", gauche->getPosition()->getX(), gauche->getPosition()->getY());
 
 	switch (choix)
 	{
@@ -101,9 +98,7 @@ bool ArbreBinaire::creationFils(float largeur, float longueur, int choix) {
 	}
 	libre->setLargeur(0);
 	libre->setLongueur(0);
-	printf("la pos du fils gauche est x et y : %f et %f\n", gauche->getPosition()->getX(), gauche->getPosition()->getY());
 	ArbreBinaire* arbreGauche = new ArbreBinaire(gauche, this);
-	printf("la pos du fils droit est x et y : %f et %f\n", droite->getPosition()->getX(), droite ->getPosition()->getY());
 	ArbreBinaire* arbreDroite = new ArbreBinaire(droite, this);
 	sous_arbre_droite = arbreDroite;
 	sous_arbre_gauche = arbreGauche;
@@ -144,7 +139,6 @@ bool ArbreBinaire::decoupeSelonAire(float largeur, float longueur, Composant* li
 	float posY = pos->getY();
 	float posXnew = posY + longueur;
 	float posYnew = posX + largeur;
-	printf("la position lors de la creations des fils, posX %f, posY %f, posXnew %f, posYnew %f",posX,posY,posXnew,posYnew);
 	float gaucheLargeur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
 	float droiteLargeur = (libre->getLongueur() - longueur) * libre->getLargeur();
 	float gaucheLongueur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
