@@ -86,9 +86,13 @@ int Composant::getIdConteneur() {
 /* Modélisation */
 void Composant::model() {
 	glPushMatrix();
-	glTranslatef(position->getX(), position->getY(), 0.0);
-	glScalef(largeur, longueur, 0.0);
-	glutSolidCube(1.0);
+	glBegin(GL_QUADS);
+	glColor3f(1.0F, 0.0F, 0.0F);
+	glVertex2f(position->getX(), position->getY());
+	glVertex2f(position->getX(), position->getY() + largeur);
+	glVertex2f(position->getX() + longueur, position->getY() + largeur);
+	glVertex2f(position->getX() + longueur, position->getY());
+	glEnd();
 	glPopMatrix();
 }
 

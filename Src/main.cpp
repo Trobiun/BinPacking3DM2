@@ -57,10 +57,10 @@ static std::list<Composant*> restants;
 static void init(void) {
     glClearColor(0.25F, 0.25F, 0.25F, 1.0F);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, blanc);
-    glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glDepthFunc(GL_LESS);
-    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_NORMALIZE);
 }
@@ -79,6 +79,7 @@ static void reset() {
 /* Scene dessinee                               */
 
 static void scene(void) {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
 	std::list<Conteneur*>::iterator it;
 	std::list<Composant *> compo;
@@ -365,8 +366,13 @@ static void verifCompoVector(std::vector <Composant *> liste) {
 	}
 }
 
-static void verifCompoList(std::list <Composant*> liste, char * s) {
-	printf("LISTE DES COMPOSANTS DE LA LISTE %s: \n",s);
+static void verifCompoList(std::list <Composant*> liste, int type) {
+	if (type == -1) {
+		printf("LISTE DES COMPOSANTS DE LA LISTE RESTE: \n");
+	}
+	else {
+		printf("LISTE DES COMPOSANTS DE LA LISTE CONTENEUR %d: \n", type);
+	}
 	std::list<Composant*>::iterator comp = liste.begin();
 	while (comp != liste.end()) {
 		(*comp)->affichageComposant();
@@ -396,8 +402,8 @@ static void testCSV() {
 	
 	restants.insert(restants.begin(), reste.begin(), reste.end());
 	verifCompoVector(listeDesComposant);
-	verifCompoList(restants,"reste");
-	verifCompoList((*conteneurs.begin())->getListComposant(), "conteneur");
+	verifCompoList(restants,-1);
+	verifCompoList((*conteneurs.begin())->getListComposant(),1);
 
 }
 

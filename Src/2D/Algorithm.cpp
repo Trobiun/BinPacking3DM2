@@ -17,7 +17,9 @@ std::list<Composant*> Algorithm::calculRangement() {
 		comp = composants.begin();
 		for (comp; comp != composants.end(); comp++){
 			ArbreBinaire * arbre = (*cont)->rechercheLibre((*comp)->getLargeur(), (*comp)->getLongueur());
+			
 			if (arbre != nullptr) {
+				arbre->affichageArbre();
 				if (erase) {
 					composants.erase(compErase);
 					erase = false;

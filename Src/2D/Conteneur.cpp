@@ -33,15 +33,22 @@ float Conteneur::getLargeur(void) {
 float Conteneur::getLongueur(void) {
 	return longueur;
 }
+ArbreBinaire* Conteneur::getArbre(void) {
+	return arbre;
+}
 std::list<Composant*> Conteneur::getListComposant(void) {
 	return composants;
 }
 
 void Conteneur::model() {
 	glPushMatrix();
-	glTranslatef(pos->getX(), pos->getY(), 0.0);
-	glScalef(largeur, longueur, 0.0);
-	glutWireCube(1.0);
+	glBegin(GL_QUADS);
+	glColor3f(0.0F, 1.0F, 0.0F);
+	glVertex2f(pos->getX(), pos->getY());
+	glVertex2f(pos->getX(), pos->getY() +largeur);
+	glVertex2f(pos->getX() +longueur, pos->getY() +largeur);
+	glVertex2f(pos->getX() +longueur, pos->getY());
+	glEnd();
 	glPopMatrix();
 }
 

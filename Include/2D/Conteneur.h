@@ -35,6 +35,7 @@ class Conteneur {
 		int getId();
 		float getLargeur();
 		float getLongueur();
+		ArbreBinaire* getArbre();
 		std::list<Composant *> getListComposant();
 
 		/* Modélisation */
