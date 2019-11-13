@@ -22,13 +22,15 @@ std::list<Composant*> Algorithm::calculRangement() {
 					composants.erase(compErase);
 					erase = false;
 				}
+				printf("la position de l'arbre : %f,%f \n", arbre->getEspaceLibre()->getPosition()->getX(), arbre->getEspaceLibre()->getPosition()->getY());
+
 				printf("la position suivie de l'id conteneur avant le set : %f,%f et %d\n" , (*comp)->getPosition()->getX(), (*comp)->getPosition()->getY(), (*comp)->getIdConteneur());
 				(*comp)->setConteneur((*cont)->getId());
 				(*comp)->setPosition(arbre->getEspaceLibre()->getPosition());
 				printf("la position suivie de l'id conteneur apres le set : %f,%f et %d\n", (*comp)->getPosition()->getX(), (*comp)->getPosition()->getY(), (*comp)->getIdConteneur());
 
 				(*cont)->addComposant(*comp);
-				arbre->creationFils((*comp)->getLargeur(), (*comp)->getLongueur(), 3);
+				arbre->creationFils((*comp)->getLargeur(), (*comp)->getLongueur(), 0);
 				compErase = comp;
 				arbre = nullptr;
 				erase = true;

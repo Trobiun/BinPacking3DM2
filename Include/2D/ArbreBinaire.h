@@ -36,9 +36,9 @@ public:
 	ArbreBinaire* recherchePremierEspaceLibreValide(float largeur, float longueur);
 
 	bool creationFils(float largeur, float longueur, int choix);
-	bool decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos);
-	bool decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos);
-	bool decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos);
+	bool decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite);
+	bool decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite);
+	bool decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite);
 
 	/*affichage */
 	void affichageArbre();
