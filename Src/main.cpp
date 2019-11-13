@@ -364,10 +364,19 @@ static void createConteneurs() {
 	//conteneurs.push_back(conteneur3);
 }
 
-static void verifCompo(std::vector <Composant *> liste) {
+static void verifCompoVector(std::vector <Composant *> liste) {
 	printf("LISTE DES COMPOSANTS DU FICHIER CSV : \n");
 	for (size_t i = 0; i < liste.size(); i++) {
 		liste[i]->affichageComposant();
+	}
+}
+
+static void verifCompoList(std::list <Composant*> liste, char * s) {
+	printf("LISTE DES COMPOSANTS DE LA LISTE %s: \n",s);
+	std::list<Composant*>::iterator comp = liste.begin();
+	while (comp != liste.end()) {
+		(*comp)->affichageComposant();
+		comp++;
 	}
 }
 
@@ -388,9 +397,14 @@ static void testCSV() {
 
 
 	algo = new Algorithm(composants, conteneurs);
-	//std::list<Composant*> reste = algo->calculRangement();
-	//restants.insert(restants.begin(), reste.begin(), reste.end());
-	verifCompo(listeDesComposant);
+	std::list<Composant*> reste = algo->calculRangement();
+	
+	
+	restants.insert(restants.begin(), reste.begin(), reste.end());
+	verifCompoVector(listeDesComposant);
+	verifCompoList(restants,"reste");
+	verifCompoList((*conteneurs.begin())->getListComposant(), "conteneur");
+
 }
 
 

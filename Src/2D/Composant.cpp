@@ -80,7 +80,9 @@ bool Composant::setConteneur(int cont) {
 	return true;
 }
 
-
+int Composant::getIdConteneur() {
+	return conteneur;
+}
 /* Modélisation */
 void Composant::model() {
 	glPushMatrix();

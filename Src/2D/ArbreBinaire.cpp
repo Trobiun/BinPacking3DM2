@@ -77,7 +77,7 @@ ArbreBinaire* ArbreBinaire::recherchePremierEspaceLibreValide(float largeur, flo
 }
 
 bool ArbreBinaire::creationFils(float largeur, float longueur, int choix) {
-	Composant* libre =espace_libre;
+	Composant* libre = espace_libre;
 	Position2D* pos = libre->getPosition();
 	Composant* gauche = nullptr;
 	Composant* droite = nullptr;
@@ -101,6 +101,9 @@ bool ArbreBinaire::creationFils(float largeur, float longueur, int choix) {
 	ArbreBinaire* arbreDroite = new ArbreBinaire(droite, this);
 	sous_arbre_droite = arbreDroite;
 	sous_arbre_gauche = arbreGauche;
+	libre->setLargeur(0);
+	libre->setLongueur(0);
+
 	return true;
 
 }

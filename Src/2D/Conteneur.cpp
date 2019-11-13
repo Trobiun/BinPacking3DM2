@@ -68,7 +68,7 @@ bool Conteneur::addComposant(Composant * comp) {
 	return true;
 }
 
-bool Conteneur::rechercheLibre(float largeur, float longueur) {
+ArbreBinaire* Conteneur::rechercheLibre(float largeur, float longueur) {
 	return arbre->recherchePremierEspaceLibreValide(largeur, longueur);
 }
 

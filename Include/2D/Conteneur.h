@@ -40,7 +40,7 @@ class Conteneur {
 		/* Modélisation */
 		void model();
 
-		bool rechercheLibre(float largeur, float longueur);
+		ArbreBinaire* rechercheLibre(float largeur, float longueur);
 
 		/*Affichage*/
 

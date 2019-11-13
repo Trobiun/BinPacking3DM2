@@ -32,6 +32,7 @@ class Composant {
 		/* Getters                                  */
 
 		int getId();
+		int getIdConteneur();
 		float getLargeur();
 		float getLongueur();
 		float getAire();
