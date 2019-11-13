@@ -354,14 +354,8 @@ static void clean(void) {
 
 /* Fonction principale                          */
 static void createConteneurs() {
-	Conteneur* conteneur0 = new Conteneur(0, 30, 30);
-	Conteneur* conteneur1 = new Conteneur(1, 16, 8);
-	Conteneur* conteneur2 = new Conteneur(2, 8, 16);
-	Conteneur* conteneur3 = new Conteneur(3, 10, 10);
+	Conteneur* conteneur0 = new Conteneur(0, 50, 50);
 	conteneurs.push_back(conteneur0);
-	//conteneurs.push_back(conteneur1);
-	//conteneurs.push_back(conteneur2);
-	//conteneurs.push_back(conteneur3);
 }
 
 static void verifCompoVector(std::vector <Composant *> liste) {

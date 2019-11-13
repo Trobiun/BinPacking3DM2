@@ -79,25 +79,31 @@ ArbreBinaire* ArbreBinaire::recherchePremierEspaceLibreValide(float largeur, flo
 bool ArbreBinaire::creationFils(float largeur, float longueur, int choix) {
 	Composant* libre = espace_libre;
 	Position2D* pos = libre->getPosition();
+	printf("la pos est x et y : %f et %f\n", libre->getPosition()->getX(), libre->getPosition()->getY());
+
 	Composant* gauche = new Composant();
 	Composant* droite = new Composant();
+	printf("la pos du fils gauche est x et y : %f et %f\n", gauche->getPosition()->getX(), gauche->getPosition()->getY());
+
 	switch (choix)
 	{
 	case 0:
-		return decoupeHorizontale(largeur, longueur, libre, pos, gauche, droite);
+		decoupeHorizontale(largeur, longueur, libre, pos, gauche, droite);
 		break;
 	case 1:
-		return decoupeVerticale(largeur, longueur, libre, pos, gauche, droite);
+		decoupeVerticale(largeur, longueur, libre, pos, gauche, droite);
 		break;
 	case 2:
-		return decoupeSelonAire(largeur, longueur, libre, pos, gauche, droite);
+		decoupeSelonAire(largeur, longueur, libre, pos, gauche, droite);
 		break;
 	default:
 		return false;
 	}
 	libre->setLargeur(0);
 	libre->setLongueur(0);
+	printf("la pos du fils gauche est x et y : %f et %f\n", gauche->getPosition()->getX(), gauche->getPosition()->getY());
 	ArbreBinaire* arbreGauche = new ArbreBinaire(gauche, this);
+	printf("la pos du fils droit est x et y : %f et %f\n", droite->getPosition()->getX(), droite ->getPosition()->getY());
 	ArbreBinaire* arbreDroite = new ArbreBinaire(droite, this);
 	sous_arbre_droite = arbreDroite;
 	sous_arbre_gauche = arbreGauche;
