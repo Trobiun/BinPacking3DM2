@@ -12,7 +12,7 @@ std::list<Composant*> Algorithm::calculRangement() {
 	std::list<Composant*>::iterator compErase;
 	bool erase= false;
 	while (cont != conteneurs.end() & !(composants.empty())) {
-		posCourante->setX(longueurCourante + 10);
+		posCourante->setX(longueurCourante);
 		(*cont)->setPosition(posCourante);
 		comp = composants.begin();
 		for (comp; comp != composants.end(); comp++){
