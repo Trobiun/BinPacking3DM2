@@ -83,16 +83,14 @@ bool Composant::setConteneur(int cont) {
 int Composant::getIdConteneur() {
 	return conteneur;
 }
-/* Modélisation */
-void Composant::model() {
+/* Modï¿½lisation */
+void Composant::model(GLfloat couleur[4]) {
 	glPushMatrix();
-	glBegin(GL_QUADS);
-	glColor3f(1.0F, 0.0F, 0.0F);
-	glVertex2f(position->getX(), position->getY());
-	glVertex2f(position->getX(), position->getY() + largeur);
-	glVertex2f(position->getX() + longueur, position->getY() + largeur);
-	glVertex2f(position->getX() + longueur, position->getY());
-	glEnd();
+	glTranslatef(position->getX() + largeur / 2, position->getY() + longueur / 2, 0.0);
+	glScalef(largeur, longueur, 0.0);
+    //GLfloat couleur[] = {0.0F,1.0F,0.0F,1.0F};
+    glColor4fv(couleur);
+	glutSolidCube(1.0);
 	glPopMatrix();
 }
 

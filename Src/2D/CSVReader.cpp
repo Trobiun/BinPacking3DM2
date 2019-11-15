@@ -28,7 +28,7 @@ void CSVReader::lireCSV() {
 	ifstream fichierCSV(filename.c_str() , ios_base::in);
 	if (fichierCSV.good())
 	{
-		cout << "SUCCESS : Le fichier a pu être ouvert." << endl;
+		cout << "SUCCESS : Le fichier a pu ï¿½tre ouvert." << endl;
 		string ligne, word;
 		int compteurLigne = 0;
 		while (getline(fichierCSV, ligne)) {
@@ -61,21 +61,21 @@ void CSVReader::ajoutComposant(std::vector <string> row) {
 		if (indiceCourant == 0) {
 			id = strtol(row[indiceCourant].c_str(), &verifErreur, 10);
 			if (*verifErreur != '\0') {
-				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : ID non valide, le composant %s n'est pas ajouté. \n", row[0].c_str());
+				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : ID non valide, le composant %s n'est pas ajoutï¿½. \n", row[0].c_str());
 				erreur = true;
 			}
 		}
 		if (indiceCourant == 1) {
 			largeur = strtod(row[indiceCourant].c_str(), &verifErreur);
 			if (*verifErreur != '\0') {
-				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : largeur non valide, le composant %s n'est pas ajouté. \n", row[0].c_str());
+				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : largeur non valide, le composant %s n'est pas ajoutï¿½. \n", row[0].c_str());
 				erreur = true;
 			}
 		}
 		if (indiceCourant == 2) {
 			longueur = strtod(row[indiceCourant].c_str(), &verifErreur);
 			if (*verifErreur != '\0') {
-				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : longueur non valide, le composant %s n'est pas ajouté. \n", row[0].c_str());
+				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : longueur non valide, le composant %s n'est pas ajoutï¿½. \n", row[0].c_str());
 				erreur = true;
 			}
 		}

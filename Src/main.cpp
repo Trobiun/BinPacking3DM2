@@ -19,11 +19,11 @@ static int wTx = 480; // Resolution horizontale de la fenetre
 static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
 static int wPy = 50; // Position verticale de la fenetre
-static float px = 0;
-static float py = 0;
+static float px = 25;
+static float py = 25;
 static float pz = 30;
-static float ox = 0;
-static float oy = 0;
+static float ox = 25;
+static float oy = 25;
 static float oz = 0;
 static float camDepX = 0;
 static float camDepY = 0;
@@ -34,7 +34,7 @@ static bool keyboardKeys[256] = {false};
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
 static bool cameraMove = false;
-static float zoom = 1;
+static float zoom = 3.0;
 static double normeCamera = 1.0;
 
 static Algorithm* algo;
@@ -66,11 +66,11 @@ static void init(void) {
 }
 
 static void reset() {
-    px = 0;
-    py = 0;
+    px = 25;
+    py = 25;
     pz = 30;
-    ox = 0;
-    oy = 0;
+    ox = 25;
+    oy = 25;
     oz = 0;
     camDepX = 0;
     camDepZ = 0;
@@ -79,6 +79,7 @@ static void reset() {
 /* Scene dessinee                               */
 
 static void scene(void) {
+    GLfloat vert[] = {0.0F,1.0F,0.0F,1.0F};
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
 	std::list<Conteneur*>::iterator it;
@@ -88,7 +89,7 @@ static void scene(void) {
 		std::list<Composant*>::iterator it2;
 		compo = (*it)->getListComposant();
 		for (it2 = compo.begin(); it2 != compo.end(); it2++) {
-			(*it2)->model();
+			//(*it2)->model(vert);
 		}
 	}
 	
@@ -112,7 +113,7 @@ static void display(void) {
         normeCamera /= 20.0;
         normeCamera /= zoom;
         //gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / 1, oy / 1, oz / 1, 0.0, 1.0, 0.0);
-        gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / normeCamera, oy , oz / normeCamera, 0.0, 1.0, 0.0);
+        gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / normeCamera, oy / normeCamera , oz / normeCamera, 0.0, 1.0, 0.0);
     //}
     scene();
     glPopMatrix();
@@ -163,10 +164,10 @@ static void idle(void) {
         px += 0.25;
     }
     if (keys[KEY_PAGE_UP]) {
-		zoom -= 0.001;
+		zoom -= 0.05;
     }
     if (keys[KEY_PAGE_DOWN]) {
-		zoom += 0.001;
+		zoom += 0.05;
     }
 	if (keyboardKeys['z']) {
 		py += 0.05;
@@ -381,7 +382,7 @@ static void verifCompoList(std::list <Composant*> liste, int type) {
 }
 
 static void testCSV() {
-	//Changer possiblement le nom du fichier/lien en fonction d'où se trouve le fichier CSV
+	//Changer possiblement le nom du fichier/lien en fonction d'oï¿½ se trouve le fichier CSV
 	std::string filename = "test3DBinPacking.csv";
 	CSVReader *fichierCSV = new CSVReader(filename);
 	fichierCSV->lireCSV();

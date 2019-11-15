@@ -1,6 +1,8 @@
 #ifndef ____COMPOSANT____
 #define ____COMPOSANT____
 
+#include <GL/gl.h>
+
 #include "2D/Position2D.h"
 
 class Composant {
@@ -41,8 +43,8 @@ class Composant {
 		/* Comparateur                             */
 		bool comp(const Composant& a, const Composant& b);
 
-		/* Modélisation */
-		void model();
+		/* Modï¿½lisation */
+		void model(GLfloat couleur[4]);
 
 		/*Affichage */
 		void affichageComposant();

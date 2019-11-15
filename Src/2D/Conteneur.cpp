@@ -42,13 +42,14 @@ std::list<Composant*> Conteneur::getListComposant(void) {
 
 void Conteneur::model() {
 	glPushMatrix();
-	glBegin(GL_QUADS);
-	glColor3f(0.0F, 1.0F, 0.0F);
-	glVertex2f(pos->getX(), pos->getY());
-	glVertex2f(pos->getX(), pos->getY() +largeur);
-	glVertex2f(pos->getX() +longueur, pos->getY() +largeur);
-	glVertex2f(pos->getX() +longueur, pos->getY());
-	glEnd();
+	glTranslatef(pos->getX() + largeur / 2, pos->getY() + longueur / 2, 0.0);
+	glScalef(largeur, longueur, 0.0);
+    GLfloat couleur[] = {1.0F,0.0F,0.0F,1.0F};
+    glColor4fv(couleur);
+	glutWireCube(1.0);
+    if (arbre != NULL) {
+        arbre->model();
+    }
 	glPopMatrix();
 }
 

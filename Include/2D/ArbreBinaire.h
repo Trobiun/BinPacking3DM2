@@ -42,6 +42,9 @@ public:
 
 	/*affichage */
 	void affichageArbre();
+        
+        void model();
+        
 };
 
 #endif 

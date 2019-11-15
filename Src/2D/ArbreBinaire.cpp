@@ -174,3 +174,18 @@ void ArbreBinaire::affichageArbre() {
 		sous_arbre_droite->affichageArbre();
 	}
 }
+
+void ArbreBinaire::model() {
+    //glPushMatrix();
+    GLfloat bleu[] = {0.0F,0.0F,1.0F,1.0F};
+    printf("");
+    espace_libre->affichageComposant();
+    espace_libre->model(bleu);
+    if (sous_arbre_gauche != nullptr) {
+		sous_arbre_gauche->model();
+	}
+	if (sous_arbre_droite != nullptr) {
+		sous_arbre_droite->model();
+	}
+    //glPopMatrix();
+}

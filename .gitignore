@@ -431,3 +431,7 @@ MigrationBackup/
 /nbproject/configurations.xml
 /nbproject/project.xml
 /nbproject/
+/CMakeFiles/
+/CMakeCache.txt
+/compile_commands.json
+/cmake_install.cmake
