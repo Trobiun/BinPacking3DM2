@@ -5,91 +5,103 @@
 #include "2D/Conteneur.h"
 #include "2D/ArbreBinaire.h"
 
-Conteneur::Conteneur(void) {
-	id = 0;
-	largeur = longueur = 0.0;
+Conteneur::Conteneur(void) : Conteneur(0, 0.0, 0.0) {
+
 }
 
-Conteneur::Conteneur(int nid, float nLargeur, float nLongueur){
-	id = nid;
-	largeur = nLargeur;
-	longueur = nLongueur;
-	pos = new Position2D();
-	arbre = new ArbreBinaire(nLargeur, nLongueur);
+Conteneur::Conteneur(int nid, float nLargeur, float nLongueur) : id(nid), largeur(nLargeur), longueur(nLongueur) {
+    pos = new Position2D();
+    arbre = new ArbreBinaire(largeur, longueur);
 }
 
 Conteneur::~Conteneur(void) {
+    if (pos != nullptr) {
+        delete pos;
+        pos = nullptr;
+    }
+    if (arbre != nullptr) {
+        delete arbre;
+        arbre = nullptr;
+    }
 }
 
 /* Getters                                  */
 
 int Conteneur::getId(void) {
-	return id;
+    return id;
 }
 
 float Conteneur::getLargeur(void) {
-	return largeur;
+    return largeur;
 }
+
 float Conteneur::getLongueur(void) {
-	return longueur;
+    return longueur;
 }
+
 ArbreBinaire* Conteneur::getArbre(void) {
-	return arbre;
+    return arbre;
 }
+
 std::list<Composant*> Conteneur::getListComposant(void) {
-	return composants;
+    return composants;
 }
 
 void Conteneur::model() {
-	glPushMatrix();
-	glTranslatef(pos->getX() + largeur / 2, pos->getY() + longueur / 2, 0.0);
-	glScalef(largeur, longueur, 0.0);
-    GLfloat couleur[] = {1.0F,0.0F,0.0F,1.0F};
+    glPushMatrix();
+    glTranslatef(pos->getX() + largeur / 2, pos->getY() + longueur / 2, 0.0);
+    glScalef(largeur, longueur, 0.0);
+    GLfloat couleur[4] = {1.0F, 0.0F, 0.0F, 1.0F};
     glColor4fv(couleur);
-	glutWireCube(1.0);
+    glutWireCube(1.0);
     if (arbre != NULL) {
         arbre->model();
     }
-	glPopMatrix();
+    glPopMatrix();
 }
-
 
 /* Setters                                  */
 
 bool Conteneur::setLargeur(float nlargeur) {
-	largeur = nlargeur;
-	return true;
+    largeur = nlargeur;
+    return true;
 }
 
 bool Conteneur::setLongueur(float nlongueur) {
-	longueur = nlongueur;
-	return true;
+    longueur = nlongueur;
+    return true;
 }
+
 bool Conteneur::setPosition(Position2D *position) {
-	pos = position ;
-	return true;
+    pos = position;
+    return true;
+}
+
+bool Conteneur::setPosition(float x, float y) {
+    pos->setX(x);
+    pos->setY(y);
+    return true;
 }
 
 bool Conteneur::addComposant(Composant * comp) {
-	comp->setConteneur(id);
-	composants.push_back(comp);
-	return true;
+    comp->setConteneur(id);
+    composants.push_back(comp);
+    return true;
 }
 
 ArbreBinaire* Conteneur::rechercheLibre(float largeur, float longueur) {
-	return arbre->recherchePremierEspaceLibreValide(largeur, longueur);
+    return arbre->recherchePremierEspaceLibreValide(largeur, longueur);
 }
 
 void Conteneur::affichageConteneur() {
-	printf("CONTENEUR : Id = %d, Largeur = %.2f, Longueur = %.2f, Position = (%.2f,%.2f), Liste des composants = \n"
-		, id, largeur, longueur, pos->getX(), pos->getY());
-	if (composants.empty()) {
-		printf("Aucun.  \n");
-	}
-	else {
-		std::list<Composant*>::iterator it;
-		for (it = composants.begin(); it != composants.end(); it++) {
-			(*it)->affichageComposant();
-		}
-	}
+    printf("CONTENEUR : Id = %d, Largeur = %.2f, Longueur = %.2f, Position = (%.2f,%.2f), Liste des composants = \n"
+        , id, largeur, longueur, pos->getX(), pos->getY());
+    if (composants.empty()) {
+        printf("Aucun.  \n");
+    } else {
+        std::list<Composant*>::iterator it;
+        for (it = composants.begin(); it != composants.end(); it++) {
+            (*it)->affichageComposant();
+        }
+    }
 }

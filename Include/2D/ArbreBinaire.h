@@ -10,6 +10,7 @@ protected :
 	ArbreBinaire * sous_arbre_droite;
 	ArbreBinaire * parent;
 public:
+        GLfloat bleu[4] = {0.0F,0.0F,1.0F,1.0F};
 	/* Constructeurs                            */
 
 	ArbreBinaire(float largeur, float longueur);

@@ -1,6 +1,7 @@
 #ifndef ____POSITION2D____
 #define ____POSITION2D____
 
+#include <GL/gl.h>
 
 class Position2D {
 	protected :

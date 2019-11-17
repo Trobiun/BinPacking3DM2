@@ -29,6 +29,7 @@ class Composant {
 		virtual bool setLargeur(float largeur);
 		virtual bool setLongueur(float longueur);
 		virtual bool setPosition(Position2D *pos);
+                virtual bool setPosition(float x, float y);
 		virtual bool setConteneur(int cont);
 
 		/* Getters                                  */
@@ -44,7 +45,7 @@ class Composant {
 		bool comp(const Composant& a, const Composant& b);
 
 		/* Mod�lisation */
-		void model(GLfloat couleur[4]);
+		void model(const GLfloat couleur[4]);
 
 		/*Affichage */
 		void affichageComposant();
