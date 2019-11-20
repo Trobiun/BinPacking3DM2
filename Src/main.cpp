@@ -1,4 +1,5 @@
-#include <stdlib.h>
+#include "2D/Debug.h"
+
 #include <stdio.h>
 #include <cmath>
 #include <list>
@@ -351,12 +352,13 @@ static void clean(void) {
     if (algo != NULL) {
         delete algo;
     }
-    printf("Bye\n");
+	int test = _CrtDumpMemoryLeaks();
+	printf("Bye %i\n",test);
 }
 
 /* Fonction principale                          */
 static void createConteneurs() {
-    Conteneur* conteneur0 = new Conteneur(0, 50.0F, 50.0F);
+    Conteneur* conteneur0 = DBG_NEW Conteneur(0, 50.0F, 50.0F);
     conteneurs.push_back(conteneur0);
 }
 
@@ -383,7 +385,7 @@ static void verifCompoList(std::list <Composant*> liste, int type) {
 static void testCSV() {
     //Changer possiblement le nom du fichier/lien en fonction d'o� se trouve le fichier CSV
     std::string filename = "test3DBinPacking.csv";
-    CSVReader *fichierCSV = new CSVReader(filename);
+    CSVReader *fichierCSV = DBG_NEW CSVReader(filename);
     fichierCSV->lireCSV();
     std::vector<Composant *> listeDesComposant = fichierCSV->getListComposant();
 
@@ -394,7 +396,7 @@ static void testCSV() {
     //listeDesComposant.clear();
     //composants.insert(composants.end(), listeDesComposant.begin(), listeDesComposant.end());
 
-    algo = new Algorithm(composants, conteneurs);
+    algo = DBG_NEW Algorithm(composants, conteneurs);
     std::list<Composant*> reste = algo->calculRangement();
 
     restants.insert(restants.begin(), reste.begin(), reste.end());

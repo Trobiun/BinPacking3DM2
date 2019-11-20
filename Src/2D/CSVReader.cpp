@@ -1,3 +1,5 @@
+#include "2D/Debug.h"
+
 #include "2D/CSVReader.h"
 
 
@@ -84,6 +86,6 @@ void CSVReader::ajoutComposant(std::vector <string> row) {
 	}
 	if (erreur == false) {
 		printf("AJOUT D'UN COMPOSANT : id = %d, largeur %.2f, longueur %.2f \n", id, largeur, longueur);
-		listComposant.push_back(new Composant(id, largeur, longueur));
+		listComposant.push_back(DBG_NEW Composant(id, largeur, longueur));
 	}
 }

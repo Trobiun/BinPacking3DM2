@@ -1,17 +1,19 @@
-#include <stdlib.h>
+#include "2D/Debug.h"
+
 #include <stdio.h>
 #include <GL/glut.h>
 
 #include "2D/Conteneur.h"
 #include "2D/ArbreBinaire.h"
 
+
 Conteneur::Conteneur(void) : Conteneur(0, 0.0, 0.0) {
 
 }
 
 Conteneur::Conteneur(int nid, float nLargeur, float nLongueur) : id(nid), largeur(nLargeur), longueur(nLongueur) {
-    pos = new Position2D();
-    arbre = new ArbreBinaire(largeur, longueur);
+    pos = DBG_NEW Position2D();
+    arbre = DBG_NEW ArbreBinaire(largeur, longueur);
 }
 
 Conteneur::~Conteneur(void) {
