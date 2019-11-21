@@ -1,14 +1,20 @@
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+
 #include "2D/ArbreBinaire.h"
 
+
 ArbreBinaire::ArbreBinaire(float cLargeur, float cLongueur) {
-    espace_libre = new Composant(0, cLargeur, cLongueur);
+    espace_libre = DBG_NEW Composant(0, cLargeur, cLongueur);
     sous_arbre_gauche = nullptr;
     sous_arbre_droite = nullptr;
     parent = nullptr;
 }
 
 ArbreBinaire::ArbreBinaire(Composant* composant, ArbreBinaire* p) {
-    espace_libre = new Composant(0, composant->getLargeur(), composant->getLongueur(), composant->getPosition());
+    espace_libre = DBG_NEW Composant(0, composant->getLargeur(), composant->getLongueur(), composant->getPosition());
     sous_arbre_gauche = nullptr;
     sous_arbre_droite = nullptr;
     parent = p;
@@ -94,8 +100,8 @@ ArbreBinaire* ArbreBinaire::recherchePremierEspaceLibreValide(float largeur, flo
 bool ArbreBinaire::creationFils(float largeur, float longueur, int choix) {
     Composant* libre = espace_libre;
     Position2D* pos = libre->getPosition();
-    Composant* gauche = new Composant();
-    Composant* droite = new Composant();
+    Composant* gauche = DBG_NEW Composant();
+    Composant* droite = DBG_NEW Composant();
 
     switch (choix) {
         case 0:
@@ -112,8 +118,8 @@ bool ArbreBinaire::creationFils(float largeur, float longueur, int choix) {
     }
     libre->setLargeur(0);
     libre->setLongueur(0);
-    ArbreBinaire* arbreGauche = new ArbreBinaire(gauche, this);
-    ArbreBinaire* arbreDroite = new ArbreBinaire(droite, this);
+    ArbreBinaire* arbreGauche = DBG_NEW ArbreBinaire(gauche, this);
+    ArbreBinaire* arbreDroite = DBG_NEW ArbreBinaire(droite, this);
     if (sous_arbre_gauche != nullptr) {
         delete sous_arbre_gauche;
         sous_arbre_gauche = nullptr;
@@ -137,10 +143,10 @@ bool ArbreBinaire::decoupeHorizontale(float largeur, float longueur, Composant* 
     float posYnew = posX + largeur;
     gauche->setLargeur(libre->getLargeur() - largeur);
     gauche->setLongueur(libre->getLongueur());
-    gauche->setLargeur(libre->getLargeur());
-    gauche->setLongueur(libre->getLongueur() - longueur);
-    gauche->setPosition(posX, posYnew);
-    droite->setPosition(posXnew, posY);
+	droite->setLargeur(libre->getLargeur()-gauche->getLargeur());
+	droite->setLongueur(libre->getLongueur() - longueur);
+	droite->setPosition(posX, posYnew);
+	gauche->setPosition(posXnew, posY);
     return true;
 }
 
@@ -149,12 +155,13 @@ bool ArbreBinaire::decoupeVerticale(float largeur, float longueur, Composant* li
     float posY = pos->getY();
     float posXnew = posY + longueur;
     float posYnew = posX + largeur;
-    gauche->setLargeur(libre->getLargeur() - largeur);
-    gauche->setLongueur(libre->getLongueur() - longueur);
-    gauche->setLargeur(libre->getLargeur());
-    gauche->setLongueur(libre->getLongueur() - longueur);
-    gauche->setPosition(posX, posYnew);
-    droite->setPosition(posXnew, posY);
+
+	droite->setLargeur(libre->getLargeur());
+	droite->setLongueur(libre->getLongueur() - longueur);
+	gauche->setLargeur(libre->getLargeur() - largeur);
+	gauche->setLongueur(longueur-droite->getLongueur());
+	droite->setPosition(posX, posYnew);
+	gauche->setPosition(posXnew, posY);
     return true;
 }
 
@@ -163,25 +170,24 @@ bool ArbreBinaire::decoupeSelonAire(float largeur, float longueur, Composant* li
     float posY = pos->getY();
     float posXnew = posY + longueur;
     float posYnew = posX + largeur;
-    float gaucheLargeur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
-    float droiteLargeur = (libre->getLongueur() - longueur) * libre->getLargeur();
-    float gaucheLongueur = (libre->getLongueur() - longueur) * (libre->getLargeur() - largeur);
-    float droiteLongueur = (libre->getLongueur() - longueur) * libre->getLargeur();
-    if (((gaucheLargeur > gaucheLongueur) && (gaucheLargeur > droiteLongueur)) || ((droiteLargeur > gaucheLongueur) && (droiteLargeur > droiteLongueur))) {
-        gauche->setLargeur(libre->getLargeur() - largeur);
-        gauche->setLongueur(libre->getLongueur());
-        gauche->setLargeur(libre->getLargeur());
-        gauche->setLongueur(libre->getLongueur() - longueur);
-        gauche->setPosition(posX, posYnew);
-        droite->setPosition(posXnew, posY);
+	float aireGauche = (libre->getLargeur()-largeur) * libre->getLongueur();
+    float aireDroite = libre->getLargeur() * (libre->getLongueur() - longueur);
+
+    if (aireGauche > aireDroite) {
+		gauche->setLargeur(libre->getLargeur() - largeur);
+		gauche->setLongueur(libre->getLongueur());
+		droite->setLargeur(libre->getLargeur() - gauche->getLargeur());
+		droite->setLongueur(libre->getLongueur() - longueur);
+
     } else {
-        gauche->setLargeur(libre->getLargeur() - largeur);
-        gauche->setLongueur(libre->getLongueur() - longueur);
-        gauche->setLargeur(libre->getLargeur());
-        gauche->setLongueur(libre->getLongueur() - longueur);
-        gauche->setPosition(posX, posYnew);
-        droite->setPosition(posXnew, posY);
+		droite->setLargeur(libre->getLargeur());
+		droite->setLongueur(libre->getLongueur() - longueur);
+		gauche->setLargeur(libre->getLargeur() - largeur);
+		gauche->setLongueur(longueur - droite->getLongueur());
+
     }
+	droite->setPosition(posX, posYnew);
+	gauche->setPosition(posXnew, posY);
     return true;
 }
 
@@ -200,7 +206,6 @@ void ArbreBinaire::affichageArbre() {
 
 void ArbreBinaire::model() {
     //glPushMatrix();
-    espace_libre->affichageComposant();
     espace_libre->model(bleu);
     if (sous_arbre_gauche != nullptr) {
         sous_arbre_gauche->model();

@@ -1,6 +1,7 @@
-#include <stdlib.h>
+#include "2D/Debug.h"
 #include <stdio.h>
 #include <GL/glut.h>
+
 
 #include "2D/Composant.h"
 
@@ -8,7 +9,7 @@ Composant::Composant(void) {
     id = -1;
     largeur = -1.0;
     longueur = -1.0;
-    position = new Position2D();
+    position = DBG_NEW Position2D();
     conteneur = -1;
 }
 
@@ -16,7 +17,7 @@ Composant::Composant(int nid, float nLargeur, float nLongueur) {
     id = nid;
     largeur = nLargeur;
     longueur = nLongueur;
-    position = new Position2D();
+    position = DBG_NEW Position2D();
     conteneur = -1;
 }
 
@@ -24,8 +25,16 @@ Composant::Composant(int nid, float nLargeur, float nLongueur, Position2D* pos) 
     id = nid;
     largeur = nLargeur;
     longueur = nLongueur;
-    position = pos;
+    position = DBG_NEW Position2D(pos->getX(),pos->getY());
     conteneur = -1;
+}
+
+Composant::Composant(int nid, float nLargeur, float nLongueur, float x, float y) {
+	id = nid;
+	largeur = nLargeur;
+	longueur = nLongueur;
+	position = DBG_NEW Position2D(x, y);
+	conteneur = -1;
 }
 
 Composant::~Composant(void) {

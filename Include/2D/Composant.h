@@ -19,7 +19,7 @@ class Composant {
 		Composant(void);
 		Composant(int nid, float nLargeur, float nLongueur);
 		Composant(int nid, float nLargeur, float nLongueur, Position2D* pos);
-
+		Composant(int nid, float nLargeur, float nLongueur, float x, float y);
 		/* Destructeur                              */
 
 		~Composant(void);

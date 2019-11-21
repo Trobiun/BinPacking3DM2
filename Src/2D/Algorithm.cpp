@@ -1,4 +1,6 @@
+#include "2D/Debug.h"
 #include "2D/Algorithm.h"
+
 
 static void verifCompoList(std::list <Composant*> liste, int type) {
     if (type == -1) {
@@ -25,7 +27,7 @@ Algorithm::Algorithm(std::list<Composant *> composantsMain, std::list<Conteneur 
 
 std::list<Composant*> Algorithm::calculRangement() {
     float longueurCourante = 0;
-    Position2D *posCourante = new Position2D(0, 0);
+    Position2D *posCourante = DBG_NEW Position2D(0, 0);
     std::list<Conteneur *>::iterator cont = conteneurs.begin();
     std::list<Composant*>::iterator comp;
     std::list<Composant*>::iterator compErase;
