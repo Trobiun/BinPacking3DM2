@@ -13,7 +13,7 @@ class Composant {
 		Position2D *position;
 		int conteneur;
 	public :
-
+                GLfloat contour[4] = {1.0F, 1.0F, 1.0F, 1.0F};
 		/* Constructeurs                            */
 
 		Composant(void);

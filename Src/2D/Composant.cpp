@@ -97,7 +97,9 @@ void Composant::model(const GLfloat couleur[4]) {
     glTranslatef(position->getX() + coteX / 2.0, position->getY() + coteY / 2.0, 0.0);
     glScalef(coteX, coteY, 0.0F);
     glColor4fv(couleur);
-    glutSolidCube(1.0);
+    glutSolidCube(1.0); 
+    glColor4fv(contour);
+    glutWireCube(1.0);
     glPopMatrix();
 }
 
