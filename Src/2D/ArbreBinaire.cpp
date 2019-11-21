@@ -134,13 +134,12 @@ bool ArbreBinaire::creationFils(float coteX, float coteY, int choix) {
 bool ArbreBinaire::decoupeHorizontale(float coteX, float coteY, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite) {
     float posX = pos->getX();
     float posY = pos->getY();
-    float posXnew = posX + coteY;
-    float posYnew = posY + coteX;
-    gauche->setCoteX(libre->getCoteX() - coteX);
-    gauche->setCoteY(libre->getCoteY());
-
-    droite->setCoteX(libre->getCoteX() - gauche->getCoteX());
-    droite->setCoteY(libre->getCoteY() - coteY);
+    float posXnew = posX + coteX;
+    float posYnew = posY + coteY;
+    gauche->setCoteX(libre->getCoteX());
+    gauche->setCoteY(libre->getCoteY() - coteY);
+    droite->setCoteX(libre->getCoteX() - coteX);
+    droite->setCoteY(coteY);
 
     gauche->setPosition(posX, posYnew);
     droite->setPosition(posXnew, posY);
@@ -150,14 +149,13 @@ bool ArbreBinaire::decoupeHorizontale(float coteX, float coteY, Composant* libre
 bool ArbreBinaire::decoupeVerticale(float coteX, float coteY, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite) {
     float posX = pos->getX();
     float posY = pos->getY();
-    float posXnew = posX + coteY;
-    float posYnew = posY + coteX;
+	float posXnew = posX + coteX;
+	float posYnew = posY + coteY;
 
-    droite->setCoteX(libre->getCoteX());
-    droite->setCoteY(libre->getCoteY() - coteY);
-    
-    gauche->setCoteX(libre->getCoteX() - coteX);
-    gauche->setCoteY(coteY - droite->getCoteY());
+    droite->setCoteX(libre->getCoteX() - coteX);
+    droite->setCoteY(libre->getCoteY());
+    gauche->setCoteX(coteX);
+    gauche->setCoteY(libre->getCoteY() - coteY);
     gauche->setPosition(posX, posYnew);
     droite->setPosition(posXnew, posY);
     return true;
@@ -166,22 +164,21 @@ bool ArbreBinaire::decoupeVerticale(float coteX, float coteY, Composant* libre, 
 bool ArbreBinaire::decoupeSelonAire(float coteX, float coteY, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite) {
     float posX = pos->getX();
     float posY = pos->getY();
-    float posXnew = posX + coteY;
-    float posYnew = posY + coteX;
+	float posXnew = posX + coteX;
+	float posYnew = posY + coteY;
     float aireGauche = (libre->getCoteX() - coteX) * libre->getCoteY();
     float aireDroite = libre->getCoteX() * (libre->getCoteY() - coteY);
 
     if (aireGauche > aireDroite) {
-        gauche->setCoteX(libre->getCoteX() - coteX);
-        gauche->setCoteY(libre->getCoteY());
-        droite->setCoteX(libre->getCoteX() - gauche->getCoteX());
-        droite->setCoteY(libre->getCoteY() - coteY);
-
+		gauche->setCoteX(libre->getCoteX());
+		gauche->setCoteY(libre->getCoteY() - coteY);
+		droite->setCoteX(libre->getCoteX() - coteX);
+		droite->setCoteY(coteY);
     } else {
-        droite->setCoteX(libre->getCoteX());
-        droite->setCoteY(libre->getCoteY() - coteY);
-        gauche->setCoteX(libre->getCoteX() - coteX);
-        gauche->setCoteY(coteY - droite->getCoteY());
+		droite->setCoteX(libre->getCoteX() - coteX);
+		droite->setCoteY(libre->getCoteY());
+		gauche->setCoteX(coteX);
+		gauche->setCoteY(libre->getCoteY() - coteY);
     }
     gauche->setPosition(posX, posYnew);
     droite->setPosition(posXnew, posY);

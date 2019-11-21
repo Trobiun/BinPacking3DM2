@@ -20,7 +20,7 @@ static bool comp(const Composant *a, const Composant *b) {
 
 Algorithm::Algorithm(std::list<Composant *> composantsMain, std::list<Conteneur *> conteneursMain) : composants(composantsMain), conteneurs(conteneursMain) {
     verifCompoList(composants, -1);
-    composants.sort();
+    composants.sort(comp);
     verifCompoList(composants, -1);
 }
 
@@ -37,7 +37,6 @@ std::list<Composant*> Algorithm::calculRangement() {
         comp = composants.begin();
         for (comp; comp != composants.end(); comp++) {
             ArbreBinaire * arbre = (*cont)->rechercheLibre((*comp)->getCoteX(), (*comp)->getCoteY());
-
             if (arbre != nullptr) {
                 arbre->affichageArbre();
                 if (erase) {
