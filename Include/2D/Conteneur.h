@@ -9,8 +9,8 @@
 class Conteneur {
 	protected:
 		int id;
-		float largeur;
-		float longueur;
+		float coteX;
+		float coteY;
 		Position2D *pos;
 		std::list<Composant *> composants;
 		ArbreBinaire* arbre;
@@ -20,7 +20,7 @@ class Conteneur {
 		/* Constructeurs                            */
 
 		Conteneur(void);
-		Conteneur(int id, float largeur, float longueur);
+		Conteneur(int id, float nCoteX, float nCoteY);
 
 		/* Destructeur                              */
 
@@ -28,23 +28,23 @@ class Conteneur {
 
 		/* Setters                                  */
 
-		virtual bool setLargeur(float largeur);
-		virtual bool setLongueur(float longueur);
+		virtual bool setCoteX(float nCoteX);
+		virtual bool setCoteY(float nCoteY);
 		virtual bool setPosition(Position2D * position);
-                virtual bool setPosition(float x, float y);
+                virtual bool setPosition(float posX, float posY);
 		virtual bool addComposant(Composant * comp);
 		/* Getters                                  */
 
 		int getId();
-		float getLargeur();
-		float getLongueur();
+		float getCoteX();
+		float getCoteY();
 		ArbreBinaire* getArbre();
 		std::list<Composant *> getListComposant();
 
 		/* Mod�lisation */
 		void model();
 
-		ArbreBinaire* rechercheLibre(float largeur, float longueur);
+		ArbreBinaire* rechercheLibre(float sCoteX, float sCoteY);
 
 		/*Affichage*/
 

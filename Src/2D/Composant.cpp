@@ -5,36 +5,20 @@
 
 #include "2D/Composant.h"
 
-Composant::Composant(void) {
-    id = -1;
-    largeur = -1.0;
-    longueur = -1.0;
+Composant::Composant(void) : id(-1), coteX(-1.0), coteY(-1.0), conteneur(-1) {
     position = DBG_NEW Position2D();
-    conteneur = -1;
 }
 
-Composant::Composant(int nid, float nLargeur, float nLongueur) {
-    id = nid;
-    largeur = nLargeur;
-    longueur = nLongueur;
+Composant::Composant(int nid, float nCoteX, float nCoteY) : id(nid), coteX(nCoteX), coteY(nCoteY), conteneur(-1) {
     position = DBG_NEW Position2D();
-    conteneur = -1;
 }
 
-Composant::Composant(int nid, float nLargeur, float nLongueur, Position2D* pos) {
-    id = nid;
-    largeur = nLargeur;
-    longueur = nLongueur;
-    position = DBG_NEW Position2D(pos->getX(),pos->getY());
-    conteneur = -1;
+Composant::Composant(int nid, float nCoteX, float nCoteY, Position2D* pos) : id(nid), coteX(nCoteX), coteY(nCoteY), conteneur(-1) {
+    position = DBG_NEW Position2D(pos->getX(), pos->getY());
 }
 
-Composant::Composant(int nid, float nLargeur, float nLongueur, float x, float y) {
-	id = nid;
-	largeur = nLargeur;
-	longueur = nLongueur;
-	position = DBG_NEW Position2D(x, y);
-	conteneur = -1;
+Composant::Composant(int nid, float nCoteX, float nCoteY, float posX, float posY) : id(nid), coteX(nCoteX), coteY(nCoteY), conteneur(-1) {
+    position = DBG_NEW Position2D(posX, posY);
 }
 
 Composant::~Composant(void) {
@@ -50,16 +34,16 @@ int Composant::getId(void) {
     return id;
 }
 
-float Composant::getLargeur(void) const {
-    return largeur;
+float Composant::getCoteX(void) const {
+    return coteX;
 }
 
-float Composant::getLongueur(void) const {
-    return longueur;
+float Composant::getCoteY(void) const {
+    return coteY;
 }
 
 float Composant::getAire(void) {
-    return longueur * largeur;
+    return coteY * coteX;
 }
 
 Position2D* Composant::getPosition(void) {
@@ -67,7 +51,7 @@ Position2D* Composant::getPosition(void) {
 }
 
 bool Composant::operator<(const Composant* a) {
-    if (a->largeur * a->longueur < largeur * longueur) {
+    if (a->coteX * a->coteY < coteX * coteY) {
         return true;
     }
     return false;
@@ -76,13 +60,13 @@ bool Composant::operator<(const Composant* a) {
 /* Setters                                  */
 
 
-bool Composant::setLargeur(float nlargeur) {
-    largeur = nlargeur;
+bool Composant::setCoteX(float nCoteX) {
+    coteX = nCoteX;
     return true;
 }
 
-bool Composant::setLongueur(float nlongueur) {
-    longueur = nlongueur;
+bool Composant::setCoteY(float nCoteY) {
+    coteY = nCoteY;
     return true;
 }
 
@@ -92,9 +76,9 @@ bool Composant::setPosition(Position2D* pos) {
     return true;
 }
 
-bool Composant::setPosition(float x, float y) {
-    position->setX(x);
-    position->setY(y);
+bool Composant::setPosition(float posX, float posY) {
+    position->setX(posX);
+    position->setY(posY);
     return true;
 }
 
@@ -110,8 +94,8 @@ int Composant::getIdConteneur() {
 /* Mod�lisation */
 void Composant::model(const GLfloat couleur[4]) {
     glPushMatrix();
-    glTranslatef(position->getX() + largeur / 2.0, position->getY() + longueur / 2.0, 0.0);
-    glScalef(largeur, longueur, 0.0F);
+    glTranslatef(position->getX() + coteX / 2.0, position->getY() + coteY / 2.0, 0.0);
+    glScalef(coteX, coteY, 0.0F);
     glColor4fv(couleur);
     glutSolidCube(1.0);
     glPopMatrix();
@@ -120,6 +104,6 @@ void Composant::model(const GLfloat couleur[4]) {
 /*Affichage */
 
 void Composant::affichageComposant() {
-    printf("COMPOSANT : Id = %d, Largeur = %.2f, Longueur = %.2f, Position = (%.2f,%.2f), Conteneur = %d \n"
-    	, id, largeur, longueur, position->getX(), position->getY(), conteneur);
+    printf("COMPOSANT : Id = %d, CoteX = %.2f, CoteY = %.2f, Position = (%.2f,%.2f), Conteneur = %d \n"
+        , id, coteX, coteY, position->getX(), position->getY(), conteneur);
 }

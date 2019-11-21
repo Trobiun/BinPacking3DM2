@@ -15,7 +15,7 @@ static void verifCompoList(std::list <Composant*> liste, int type) {
 }
 
 static bool comp(const Composant *a, const Composant *b) {
-    return (a->getLargeur() * a->getLongueur() >= b->getLargeur() * b->getLongueur());
+    return (a->getCoteX() * a->getCoteY() >= b->getCoteX() * b->getCoteY());
 }
 
 Algorithm::Algorithm(std::list<Composant *> composantsMain, std::list<Conteneur *> conteneursMain) : composants(composantsMain), conteneurs(conteneursMain) {
@@ -36,7 +36,7 @@ std::list<Composant*> Algorithm::calculRangement() {
         (*cont)->setPosition(posCourante->getX(), posCourante->getY());
         comp = composants.begin();
         for (comp; comp != composants.end(); comp++) {
-            ArbreBinaire * arbre = (*cont)->rechercheLibre((*comp)->getLargeur(), (*comp)->getLongueur());
+            ArbreBinaire * arbre = (*cont)->rechercheLibre((*comp)->getCoteX(), (*comp)->getCoteY());
 
             if (arbre != nullptr) {
                 arbre->affichageArbre();
@@ -48,7 +48,7 @@ std::list<Composant*> Algorithm::calculRangement() {
                 (*comp)->setConteneur((*cont)->getId());
                 (*comp)->setPosition(arbre->getEspaceLibre()->getPosition());
                 (*cont)->addComposant(*comp);
-                arbre->creationFils((*comp)->getLargeur(), (*comp)->getLongueur(), 0);
+                arbre->creationFils((*comp)->getCoteX(), (*comp)->getCoteY(), 0);
                 compErase = comp;
                 arbre = nullptr;
                 erase = true;
@@ -58,7 +58,7 @@ std::list<Composant*> Algorithm::calculRangement() {
             composants.erase(compErase);
             erase = false;
         }
-        longueurCourante = longueurCourante + 10 + (*cont)->getLongueur();
+        longueurCourante = longueurCourante + 10 + (*cont)->getCoteY();
         cont++;
 
     }

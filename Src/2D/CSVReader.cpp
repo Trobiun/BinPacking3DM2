@@ -58,7 +58,7 @@ void CSVReader::ajoutComposant(std::vector <string> row) {
 	size_t indiceCourant = 0;
 	bool erreur = false;
 	int id = 0;
-	float largeur = 0.0, longueur = 0.0;
+	float coteX = 0.0, coteY = 0.0;
 	while (erreur == false && indiceCourant < row.size()) {
 		if (indiceCourant == 0) {
 			id = strtol(row[indiceCourant].c_str(), &verifErreur, 10);
@@ -68,16 +68,16 @@ void CSVReader::ajoutComposant(std::vector <string> row) {
 			}
 		}
 		if (indiceCourant == 1) {
-			largeur = strtod(row[indiceCourant].c_str(), &verifErreur);
+			coteX = strtod(row[indiceCourant].c_str(), &verifErreur);
 			if (*verifErreur != '\0') {
-				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : largeur non valide, le composant %s n'est pas ajout�. \n", row[0].c_str());
+				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : coteX non valide, le composant %s n'est pas ajout�. \n", row[0].c_str());
 				erreur = true;
 			}
 		}
 		if (indiceCourant == 2) {
-			longueur = strtod(row[indiceCourant].c_str(), &verifErreur);
+			coteY = strtod(row[indiceCourant].c_str(), &verifErreur);
 			if (*verifErreur != '\0') {
-				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : longueur non valide, le composant %s n'est pas ajout�. \n", row[0].c_str());
+				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : coteY non valide, le composant %s n'est pas ajout�. \n", row[0].c_str());
 				erreur = true;
 			}
 		}
@@ -85,7 +85,7 @@ void CSVReader::ajoutComposant(std::vector <string> row) {
 		indiceCourant++;
 	}
 	if (erreur == false) {
-		printf("AJOUT D'UN COMPOSANT : id = %d, largeur %.2f, longueur %.2f \n", id, largeur, longueur);
-		listComposant.push_back(DBG_NEW Composant(id, largeur, longueur));
+		printf("AJOUT D'UN COMPOSANT : id = %d, coteX %.2f, coteY %.2f \n", id, coteX, coteY);
+		listComposant.push_back(DBG_NEW Composant(id, coteX, coteY));
 	}
 }

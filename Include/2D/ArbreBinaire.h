@@ -13,7 +13,7 @@ public:
         GLfloat bleu[4] = {0.0F,0.0F,1.0F,1.0F};
 	/* Constructeurs                            */
 
-	ArbreBinaire(float largeur, float longueur);
+	ArbreBinaire(float coteX, float coteY);
 	ArbreBinaire(Composant* composant, ArbreBinaire* p);
 
 	/* Destructeur                              */
@@ -34,12 +34,12 @@ public:
 	ArbreBinaire * getSousArbreDroite();
 	ArbreBinaire * getParent();
 
-	ArbreBinaire* recherchePremierEspaceLibreValide(float largeur, float longueur);
+	ArbreBinaire* recherchePremierEspaceLibreValide(float coteX, float coteY);
 
-	bool creationFils(float largeur, float longueur, int choix);
-	bool decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite);
-	bool decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite);
-	bool decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite);
+	bool creationFils(float coteX, float coteY, int choix);
+	bool decoupeHorizontale(float coteX, float coteY, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite);
+	bool decoupeVerticale(float coteX, float coteY, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite);
+	bool decoupeSelonAire(float coteX, float coteY, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite);
 
 	/*affichage */
 	void affichageArbre();

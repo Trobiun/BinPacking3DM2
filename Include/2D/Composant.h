@@ -8,8 +8,8 @@
 class Composant {
 	protected :
 		int id;
-		float largeur;
-		float longueur;
+		float coteX;
+		float coteY;
 		Position2D *position;
 		int conteneur;
 	public :
@@ -17,27 +17,27 @@ class Composant {
 		/* Constructeurs                            */
 
 		Composant(void);
-		Composant(int nid, float nLargeur, float nLongueur);
-		Composant(int nid, float nLargeur, float nLongueur, Position2D* pos);
-		Composant(int nid, float nLargeur, float nLongueur, float x, float y);
+		Composant(int nid, float nCoteX, float nCoteY);
+		Composant(int nid, float nCoteX, float nCoteY, Position2D* pos);
+		Composant(int nid, float nCoteX, float nCoteY, float x, float y);
 		/* Destructeur                              */
 
 		~Composant(void);
 
 		/* Setters                                  */
 
-		virtual bool setLargeur(float largeur);
-		virtual bool setLongueur(float longueur);
+		virtual bool setCoteX(float nCoteX);
+		virtual bool setCoteY(float nCoteY);
 		virtual bool setPosition(Position2D *pos);
-                virtual bool setPosition(float x, float y);
+                virtual bool setPosition(float posX, float posY);
 		virtual bool setConteneur(int cont);
 
 		/* Getters                                  */
 
 		int getId();
 		int getIdConteneur();
-		float getLargeur() const;
-		float getLongueur() const;
+		float getCoteX() const;
+		float getCoteY() const;
 		float getAire();
 		Position2D* getPosition();
 
