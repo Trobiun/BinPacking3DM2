@@ -352,8 +352,10 @@ static void clean(void) {
     if (algo != NULL) {
         delete algo;
     }
+#ifdef _WIN32
 	int test = _CrtDumpMemoryLeaks();
 	printf("Bye %i\n",test);
+#endif
 }
 
 /* Fonction principale                          */

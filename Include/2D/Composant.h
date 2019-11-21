@@ -36,13 +36,13 @@ class Composant {
 
 		int getId();
 		int getIdConteneur();
-		float getLargeur();
-		float getLongueur();
+		float getLargeur() const;
+		float getLongueur() const;
 		float getAire();
 		Position2D* getPosition();
 
 		/* Comparateur                             */
-		bool comp(const Composant& a, const Composant& b);
+		bool operator<(const Composant* a);
 
 		/* Mod�lisation */
 		void model(const GLfloat couleur[4]);

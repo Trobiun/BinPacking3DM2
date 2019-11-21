@@ -50,11 +50,11 @@ int Composant::getId(void) {
     return id;
 }
 
-float Composant::getLargeur(void) {
+float Composant::getLargeur(void) const {
     return largeur;
 }
 
-float Composant::getLongueur(void) {
+float Composant::getLongueur(void) const {
     return longueur;
 }
 
@@ -66,8 +66,8 @@ Position2D* Composant::getPosition(void) {
     return position;
 }
 
-bool Composant::comp(const Composant& a, const Composant& b) {
-    if (a.largeur * a.longueur < b.largeur * b.longueur) {
+bool Composant::operator<(const Composant* a) {
+    if (a->largeur * a->longueur < largeur * longueur) {
         return true;
     }
     return false;

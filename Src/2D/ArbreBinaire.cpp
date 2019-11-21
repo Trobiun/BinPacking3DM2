@@ -1,8 +1,4 @@
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-
+#include "2D/Debug.h"
 #include "2D/ArbreBinaire.h"
 
 
@@ -139,37 +135,39 @@ bool ArbreBinaire::creationFils(float largeur, float longueur, int choix) {
 bool ArbreBinaire::decoupeHorizontale(float largeur, float longueur, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite) {
     float posX = pos->getX();
     float posY = pos->getY();
-    float posXnew = posY + longueur;
-    float posYnew = posX + largeur;
+    float posXnew = posX + longueur;
+    float posYnew = posY + largeur;
     gauche->setLargeur(libre->getLargeur() - largeur);
     gauche->setLongueur(libre->getLongueur());
+    
 	droite->setLargeur(libre->getLargeur()-gauche->getLargeur());
 	droite->setLongueur(libre->getLongueur() - longueur);
-	droite->setPosition(posX, posYnew);
-	gauche->setPosition(posXnew, posY);
+    
+	gauche->setPosition(posX, posYnew);
+	droite->setPosition(posXnew, posY);
     return true;
 }
 
 bool ArbreBinaire::decoupeVerticale(float largeur, float longueur, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite) {
     float posX = pos->getX();
     float posY = pos->getY();
-    float posXnew = posY + longueur;
-    float posYnew = posX + largeur;
+    float posXnew = posX + longueur;
+    float posYnew = posY + largeur;
 
 	droite->setLargeur(libre->getLargeur());
 	droite->setLongueur(libre->getLongueur() - longueur);
 	gauche->setLargeur(libre->getLargeur() - largeur);
 	gauche->setLongueur(longueur-droite->getLongueur());
-	droite->setPosition(posX, posYnew);
-	gauche->setPosition(posXnew, posY);
+	gauche->setPosition(posX, posYnew);
+	droite->setPosition(posXnew, posY);
     return true;
 }
 
 bool ArbreBinaire::decoupeSelonAire(float largeur, float longueur, Composant* libre, Position2D* pos, Composant* gauche, Composant* droite) {
     float posX = pos->getX();
     float posY = pos->getY();
-    float posXnew = posY + longueur;
-    float posYnew = posX + largeur;
+    float posXnew = posX + longueur;
+    float posYnew = posY + largeur;
 	float aireGauche = (libre->getLargeur()-largeur) * libre->getLongueur();
     float aireDroite = libre->getLargeur() * (libre->getLongueur() - longueur);
 
@@ -184,10 +182,9 @@ bool ArbreBinaire::decoupeSelonAire(float largeur, float longueur, Composant* li
 		droite->setLongueur(libre->getLongueur() - longueur);
 		gauche->setLargeur(libre->getLargeur() - largeur);
 		gauche->setLongueur(longueur - droite->getLongueur());
-
     }
-	droite->setPosition(posX, posYnew);
-	gauche->setPosition(posXnew, posY);
+	gauche->setPosition(posX, posYnew);
+	droite->setPosition(posXnew, posY);
     return true;
 }
 
