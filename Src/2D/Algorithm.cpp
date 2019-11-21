@@ -1,7 +1,26 @@
 #include "2D/Algorithm.h"
 
+static void verifCompoList(std::list <Composant*> liste, int type) {
+    if (type == -1) {
+        printf("LISTE DES COMPOSANTS DE LA LISTE RESTE: \n");
+    } else {
+        printf("LISTE DES COMPOSANTS DE LA LISTE CONTENEUR %d: \n", type);
+    }
+    std::list<Composant*>::iterator comp = liste.begin();
+    while (comp != liste.end()) {
+        (*comp)->affichageComposant();
+        comp++;
+    }
+}
+static bool comp(const Composant *a, const Composant *b) {
+    return !(a->getLargeur() * a->getLongueur() < b->getLargeur() * b->getLongueur());
+}
+
 Algorithm::Algorithm(std::list<Composant *> composantsMain, std::list<Conteneur *> conteneursMain) : composants(composantsMain), conteneurs(conteneursMain) {
+    verifCompoList(composants,-1);
     composants.sort();
+    verifCompoList(composants,-1);
+   
 }
 
 std::list<Composant*> Algorithm::calculRangement() {

@@ -208,5 +208,5 @@ void ArbreBinaire::model() {
     if (sous_arbre_droite != nullptr) {
         sous_arbre_droite->model();
     }
-    //glPopMatrix();
-}
+        //glPopMatrix();
+    }
