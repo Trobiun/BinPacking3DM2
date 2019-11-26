@@ -38,6 +38,12 @@ std::list<Composant*> Algorithm::calculRangement() {
         for (comp; comp != composants.end(); comp++) {
             ArbreBinaire * arbre = (*cont)->rechercheLibre((*comp)->getCoteX(), (*comp)->getCoteY());
             if (arbre != nullptr) {
+				if (arbre->getEspaceLibre()->getCoteX() < (*comp)->getCoteX() || arbre->getEspaceLibre()->getCoteY() < (*comp)->getCoteY()) {
+					float xTemps = (*comp)->getCoteX();
+					float yTemps = (*comp)->getCoteY();
+					(*comp)->setCoteX(yTemps);
+					(*comp)->setCoteY(xTemps);
+				}
                 arbre->affichageArbre();
                 if (erase) {
                     composants.erase(compErase);

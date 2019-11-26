@@ -73,7 +73,7 @@ ArbreBinaire * ArbreBinaire::getParent() {
 ArbreBinaire* ArbreBinaire::recherchePremierEspaceLibreValide(float coteX, float coteY) {
     Composant* racine = espace_libre;
     ArbreBinaire* res = nullptr;
-    if (racine->getCoteX() >= coteX && racine->getCoteY() >= coteY) {
+    if ((racine->getCoteX() >= coteX && racine->getCoteY() >= coteY) || racine->getCoteX() >= coteY && racine->getCoteY() >= coteX) {
         return this;
     } else {
         if (this->getSousArbreGauche() != nullptr) {

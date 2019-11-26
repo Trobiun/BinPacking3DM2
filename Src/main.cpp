@@ -376,7 +376,7 @@ static void clean(void) {
 
 /* Fonction principale                          */
 static void createConteneur2D() {
-    Conteneur* conteneur0 = DBG_NEW Conteneur(0, 60.0F, 50.0F);
+    Conteneur* conteneur0 = DBG_NEW Conteneur(0, 50.0F, 50.0F);
     conteneurs.push_back(conteneur0);
 }
 
