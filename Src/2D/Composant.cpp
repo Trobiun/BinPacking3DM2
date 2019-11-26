@@ -98,6 +98,9 @@ void Composant::model(const GLfloat couleur[4]) {
     glScalef(coteX, coteY, 0.0F);
     glColor4fv(couleur);
     glutSolidCube(1.0);
+	GLfloat couleur1[4] = { 0.0F, 0.0F, 1.0F, 0.0F };
+	glColor4fv(couleur1);
+	glutWireCube(1.0);
     glPopMatrix();
 }
 
