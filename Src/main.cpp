@@ -12,10 +12,12 @@
 #include "2D/Algorithm.h"
 #include "2D/ArbreBinaire.h"
 #include "2D/Conteneur.h"
+#include "3D/Conteneur3D.h"
 #include "2D/CSVReader.h"
 
 /* Variables globales                           */
 
+static int affichage3Dou2D = 0;
 static int wTx = 480; // Resolution horizontale de la fenetre
 static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
@@ -42,6 +44,7 @@ static const GLfloat light0_position[4] = {0.0, 0.0, 10.0, 1.0};
 
 static Algorithm* algo;
 static std::list<Conteneur*> conteneurs;
+static std::list<Conteneur3D*> conteneurs3D;
 static std::list<Composant*> composants;
 static std::list<Composant*> restants;
 
@@ -82,19 +85,32 @@ static void reset() {
 /* Scene dessinee                               */
 
 static void scene(void) {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glPushMatrix();
-    std::list<Conteneur*>::iterator it;
-    std::list<Composant *> compo;
-    for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
-        (*it)->model();
-        std::list<Composant*>::iterator it2;
-        compo = (*it)->getListComposant();
-        for (it2 = compo.begin(); it2 != compo.end(); it2++) {
-            (*it2)->model(vert);
-        }
-    }
-
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glPushMatrix();
+	if (affichage3Dou2D == 0) {
+		std::list<Conteneur*>::iterator it;
+		std::list<Composant *> compo;
+		for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
+			std::list<Composant*>::iterator it2;
+			compo = (*it)->getListComposant();
+			for (it2 = compo.begin(); it2 != compo.end(); it2++) {
+				(*it2)->model(vert);
+			}
+			(*it)->model();
+		}
+	}
+	else {
+		std::list<Conteneur3D*>::iterator it;
+		std::list<Composant3D *> compo;
+		for (it = conteneurs3D.begin(); it != conteneurs3D.end(); it++) {
+			std::list<Composant3D*>::iterator it2;
+			compo = (*it)->getListComposant();
+			for (it2 = compo.begin(); it2 != compo.end(); it2++) {
+				(*it2)->model(vert);
+			}
+			(*it)->model();
+		}
+	}
     glPopMatrix();
 }
 
@@ -359,9 +375,14 @@ static void clean(void) {
 }
 
 /* Fonction principale                          */
-static void createConteneurs() {
-    Conteneur* conteneur0 = DBG_NEW Conteneur(0, 60.0F, 50.0F);
+static void createConteneur2D() {
+    Conteneur* conteneur0 = DBG_NEW Conteneur(0, 50.0F, 50.0F);
     conteneurs.push_back(conteneur0);
+}
+
+static void createConteneur3D() {
+	Conteneur3D* conteneur0 = DBG_NEW Conteneur3D(0, 50.0F, 50.0F, 50.0F);
+	conteneurs3D.push_back(conteneur0);
 }
 
 static void verifCompoVector(std::vector <Composant *> liste) {
@@ -417,14 +438,26 @@ int main(int argc, char **argv) {
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);
-    glutCreateWindow("Title");
+    glutCreateWindow("3DBinPacking");
     init();
-    createConteneurs();
-    std::list<Conteneur*>::iterator it;
-    for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
-        (*it)->affichageConteneur();
-    }
-    testCSV();
+	if (affichage3Dou2D == 0) {
+		createConteneur2D();
+		std::list<Conteneur*>::iterator it;
+		for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
+			(*it)->affichageConteneur();
+		}
+		testCSV();
+	}
+	else {
+		createConteneur3D();
+		Composant3D* comp1 = DBG_NEW Composant3D(0, 10.0F, 10.0F, 10.0F, 0, 10, 0);
+		Composant3D* comp2 = DBG_NEW Composant3D(1, 10.0F, 10.0F, 20.0F, 0, 0, 0);
+		std::list<Conteneur3D*>::iterator it;
+		for (it = conteneurs3D.begin(); it != conteneurs3D.end(); it++) {
+			(*it)->addComposant(comp1);
+			(*it)->addComposant(comp2);
+		}
+	}
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboardUp);
     glutSpecialFunc(special);
