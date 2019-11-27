@@ -12,7 +12,7 @@ file(GLOB_RECURSE SOURCE_FILES
 
 file(GLOB_RECURSE HEADER_FILES
         ${CMAKE_SOURCE_DIR}/Include
-        ${CMAKE_SOURCE_DIR}/Include)
+        )
 
 file(GLOB LIB_DIR
         Lib
