@@ -8,9 +8,12 @@
 Composant3D::Composant3D(void) : id(-1), coteX(-1.0), coteY(-1.0), coteZ(-1.0), conteneur(-1) {
     position = DBG_NEW Position3D();
 }
-
 Composant3D::Composant3D(int nid, float nCoteX, float nCoteY, float nCoteZ) : id(nid), coteX(nCoteX), coteY(nCoteY), coteZ(nCoteZ), conteneur(-1) {
-    position = DBG_NEW Position3D();
+	position = DBG_NEW Position3D();
+}
+Composant3D::Composant3D(int nid, float nCoteX, float nCoteY, float nCoteZ, std::vector<int> tab) : id(nid), coteX(nCoteX), coteY(nCoteY), coteZ(nCoteZ), conteneur(-1) {
+	orientationPossible = tab;
+	position = DBG_NEW Position3D();
 }
 
 Composant3D::Composant3D(int nid, float nCoteX, float nCoteY, float nCoteZ, Position3D* pos) : id(nid), coteX(nCoteX), coteY(nCoteY), coteZ(nCoteZ), conteneur(-1) {
@@ -53,6 +56,9 @@ float Composant3D::getVolume(void) {
 Position3D* Composant3D::getPosition(void) {
     return position;
 }
+std::vector<int> Composant3D::getTabOrientation(void) const {
+	return orientationPossible;
+}
 
 bool Composant3D::operator<(const Composant3D* a) {
     if (a->coteX * a->coteY * a->coteZ < coteX * coteY * coteZ) {
@@ -94,6 +100,20 @@ bool Composant3D::setPosition(float posX, float posY, float posZ) {
     return true;
 }
 
+bool Composant3D::setTabOrientation(std::vector<int> tab) {
+	orientationPossible = tab;
+	return true;
+}
+bool Composant3D::setTabOrientation(int face1, int face2, int face3, int face4, int face5, int face6) {
+	orientationPossible.push_back(face1);
+	orientationPossible.push_back(face2);
+	orientationPossible.push_back(face3);
+	orientationPossible.push_back(face4);
+	orientationPossible.push_back(face5);
+	orientationPossible.push_back(face6);
+	return true;
+}
+
 bool Composant3D::setConteneur(int cont) {
     conteneur = cont;
     return true;
@@ -119,6 +139,8 @@ void Composant3D::model(const GLfloat couleur[4]) {
 /*Affichage */
 
 void Composant3D::affichageComposant() {
-    printf("COMPOSANT : Id = %d, CoteX = %.2f, CoteY = %.2f, CoteZ = %.2f, Position = (%.2f,%.2f, %.2f), Conteneur = %d \n"
-        , id, coteX, coteY, coteZ, position->getX(), position->getY(), position->getZ(), conteneur);
+    printf("COMPOSANT : Id = %d, CoteX = %.2f, CoteY = %.2f, CoteZ = %.2f, Position = (%.2f,%.2f, %.2f), Faces = {%d, %d, %d, %d, %d, %d}, Conteneur = %d \n"
+        , id, coteX, coteY, coteZ, position->getX(), position->getY(), position->getZ(), 
+		orientationPossible.at(0), orientationPossible.at(1), orientationPossible.at(2), orientationPossible.at(3), 
+		orientationPossible.at(4), orientationPossible.at(5), conteneur);
 }

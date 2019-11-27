@@ -14,10 +14,11 @@
 #include "2D/Conteneur.h"
 #include "3D/Conteneur3D.h"
 #include "2D/CSVReader.h"
+#include "3D/CSVReader3D.h"
 
 /* Variables globales                           */
 
-static int affichage3Dou2D = 0;
+static int affichage3Dou2D = 1;
 static int wTx = 480; // Resolution horizontale de la fenetre
 static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
@@ -405,30 +406,35 @@ static void verifCompoList(std::list <Composant*> liste, int type) {
     }
 }
 
-static void testCSV() {
-    //Changer possiblement le nom du fichier/lien en fonction d'o� se trouve le fichier CSV
-    std::string filename = "test3DBinPacking.csv";
-    CSVReader *fichierCSV = DBG_NEW CSVReader(filename);
-    fichierCSV->lireCSV();
-    std::vector<Composant *> listeDesComposant = fichierCSV->getListComposant();
+static void lectureCSV(std::string filename) {
+	if (affichage3Dou2D == 0) {
+		CSVReader *fichierCSV = DBG_NEW CSVReader(filename);
+		fichierCSV->lireCSV();
+		std::vector<Composant *> listeDesComposant = fichierCSV->getListComposant();
 
-    std::vector<Composant*>::iterator it;
-    for (it = listeDesComposant.begin(); it != listeDesComposant.end(); it++) {
-        composants.push_back(*it);
-    }
-    //listeDesComposant.clear();
-    //composants.insert(composants.end(), listeDesComposant.begin(), listeDesComposant.end());
+		std::vector<Composant*>::iterator it;
+		for (it = listeDesComposant.begin(); it != listeDesComposant.end(); it++) {
+			composants.push_back(*it);
+		}
+		algo = DBG_NEW Algorithm(composants, conteneurs);
+		std::list<Composant*> reste = algo->calculRangement();
 
-    algo = DBG_NEW Algorithm(composants, conteneurs);
-    std::list<Composant*> reste = algo->calculRangement();
-
-    restants.insert(restants.begin(), reste.begin(), reste.end());
-    verifCompoVector(listeDesComposant);
-    verifCompoList(restants, -1);
-    verifCompoList((*conteneurs.begin())->getListComposant(), 1);
-    if (fichierCSV != NULL) {
-        delete fichierCSV;
-    }
+		restants.insert(restants.begin(), reste.begin(), reste.end());
+		verifCompoVector(listeDesComposant);
+		verifCompoList(restants, -1);
+		verifCompoList((*conteneurs.begin())->getListComposant(), 1);
+		if (fichierCSV != NULL) {
+			delete fichierCSV;
+		}
+	}
+	else {
+		CSVReader3D *fichierCSV = DBG_NEW CSVReader3D(filename);
+		fichierCSV->lireCSV();
+		fichierCSV->verifCompoVector(fichierCSV->getListComposant());
+		if (fichierCSV != NULL) {
+			delete fichierCSV;
+		}
+	}
 }
 
 int main(int argc, char **argv) {
@@ -446,17 +452,15 @@ int main(int argc, char **argv) {
 		for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
 			(*it)->affichageConteneur();
 		}
-		testCSV();
+		lectureCSV("test2DBinPacking.csv");
 	}
 	else {
 		createConteneur3D();
-		Composant3D* comp1 = DBG_NEW Composant3D(0, 10.0F, 10.0F, 10.0F, 0, 10, 0);
-		Composant3D* comp2 = DBG_NEW Composant3D(1, 10.0F, 10.0F, 20.0F, 0, 0, 0);
 		std::list<Conteneur3D*>::iterator it;
 		for (it = conteneurs3D.begin(); it != conteneurs3D.end(); it++) {
-			(*it)->addComposant(comp1);
-			(*it)->addComposant(comp2);
+			(*it)->affichageConteneur();
 		}
+		lectureCSV("test3DBinPacking.csv");
 	}
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboardUp);
