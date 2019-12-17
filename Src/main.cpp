@@ -16,6 +16,10 @@
 #include "2D/CSVReader.h"
 #include "3D/CSVReader3D.h"
 
+#include "Modules/ModuleCouleurs.h"
+#include "Modules/ModuleFleche.h"
+#include "Modules/ModuleFont.h"
+
 /* Variables globales                           */
 
 static int affichage3Dou2D = 0;
@@ -41,6 +45,9 @@ static float zoom = 3.0;
 static double normeCamera = 1.0;
 static const GLfloat blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 static const GLfloat vert[4] = {0.0F, 1.0F, 0.0F, 1.0F};
+static const GLfloat jaune[4] = { 0.0F, 1.0F, 0.0F, 1.0F };
+static const GLfloat magenta[4] = { 0.0F, 1.0F, 0.0F, 1.0F };
+static const GLfloat cyan[4] = { 0.0F, 1.0F, 0.0F, 1.0F };
 static const GLfloat light0_position[4] = {0.0, 0.0, 10.0, 1.0};
 
 static Algorithm* algo;
@@ -82,6 +89,29 @@ static void reset() {
     oz = 0;
     camDepX = 0;
     camDepZ = 0;
+}
+
+void myaxes(float x, float y, float z) {
+	glPushMatrix();
+	glColor4fv(couleurJaune());
+	glBegin(GL_LINES);
+	glVertex3f(x, y, z);
+	glVertex3f(x+10.0F, y, z);
+	glEnd();
+	
+	glColor4fv(couleurCyan());
+	glBegin(GL_LINES);
+	glVertex3f(x, y, z);
+	glVertex3f(x, y+10.0F, z);
+	glEnd();
+	
+	glColor4fv(couleurMagenta());
+	glBegin(GL_LINES);
+	glVertex3f(x, y, z);
+	glVertex3f(x, y, z+10.0F);
+	glEnd();
+	
+	glPopMatrix();
 }
 
 /* Scene dessinee                               */
@@ -134,7 +164,9 @@ static void display(void) {
     //gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / 1, oy / 1, oz / 1, 0.0, 1.0, 0.0);
     gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / normeCamera, oy / normeCamera, oz / normeCamera, 0.0, 1.0, 0.0);
     //}
+	
     scene();
+	myaxes(-1,-1,-1);
     glPopMatrix();
     glFlush();
     glutSwapBuffers();
