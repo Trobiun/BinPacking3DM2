@@ -55,6 +55,9 @@
     <ClCompile Include="..\..\Src\3D\Conteneur3D.cpp">
       <Filter>3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\3D\CSVReader3D.cpp">
+      <Filter>3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\2D\Composant.h">
@@ -85,6 +88,9 @@
       <Filter>Include\3D</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\3D\Conteneur3D.h">
+      <Filter>Include\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\3D\CSVReader3D.h">
       <Filter>Include\3D</Filter>
     </ClInclude>
   </ItemGroup>
