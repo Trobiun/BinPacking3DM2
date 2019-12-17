@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{C0AFB07C-FD58-3916-A87F-C37D3504DC3A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{26B05AE4-257D-3695-8F3E-717A54FA1D43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\mxnet-cpp">
+      <UniqueIdentifier>{ce449cdf-086b-4649-a2ad-7a36a8ec8887}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\mxnet-cpp\MxNetCpp.h">
+      <Filter>Header Files\mxnet-cpp</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
