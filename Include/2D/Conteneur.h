@@ -31,7 +31,8 @@ class Conteneur {
 		virtual bool setCoteX(float nCoteX);
 		virtual bool setCoteY(float nCoteY);
 		virtual bool setPosition(Position2D * position);
-                virtual bool setPosition(float posX, float posY);
+        virtual bool setPosition(float posX, float posY);
+        virtual Position2D* getPosition();
 		virtual bool addComposant(Composant * comp);
 		/* Getters                                  */
 

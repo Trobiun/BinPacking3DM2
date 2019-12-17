@@ -84,6 +84,10 @@ bool Conteneur::setPosition(float posX, float posY) {
     return true;
 }
 
+Position2D* Conteneur::getPosition() {
+	return pos;
+}
+
 bool Conteneur::addComposant(Composant * comp) {
     comp->setConteneur(id);
     composants.push_back(comp);

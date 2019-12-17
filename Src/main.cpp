@@ -16,13 +16,10 @@
 #include "2D/CSVReader.h"
 #include "3D/CSVReader3D.h"
 
-#include "Modules/ModuleCouleurs.h"
-#include "Modules/ModuleFleche.h"
-#include "Modules/ModuleFont.h"
 
 /* Variables globales                           */
 
-static int affichage3Dou2D = 0;
+static int affichage3Dou2D = 1;
 static int wTx = 480; // Resolution horizontale de la fenetre
 static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
@@ -41,7 +38,7 @@ static bool keyboardKeys[256] = {false};
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
 static bool cameraMove = false;
-static float zoom = 3.0;
+static float zoom[3] = { 3.0,3.0,3.0 };
 static double normeCamera = 1.0;
 static const GLfloat blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 static const GLfloat vert[4] = {0.0F, 1.0F, 0.0F, 1.0F};
@@ -49,6 +46,9 @@ static const GLfloat jaune[4] = { 0.0F, 1.0F, 0.0F, 1.0F };
 static const GLfloat magenta[4] = { 0.0F, 1.0F, 0.0F, 1.0F };
 static const GLfloat cyan[4] = { 0.0F, 1.0F, 0.0F, 1.0F };
 static const GLfloat light0_position[4] = {0.0, 0.0, 10.0, 1.0};
+
+static std::list<Conteneur3D*>::iterator posCont3D;
+static std::list<Conteneur*>::iterator posCont2D;
 
 static Algorithm* algo;
 static std::list<Conteneur*> conteneurs;
@@ -80,6 +80,33 @@ static void init(void) {
     glEnable(GL_NORMALIZE);
 }
 
+static void courantConteneur() {
+	if (affichage3Dou2D == 0) {
+		Position2D* posCont = (*posCont2D)->getPosition();
+
+		px = (*posCont2D)->getCoteX() / 2 + posCont->getX();
+		py = (*posCont2D)->getCoteY() / 2 + posCont->getY();
+		pz = 30;
+		ox = px;
+		oy = py;
+		oz = 0;
+	}
+	else {
+		Position3D* posCont = (*posCont3D)->getPosition();
+
+		px = (*posCont3D)->getCoteX() / 2 + posCont->getX();
+		py = (*posCont3D)->getCoteY() / 2 + posCont->getY();
+		pz = (*posCont3D)->getCoteX();
+		ox = px;
+		oy = py;
+		oz = -((*posCont3D)->getCoteY()/2);
+	}
+
+	camDepX = 0;
+	camDepZ = 0;
+}
+
+
 static void reset() {
     px = 25;
     py = 25;
@@ -93,19 +120,19 @@ static void reset() {
 
 void myaxes(float x, float y, float z) {
 	glPushMatrix();
-	glColor4fv(couleurJaune());
+	glColor4fv(jaune);
 	glBegin(GL_LINES);
 	glVertex3f(x, y, z);
 	glVertex3f(x+10.0F, y, z);
 	glEnd();
 	
-	glColor4fv(couleurCyan());
+	glColor4fv(cyan);
 	glBegin(GL_LINES);
 	glVertex3f(x, y, z);
 	glVertex3f(x, y+10.0F, z);
 	glEnd();
 	
-	glColor4fv(couleurMagenta());
+	glColor4fv(magenta);
 	glBegin(GL_LINES);
 	glVertex3f(x, y, z);
 	glVertex3f(x, y, z+10.0F);
@@ -155,15 +182,10 @@ static void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-    //if (cameraMove) {
-    //    gluLookAt(px, py / 3.0 * zoom, pz, px, 0, pz, 0.0, 1.0, 0.0);
-    //} else {
-    normeCamera = sqrt(px * px + py * py + pz * pz);
-    normeCamera /= 20.0;
-    normeCamera /= zoom;
-    //gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / 1, oy / 1, oz / 1, 0.0, 1.0, 0.0);
-    gluLookAt(px / normeCamera, py / normeCamera, pz / normeCamera, ox / normeCamera, oy / normeCamera, oz / normeCamera, 0.0, 1.0, 0.0);
-    //}
+
+	//TODO VECTEUR entre (px, py, pz) et (ox, oy, oz) puis calculé les valeur a ajouté a px, py et pz pour parcourir ce vecteur sur une distance de zoom
+	
+    gluLookAt(px + zoom[0], py + zoom[1], pz + zoom[2], ox + zoom[0], oy + zoom[1], oz + zoom[2], 0.0, 1.0, 0.0);
 	
     scene();
 	myaxes(-1,-1,-1);
@@ -188,9 +210,9 @@ static void reshape(int wx, int wy) {
     glLoadIdentity();
     double ratio = (double) wTx / wTy;
     if (ratio >= 1.0) {
-        gluPerspective(80.0, ratio, 1.0, 100.0);
+        gluPerspective(80.0, ratio, 1.0, 1000.0);
     } else {
-        gluPerspective(80.0 / ratio, ratio, 1.0, 100.0);
+        gluPerspective(80.0 / ratio, ratio, 1.0, 1000.0);
     }
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -214,12 +236,22 @@ static void idle(void) {
     if (keys[KEY_RIGHT]) {
         px += 0.25;
     }
-    if (keys[KEY_PAGE_UP]) {
-        zoom -= 0.05;
+	if (keys[KEY_PAGE_UP]) {
+		float xPres = px - ox;
+		float yPres = py - oy;
+		float zPres = pz - oz;
+		zoom[0] -= xPres*0.05;
+		zoom[1] -= yPres*0.05;
+		zoom[2] -= zPres*0.05;
     }
     if (keys[KEY_PAGE_DOWN]) {
-        zoom += 0.05;
-    }
+		float xPres = px - ox;
+		float yPres = py - oy;
+		float zPres = pz - oz;
+		zoom[0] += xPres * 0.05;
+		zoom[1] += yPres * 0.05;
+		zoom[2] += zPres * 0.05;
+	}
     if (keyboardKeys['z']) {
         py += 0.05;
         oy = py;
@@ -244,12 +276,50 @@ static void idle(void) {
 /* d'une touche alphanumerique du clavier       */
 
 static void keyboard(unsigned char key, int x, int y) {
-    if (key == 0x1B) {
+	printf("S  %4d %4d %4d\n", key, x, y);
+	if (key == 0x1B) {
         exit(0);
     }
     if (key == 13) {
         reset();
     }
+
+	if (key == 39 || key == 52) {
+		if (affichage3Dou2D == 0) {
+			if (posCont2D == conteneurs.begin()) {
+				posCont2D = conteneurs.end();
+			}
+			posCont2D--;
+
+		}
+		else {
+			if (posCont3D == conteneurs3D.begin()) {
+				posCont3D = conteneurs3D.end();
+			}
+			posCont3D--;
+		}
+		courantConteneur();
+	}
+
+	if (key == 40 || key == 53) {
+		courantConteneur();
+	}
+
+	if (key == 45 || key == 54) {
+		if (affichage3Dou2D == 0) {
+			posCont2D++;
+			if (++posCont2D == conteneurs.end()) {
+				posCont2D = conteneurs.begin();
+			}
+		}
+		else {
+			posCont3D++;
+			if (posCont3D == conteneurs3D.end()) {
+				posCont3D = conteneurs3D.begin();
+			}
+		}
+		courantConteneur();
+	}
     keyboardKeys[key] = true;
 }
 
@@ -264,7 +334,7 @@ static void keyboardUp(unsigned char key, int x, int y) {
 /*   - touches de fonction                      */
 
 static void specialUp(int specialKey, int x, int y) {
-    //printf("S  %4d %4d %4d\n", specialKey, x, y);
+    printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
         case GLUT_KEY_LEFT:
             keys[KEY_LEFT] = false;
@@ -294,7 +364,7 @@ static void specialUp(int specialKey, int x, int y) {
 /*   - touches de fonction                      */
 
 static void special(int specialKey, int x, int y) {
-    //printf("S  %4d %4d %4d\n", specialKey, x, y);
+    printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
         case GLUT_KEY_LEFT:
             keys[KEY_LEFT] = true;
@@ -322,7 +392,7 @@ static void special(int specialKey, int x, int y) {
 /* de la souris sur la fenetre                  */
 
 static void mouse(int button, int state, int x, int y) {
-    //printf("M  %4d %4d %4d %4d\n", button, state, x, y);
+    printf("M  %4d %4d %4d %4d\n", button, state, x, y);
     if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN) {
         cameraMove = true;
         px = ox;
@@ -334,11 +404,21 @@ static void mouse(int button, int state, int x, int y) {
         oz = pz;
     }
     if (button == 3 && state == GLUT_DOWN) {
-        zoom -= 0.1;
+		float xPres = px - ox;
+		float yPres = py - oy;
+		float zPres = pz - oz;
+		zoom[0] -= xPres * 0.1;
+		zoom[1] -= yPres * 0.1;
+		zoom[2] -= zPres * 0.1;
     }
     if (button == 4 && state == GLUT_DOWN) {
-        zoom += 0.1;
-    }
+		float xPres = px - ox;
+		float yPres = py - oy;
+		float zPres = pz - oz;
+		zoom[0] += xPres * 0.1;
+		zoom[1] += yPres * 0.1;
+		zoom[2] += zPres * 0.1;
+	}
 }
 
 /* Fonction executee lors du passage            */
@@ -347,7 +427,7 @@ static void mouse(int button, int state, int x, int y) {
 /* avec un boutton presse                       */
 
 static void mouseMotion(int x, int y) {
-    //printf("MM %4d %4d\n", x, y);
+    printf("MM %4d %4d\n", x, y);
     if (oldMX < 0) {
         oldMX = x;
     }
@@ -374,7 +454,7 @@ static void mouseMotion(int x, int y) {
 /* sans boutton presse                          */
 
 static void passiveMouseMotion(int x, int y) {
-    //printf("PM %4d %4d\n", x, y);
+    printf("PM %4d %4d\n", x, y);
 }
 
 /* Fonction executee automatiquement            */
@@ -400,7 +480,7 @@ static void clean(void) {
     }
     //restants.clear();
     if (algo != NULL) {
-        delete algo;
+       delete algo;
     }
 #ifdef _WIN32
 	int test = _CrtDumpMemoryLeaks();
@@ -442,6 +522,8 @@ static void lectureCSVConteneur(std::string filename) {
 		if (fichierCSV != NULL) {
 			delete fichierCSV;
 		}
+		posCont2D = conteneurs.begin();
+
 	}
 	else {
 		CSVReader3D *fichierCSV = DBG_NEW CSVReader3D(filename);
@@ -455,6 +537,7 @@ static void lectureCSVConteneur(std::string filename) {
 		if (fichierCSV != NULL) {
 			delete fichierCSV;
 		}
+		posCont3D = conteneurs3D.begin();
 	}
 }
 static void lectureCSVComposant(std::string filename) {
@@ -509,6 +592,7 @@ int main(int argc, char **argv) {
 		lectureCSVConteneur("test3DBinPackingConteneur.csv");
 		lectureCSVComposant("test3DBinPackingComposant.csv");
 	}
+
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboardUp);
     glutSpecialFunc(special);

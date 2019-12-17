@@ -53,7 +53,7 @@ std::list<Composant3D*> Conteneur3D::getListComposant(void) {
 
 void Conteneur3D::model() {
     glPushMatrix();
-    glTranslatef(pos->getX() + coteX / 2, pos->getY() + coteY / 2, pos->getZ() + coteZ / 2);
+    glTranslatef(pos->getX() + coteX / 2, pos->getY() + coteY / 2, pos->getZ() - coteZ / 2);
     glScalef(coteX, coteY, coteZ);
     GLfloat couleur[4] = {1.0F, 0.0F, 0.0F, 1.0F};
     glColor4fv(couleur);
@@ -84,6 +84,10 @@ bool Conteneur3D::setCoteZ(float nCoteZ) {
 bool Conteneur3D::setPosition(Position3D *position) {
     pos = position;
     return true;
+}
+
+Position3D* Conteneur3D::getPosition() {
+	return pos;
 }
 
 bool Conteneur3D::setPosition(float posX, float posY, float posZ) {

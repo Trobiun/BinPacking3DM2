@@ -114,6 +114,7 @@
     <ClCompile Include="..\..\Src\2D\Rectangle.cpp" />
     <ClCompile Include="..\..\Src\3D\Composant3D.cpp" />
     <ClCompile Include="..\..\Src\3D\Conteneur3D.cpp" />
+    <ClCompile Include="..\..\Src\3D\CSVReader3D.cpp" />
     <ClCompile Include="..\..\Src\3D\Position3D.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
   </ItemGroup>
@@ -127,6 +128,7 @@
     <ClInclude Include="..\..\Include\2D\Rectangle.h" />
     <ClInclude Include="..\..\Include\3D\Composant3D.h" />
     <ClInclude Include="..\..\Include\3D\Conteneur3D.h" />
+    <ClInclude Include="..\..\Include\3D\CSVReader3D.h" />
     <ClInclude Include="..\..\Include\3D\Position3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

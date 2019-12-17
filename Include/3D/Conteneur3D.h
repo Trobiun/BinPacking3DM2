@@ -32,6 +32,7 @@ class Conteneur3D {
 		virtual bool setCoteZ(float nCoteZ);
 		virtual bool setPosition(Position3D * position);
         virtual bool setPosition(float posX, float posY, float posZ);
+        virtual Position3D* getPosition();
 		virtual bool addComposant(Composant3D * comp);
 		/* Getters                                  */
 
