@@ -157,7 +157,7 @@ void CSVReader3D::ajoutConteneur(std::vector <string> row) {
 	char * verifErreur;
 	size_t indiceCourant = 0;
 	bool erreur = false;
-	int id = 0;
+	int id = 0, nb = 0;
 	float coteX = 0.0, coteY = 0.0, coteZ = 0.0;
 	while (erreur == false && indiceCourant < row.size()) {
 		if (indiceCourant == 0) {
@@ -188,13 +188,20 @@ void CSVReader3D::ajoutConteneur(std::vector <string> row) {
 				erreur = true;
 			}
 		}
+		if (indiceCourant == 4) {
+			nb = strtol(row[indiceCourant].c_str(), &verifErreur,10);
+			if (*verifErreur != '\0') {
+				printf("ERREUR LORS DE L'AJOUT D'UN CONTENEUR : Nombre de conteneur non valide, le conteneur %s n'est pas ajout�. \n", row[0].c_str());
+				erreur = true;
+			}
+		}
 		
 		indiceCourant++;
 	}
 	if (erreur == false) {
-		printf("AJOUT D'UN CONTENEUR : id = %d, coteX %.2f, coteY %.2f, coteZ %.2f \n",
-			id, coteX, coteY, coteZ);
-		listConteneur.push_back(DBG_NEW Conteneur3D(id, coteX, coteY, coteZ));
+		printf("AJOUT D'UN CONTENEUR : id = %d, coteX %.2f, coteY %.2f, coteZ %.2f, nb = %d \n",
+			id, coteX, coteY, coteZ, nb);
+		listConteneur.push_back(DBG_NEW Conteneur3D(id, coteX, coteY, coteZ, nb));
 	}
 }
 

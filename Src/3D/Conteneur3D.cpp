@@ -5,11 +5,11 @@
 
 #include "3D/Conteneur3D.h"
 
-Conteneur3D::Conteneur3D(void) : Conteneur3D(0, 0.0, 0.0, 0.0) {
+Conteneur3D::Conteneur3D(void) : Conteneur3D(0, 0.0, 0.0, 0.0, 0) {
 
 }
 
-Conteneur3D::Conteneur3D(int nid, float nCoteX, float nCoteY, float nCoteZ) : id(nid), coteX(nCoteX), coteY(nCoteY), coteZ(nCoteZ) {
+Conteneur3D::Conteneur3D(int nid, float nCoteX, float nCoteY, float nCoteZ, int nnb) : id(nid), coteX(nCoteX), coteY(nCoteY), coteZ(nCoteZ), nb(nnb) {
     pos = DBG_NEW Position3D();
     //arbre = DBG_NEW ArbreBinaire(coteX, coteY);
 }
@@ -41,6 +41,10 @@ float Conteneur3D::getCoteY(void) {
 
 float Conteneur3D::getCoteZ(void) {
 	return coteZ;
+}
+
+int Conteneur3D::getNb(void) {
+	return nb;
 }
 
 /*ArbreBinaire* Conteneur3D::getArbre(void) {
@@ -78,6 +82,11 @@ bool Conteneur3D::setCoteY(float nCoteY) {
 
 bool Conteneur3D::setCoteZ(float nCoteZ) {
 	coteZ = nCoteZ;
+	return true;
+}
+
+bool Conteneur3D::setNb(int nnb) {
+	nb = nnb;
 	return true;
 }
 

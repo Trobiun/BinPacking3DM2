@@ -608,7 +608,7 @@ void printfBitmap(void *font, const char *format,...) {
     glutBitmapCharacter(font,*p);
 }
 
-void bitmapOutput(void *font,char *format,...) {
+void bitmapOutput(void *font, const char *format,...) {
   char *p;
   va_list args;
   va_start(args,format);
@@ -649,7 +649,7 @@ void bitmapOutput(void *font,char *format,...) {
   glPopMatrix();
 }
 
-void bitmapOutput(GLfloat x,GLfloat y,GLfloat z,void *font,char *format,...) {
+void bitmapOutput(GLfloat x,GLfloat y,GLfloat z,void *font, char *format,...) {
   placeFontCursor(x,y,z);
   va_list args;
   va_start(args,format);
@@ -664,7 +664,7 @@ void bitmapStringOutput(char *format,...) {
   va_end(args);
 }
 
-void bitmapStringOutput(GLfloat x,GLfloat y,GLfloat z,char *format,...) {
+void bitmapStringOutput(GLfloat x,GLfloat y,GLfloat z, const char *format,...) {
   placeFontCursor(x,y,z);
   va_list args;
   va_start(args,format);

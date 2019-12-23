@@ -6,11 +6,11 @@
 #include "2D/Conteneur.h"
 #include "2D/ArbreBinaire.h"
 
-Conteneur::Conteneur(void) : Conteneur(0, 0.0, 0.0) {
+Conteneur::Conteneur(void) : Conteneur(0, 0.0, 0.0, 0) {
 
 }
 
-Conteneur::Conteneur(int nid, float nCoteX, float nCoteY) : id(nid), coteX(nCoteX), coteY(nCoteY) {
+Conteneur::Conteneur(int nid, float nCoteX, float nCoteY, int nnb) : id(nid), coteX(nCoteX), coteY(nCoteY), nb(nnb) {
     pos = DBG_NEW Position2D();
     arbre = DBG_NEW ArbreBinaire(coteX, coteY);
 }
@@ -38,6 +38,9 @@ float Conteneur::getCoteX(void) {
 
 float Conteneur::getCoteY(void) {
     return coteY;
+}
+float Conteneur::getNb(void) {
+	return nb;
 }
 
 ArbreBinaire* Conteneur::getArbre(void) {
@@ -71,6 +74,11 @@ bool Conteneur::setCoteX(float nCoteX) {
 bool Conteneur::setCoteY(float nCoteY) {
     coteY = nCoteY;
     return true;
+}
+
+bool Conteneur::setNb(int nnb) {
+	nb = nnb;
+	return true;
 }
 
 bool Conteneur::setPosition(Position2D *position) {

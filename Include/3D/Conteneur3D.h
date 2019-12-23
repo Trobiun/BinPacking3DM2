@@ -13,13 +13,14 @@ class Conteneur3D {
 		float coteZ;
 		Position3D *pos;
 		std::list<Composant3D *> composants;
+		int nb;
                 
 	public:
                 //static GLfloat couleur[4];
 		/* Constructeurs                            */
 
 		Conteneur3D(void);
-		Conteneur3D(int id, float nCoteX, float nCoteY, float nCoteZ);
+		Conteneur3D(int id, float nCoteX, float nCoteY, float nCoteZ, int nnb);
 
 		/* Destructeur                              */
 
@@ -30,6 +31,7 @@ class Conteneur3D {
 		virtual bool setCoteX(float nCoteX);
 		virtual bool setCoteY(float nCoteY);
 		virtual bool setCoteZ(float nCoteZ);
+		virtual bool setNb(int nnb);
 		virtual bool setPosition(Position3D * position);
         virtual bool setPosition(float posX, float posY, float posZ);
         virtual Position3D* getPosition();
@@ -40,6 +42,7 @@ class Conteneur3D {
 		float getCoteX();
 		float getCoteY();
 		float getCoteZ();
+		int getNb();
 		std::list<Composant3D *> getListComposant();
 
 		/* Mod�lisation */

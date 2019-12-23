@@ -15,7 +15,7 @@
 #include "3D/Conteneur3D.h"
 #include "2D/CSVReader.h"
 #include "3D/CSVReader3D.h"
-
+#include "Modules/ModuleCouleurs.h"
 
 /* Variables globales                           */
 
@@ -30,6 +30,9 @@ static float pz = 30;
 static float ox = 25;
 static float oy = 25;
 static float oz = 0;
+static float ax = 0;
+static float ay = 0;
+static float az = 0;
 static float camDepX = 0;
 static float camDepY = 0;
 static float camDepZ = 0;
@@ -118,26 +121,27 @@ static void reset() {
     camDepZ = 0;
 }
 
+
 void myaxes(float x, float y, float z) {
 	glPushMatrix();
-	glColor4fv(jaune);
+	glColor4fv(couleurJaune());
 	glBegin(GL_LINES);
 	glVertex3f(x, y, z);
-	glVertex3f(x+10.0F, y, z);
+	glVertex3f(x + 1.0F, y, z);
 	glEnd();
-	
-	glColor4fv(cyan);
+
+	glColor4fv(couleurCyan());
 	glBegin(GL_LINES);
 	glVertex3f(x, y, z);
-	glVertex3f(x, y+10.0F, z);
+	glVertex3f(x, y + 1.0F, z);
 	glEnd();
-	
-	glColor4fv(magenta);
+
+	glColor4fv(couleurMagenta());
 	glBegin(GL_LINES);
 	glVertex3f(x, y, z);
-	glVertex3f(x, y, z+10.0F);
+	glVertex3f(x, y, z + 1.0F);
 	glEnd();
-	
+
 	glPopMatrix();
 }
 
@@ -188,7 +192,10 @@ static void display(void) {
     gluLookAt(px + zoom[0], py + zoom[1], pz + zoom[2], ox + zoom[0], oy + zoom[1], oz + zoom[2], 0.0, 1.0, 0.0);
 	
     scene();
-	myaxes(-1,-1,-1);
+	ax = 0;
+	ay = 0;
+	az = 0;
+	myaxes(ax, ay, az);
     glPopMatrix();
     glFlush();
     glutSwapBuffers();

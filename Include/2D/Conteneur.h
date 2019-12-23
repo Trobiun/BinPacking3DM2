@@ -14,13 +14,14 @@ class Conteneur {
 		Position2D *pos;
 		std::list<Composant *> composants;
 		ArbreBinaire* arbre;
+		int nb;
                 
 	public:
                 //static GLfloat couleur[4];
 		/* Constructeurs                            */
 
 		Conteneur(void);
-		Conteneur(int id, float nCoteX, float nCoteY);
+		Conteneur(int id, float nCoteX, float nCoteY, int nnb);
 
 		/* Destructeur                              */
 
@@ -30,6 +31,7 @@ class Conteneur {
 
 		virtual bool setCoteX(float nCoteX);
 		virtual bool setCoteY(float nCoteY);
+		virtual bool setNb(int nnb);
 		virtual bool setPosition(Position2D * position);
         virtual bool setPosition(float posX, float posY);
         virtual Position2D* getPosition();
@@ -39,6 +41,7 @@ class Conteneur {
 		int getId();
 		float getCoteX();
 		float getCoteY();
+		float getNb();
 		ArbreBinaire* getArbre();
 		std::list<Composant *> getListComposant();
 
