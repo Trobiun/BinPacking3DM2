@@ -10,9 +10,11 @@ protected :
 	std::list<Conteneur *> conteneurs;
 	std::list<Conteneur *> conteneursDispo;
 public:
-	Algorithm(std::list<Composant*> composantsMain, std::list<Conteneur*> conteneursMain, std::list<Conteneur*> conteneursDispo);
+	Algorithm(std::list<Composant*> composantsMain, std::list<Conteneur*> conteneursMain, std::list<Conteneur*> conteneursDispoMain);
 	~Algorithm(void);
 	bool addCont(int idCont);
+	void setListeComposant(std::list<Composant*> composantsMain);
+	void setListeConteneur(std::list<Conteneur*> conteneursMain);
 	std::list<Composant*> calculRangement();
 };
 #endif

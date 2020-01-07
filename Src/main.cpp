@@ -520,6 +520,37 @@ static void verifCompoList(std::list <Composant*> liste, int type) {
         comp++;
     }
 }
+
+static bool addCont(int idCont) {
+	bool newCont = false;
+	bool breakage = false;
+
+	std::list<Conteneur*>::iterator contDisp = conteneursDispo.begin();
+
+	for (contDisp; contDisp != conteneursDispo.end(); contDisp++) {
+
+		if ((*contDisp)->getNb() != 0) {
+			std::list < Composant*>::iterator comp = composants.begin();
+			for (comp; comp != composants.end(); comp++) {
+				if (((*comp)->getCoteX() * (*comp)->getCoteY()) < ((*contDisp)->getCoteX() * (*contDisp)->getCoteY())) {
+					newCont = true;
+					(*contDisp)->takeCont();
+					conteneurs.push_back(new Conteneur(idCont, (*contDisp)->getCoteX(), (*contDisp)->getCoteY(), 0));
+					breakage = true;
+					break;
+				}
+			}
+			if (breakage) {
+				break;
+			}
+		}
+	}
+	if (!newCont) {
+		return false;
+	}
+	return true;
+}
+
 static void lectureCSVConteneur(std::string filename) {
 	if (affichage3Dou2D == 0) {
 		CSVReader *fichierCSV = DBG_NEW CSVReader(filename);
@@ -551,6 +582,7 @@ static void lectureCSVConteneur(std::string filename) {
 		posCont3DDispo = conteneurs3DDispo.begin();
 	}
 }
+
 static void lectureCSVComposant(std::string filename) {
 	if (affichage3Dou2D == 0) {
 		CSVReader *fichierCSV = DBG_NEW CSVReader(filename);
@@ -561,16 +593,28 @@ static void lectureCSVComposant(std::string filename) {
 			composants.push_back(*it);
 		}
 		algo = DBG_NEW Algorithm(composants, conteneurs, conteneursDispo);
+		int idCont = 0;
+		bool nofin = true;
+		nofin = addCont(idCont);
+		idCont++;
+		algo->setListeConteneur(conteneurs);
 		std::list<Composant*> reste = algo->calculRangement();
+		algo->setListeComposant(reste);
+
+		while (!(reste.empty()) && nofin) {
+
+			nofin = addCont(idCont);
+			idCont++;
+			algo->setListeConteneur(conteneurs);
+			reste = algo->calculRangement();
+			algo->setListeComposant(reste);
+		}
 		posCont2D = conteneurs.begin();
 
 		restants.insert(restants.begin(), reste.begin(), reste.end());
 		verifCompoVector(listeDesComposant);
 		verifCompoList(restants, -1);
-		if (conteneurs.empty()) {
-			printf("les conteneurs sont vides\n");
-		}
-		//verifCompoList((*posCont2D)->getListComposant(), 1);
+		verifCompoList((*posCont2D)->getListComposant(), 1);
 		if (fichierCSV != NULL) {
 			delete fichierCSV;
 		}
@@ -593,6 +637,8 @@ static void lectureCSVComposant(std::string filename) {
 
 	}
 }
+
+
 
 int main(int argc, char **argv) {
     atexit(clean);
