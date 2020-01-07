@@ -2,6 +2,48 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Library Include="..\..\Lib\glut32.lib" />
+    <Library Include="..\..\Lib\dmlc.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\glew32.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\glew32mxd.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\glu32.mesa.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\glu32.ms.Lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\glut32.mesa.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\glut32.ms.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\glut64.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\libmxnet.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\Modules2011-2012.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\mxnet_static.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\OpenGL32.mesa.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\OpenGL32.ms.Lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="..\..\Lib\osmesa32.mesa.lib">
+      <Filter>Lib</Filter>
+    </Library>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="2D">

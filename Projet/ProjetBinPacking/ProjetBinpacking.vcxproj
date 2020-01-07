@@ -102,7 +102,21 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Library Include="..\..\Lib\dmlc.lib" />
+    <Library Include="..\..\Lib\glew32.lib" />
+    <Library Include="..\..\Lib\glew32mxd.lib" />
+    <Library Include="..\..\Lib\glu32.mesa.lib" />
+    <Library Include="..\..\Lib\glu32.ms.Lib" />
     <Library Include="..\..\Lib\glut32.lib" />
+    <Library Include="..\..\Lib\glut32.mesa.lib" />
+    <Library Include="..\..\Lib\glut32.ms.lib" />
+    <Library Include="..\..\Lib\glut64.lib" />
+    <Library Include="..\..\Lib\libmxnet.lib" />
+    <Library Include="..\..\Lib\Modules2011-2012.lib" />
+    <Library Include="..\..\Lib\mxnet_static.lib" />
+    <Library Include="..\..\Lib\OpenGL32.mesa.lib" />
+    <Library Include="..\..\Lib\OpenGL32.ms.Lib" />
+    <Library Include="..\..\Lib\osmesa32.mesa.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\2D\Algorithm.cpp" />

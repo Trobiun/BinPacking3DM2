@@ -42,6 +42,7 @@ class Conteneur {
 		float getCoteX();
 		float getCoteY();
 		float getNb();
+		bool takeCont();
 		ArbreBinaire* getArbre();
 		std::list<Composant *> getListComposant();
 

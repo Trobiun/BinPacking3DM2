@@ -43,6 +43,7 @@ class Conteneur3D {
 		float getCoteY();
 		float getCoteZ();
 		int getNb();
+		bool takeCont();
 		std::list<Composant3D *> getListComposant();
 
 		/* Mod�lisation */

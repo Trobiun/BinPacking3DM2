@@ -19,7 +19,7 @@
 
 /* Variables globales                           */
 
-static int affichage3Dou2D = 1;
+static int affichage3Dou2D = 0;
 static int wTx = 480; // Resolution horizontale de la fenetre
 static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
@@ -50,12 +50,16 @@ static const GLfloat magenta[4] = { 0.0F, 1.0F, 0.0F, 1.0F };
 static const GLfloat cyan[4] = { 0.0F, 1.0F, 0.0F, 1.0F };
 static const GLfloat light0_position[4] = {0.0, 0.0, 10.0, 1.0};
 
+static std::list<Conteneur3D*>::iterator posCont3DDispo;
 static std::list<Conteneur3D*>::iterator posCont3D;
+static std::list<Conteneur*>::iterator posCont2DDispo;
 static std::list<Conteneur*>::iterator posCont2D;
 
 static Algorithm* algo;
 static std::list<Conteneur*> conteneurs;
+static std::list<Conteneur*> conteneursDispo;
 static std::list<Conteneur3D*> conteneurs3D;
+static std::list<Conteneur3D*> conteneurs3DDispo;
 static std::list<Composant*> composants;
 static std::list<Composant*> restants;
 static std::list<Composant3D*> composants3D;
@@ -524,12 +528,12 @@ static void lectureCSVConteneur(std::string filename) {
 		std::vector<Conteneur *> listeDesConteneurs = fichierCSV->getListConteneur();
 		std::vector<Conteneur*>::iterator it;
 		for (it = listeDesConteneurs.begin(); it != listeDesConteneurs.end(); it++) {
-			conteneurs.push_back(*it);
+			conteneursDispo.push_back(*it);
 		}
 		if (fichierCSV != NULL) {
 			delete fichierCSV;
 		}
-		posCont2D = conteneurs.begin();
+		posCont2DDispo = conteneursDispo.begin();
 
 	}
 	else {
@@ -539,12 +543,12 @@ static void lectureCSVConteneur(std::string filename) {
 		std::vector<Conteneur3D *> listeDesConteneurs = fichierCSV->getListConteneur();
 		std::vector<Conteneur3D*>::iterator it;
 		for (it = listeDesConteneurs.begin(); it != listeDesConteneurs.end(); it++) {
-			conteneurs3D.push_back(*it);
+			conteneurs3DDispo.push_back(*it);
 		}
 		if (fichierCSV != NULL) {
 			delete fichierCSV;
 		}
-		posCont3D = conteneurs3D.begin();
+		posCont3DDispo = conteneurs3DDispo.begin();
 	}
 }
 static void lectureCSVComposant(std::string filename) {
@@ -556,13 +560,17 @@ static void lectureCSVComposant(std::string filename) {
 		for (it = listeDesComposant.begin(); it != listeDesComposant.end(); it++) {
 			composants.push_back(*it);
 		}
-		algo = DBG_NEW Algorithm(composants, conteneurs);
+		algo = DBG_NEW Algorithm(composants, conteneurs, conteneursDispo);
 		std::list<Composant*> reste = algo->calculRangement();
+		posCont2D = conteneurs.begin();
 
 		restants.insert(restants.begin(), reste.begin(), reste.end());
 		verifCompoVector(listeDesComposant);
 		verifCompoList(restants, -1);
-		verifCompoList((*conteneurs.begin())->getListComposant(), 1);
+		if (conteneurs.empty()) {
+			printf("les conteneurs sont vides\n");
+		}
+		//verifCompoList((*posCont2D)->getListComposant(), 1);
 		if (fichierCSV != NULL) {
 			delete fichierCSV;
 		}
@@ -579,6 +587,10 @@ static void lectureCSVComposant(std::string filename) {
 		if (fichierCSV != NULL) {
 			delete fichierCSV;
 		}
+		//appel Algo 3D
+
+		posCont3D = conteneurs3D.begin();
+
 	}
 }
 

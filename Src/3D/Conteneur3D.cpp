@@ -47,6 +47,15 @@ int Conteneur3D::getNb(void) {
 	return nb;
 }
 
+bool Conteneur3D::takeCont() {
+	if (nb != 0) {
+		if (nb != -1) {
+			nb = nb - 1;
+		}
+		return true;
+	}
+	return false;
+}
 /*ArbreBinaire* Conteneur3D::getArbre(void) {
     return arbre;
 }*/

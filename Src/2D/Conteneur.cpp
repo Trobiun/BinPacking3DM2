@@ -43,6 +43,16 @@ float Conteneur::getNb(void) {
 	return nb;
 }
 
+bool Conteneur::takeCont() {
+	if (nb != 0) {
+		if (nb != -1) {
+			nb = nb - 1;
+		}
+		return true;
+	}
+	return false;
+}
+
 ArbreBinaire* Conteneur::getArbre(void) {
     return arbre;
 }
