@@ -115,14 +115,31 @@ static void courantConteneur() {
 
 
 static void reset() {
-    px = 25;
-    py = 25;
-    pz = 30;
-    ox = 25;
-    oy = 25;
-    oz = 0;
-    camDepX = 0;
-    camDepZ = 0;
+	if (affichage3Dou2D == 0) {
+		posCont2D = conteneurs.begin();
+		Position2D* posCont = ((*posCont2D)->getPosition());
+
+		px = (*posCont2D)->getCoteX() / 2 + posCont->getX();
+		py = (*posCont2D)->getCoteY() / 2 + posCont->getY();
+		pz = 30;
+		ox = px;
+		oy = py;
+		oz = 0;
+	}
+	else {
+		posCont3D = conteneurs3D.begin();
+		Position3D* posCont = ((*posCont3D)->getPosition());
+
+		px = (*posCont3D)->getCoteX() / 2 + posCont->getX();
+		py = (*posCont3D)->getCoteY() / 2 + posCont->getY();
+		pz = (*posCont3D)->getCoteX();
+		ox = px;
+		oy = py;
+		oz = -((*posCont3D)->getCoteY() / 2);
+	}
+
+	camDepX = 0;
+	camDepZ = 0;
 }
 
 
