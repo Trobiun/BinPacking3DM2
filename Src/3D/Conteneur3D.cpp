@@ -65,6 +65,7 @@ std::list<Composant3D*> Conteneur3D::getListComposant(void) {
 }
 
 void Conteneur3D::model() {
+	printf("on modelise un conteneur en x : %f y:%f et z:%f\n",pos->getX() + coteX/2, pos->getY() + coteY / 2, pos->getZ() - coteZ / 2);
     glPushMatrix();
     glTranslatef(pos->getX() + coteX / 2, pos->getY() + coteY / 2, pos->getZ() - coteZ / 2);
     glScalef(coteX, coteY, coteZ);

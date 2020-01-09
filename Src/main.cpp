@@ -19,7 +19,7 @@
 
 /* Variables globales                           */
 
-static int affichage3Dou2D = 0;
+static int affichage3Dou2D = 1;
 static int wTx = 480; // Resolution horizontale de la fenetre
 static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50; // Position horizontale de la fenetre
@@ -170,6 +170,7 @@ static void scene(void) {
 		std::list<Conteneur3D*>::iterator it;
 		std::list<Composant3D *> compo;
 		for (it = conteneurs3D.begin(); it != conteneurs3D.end(); it++) {
+			printf("on passe la\n");
 			std::list<Composant3D*>::iterator it2;
 			compo = (*it)->getListComposant();
 			for (it2 = compo.begin(); it2 != compo.end(); it2++) {
@@ -632,7 +633,17 @@ static void lectureCSVComposant(std::string filename) {
 			delete fichierCSV;
 		}
 		//appel Algo 3D
-
+		Conteneur3D* test2;
+		Conteneur3D* test;
+		conteneurs3D.push_back(new Conteneur3D(0,40,40,40,0));
+		test2 = conteneurs3D.back();
+		test = new Conteneur3D(1, 50, 10, 40, 0);
+		test->setPosition(test2->getPosition()->getX() + test2->getCoteX() + 10, test2->getPosition()->getY(), test2->getPosition()->getZ());
+		conteneurs3D.push_back(test);
+		test2 = conteneurs3D.back();
+		test = new Conteneur3D(1, 10, 10, 20, 0);
+		test->setPosition(test2->getPosition()->getX() + test2->getCoteX() + 10, test2->getPosition()->getY(), test2->getPosition()->getZ());
+		conteneurs3D.push_back(test);
 		posCont3D = conteneurs3D.begin();
 
 	}
