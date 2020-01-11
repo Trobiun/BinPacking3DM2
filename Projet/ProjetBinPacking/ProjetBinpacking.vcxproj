@@ -126,6 +126,7 @@
     <ClCompile Include="..\..\Src\2D\CSVReader.cpp" />
     <ClCompile Include="..\..\Src\2D\Position2D.cpp" />
     <ClCompile Include="..\..\Src\2D\Rectangle.cpp" />
+    <ClCompile Include="..\..\Src\3D\Algorithm3D.cpp" />
     <ClCompile Include="..\..\Src\3D\Composant3D.cpp" />
     <ClCompile Include="..\..\Src\3D\Conteneur3D.cpp" />
     <ClCompile Include="..\..\Src\3D\CSVReader3D.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="..\..\Include\2D\CSVReader.h" />
     <ClInclude Include="..\..\Include\2D\Position2D.h" />
     <ClInclude Include="..\..\Include\2D\Rectangle.h" />
+    <ClInclude Include="..\..\Include\3D\Algorithm3D.h" />
     <ClInclude Include="..\..\Include\3D\Composant3D.h" />
     <ClInclude Include="..\..\Include\3D\Conteneur3D.h" />
     <ClInclude Include="..\..\Include\3D\CSVReader3D.h" />

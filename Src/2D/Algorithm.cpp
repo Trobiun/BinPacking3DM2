@@ -19,9 +19,7 @@ static bool comp(const Composant *a, const Composant *b) {
 }
 
 Algorithm::Algorithm(std::list<Composant *> composantsMain, std::list<Conteneur *> conteneursMain, std::list<Conteneur*> conteneursDispoMain) : composants(composantsMain), conteneurs(conteneursMain), conteneursDispo(conteneursDispoMain) {
-    verifCompoList(composants, -1);
     composants.sort(comp);
-    verifCompoList(composants, -1);
 }
 
 std::list<Composant*> Algorithm::calculRangement() {

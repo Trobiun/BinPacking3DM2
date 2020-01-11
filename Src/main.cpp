@@ -10,6 +10,7 @@
 #include <GL/glu.h>
 
 #include "2D/Algorithm.h"
+#include "3D/Algorithm3D.h"
 #include "2D/ArbreBinaire.h"
 #include "2D/Conteneur.h"
 #include "3D/Conteneur3D.h"
@@ -56,6 +57,8 @@ static std::list<Conteneur*>::iterator posCont2DDispo;
 static std::list<Conteneur*>::iterator posCont2D;
 
 static Algorithm* algo;
+static Algorithm3D* algo3D;
+
 static std::list<Conteneur*> conteneurs;
 static std::list<Conteneur*> conteneursDispo;
 static std::list<Conteneur3D*> conteneurs3D;
@@ -610,6 +613,9 @@ static void lectureCSVComposant(std::string filename) {
 		for (it = listeDesComposant.begin(); it != listeDesComposant.end(); it++) {
 			composants.push_back(*it);
 		}
+		if (fichierCSV != NULL) {
+			delete fichierCSV;
+		}
 		algo = DBG_NEW Algorithm(composants, conteneurs, conteneursDispo);
 		int idCont = 0;
 		bool nofin = true;
@@ -633,9 +639,7 @@ static void lectureCSVComposant(std::string filename) {
 		verifCompoVector(listeDesComposant);
 		verifCompoList(restants, -1);
 		verifCompoList((*posCont2D)->getListComposant(), 1);
-		if (fichierCSV != NULL) {
-			delete fichierCSV;
-		}
+
 	}
 	else {
 		CSVReader3D *fichierCSV = DBG_NEW CSVReader3D(filename);
