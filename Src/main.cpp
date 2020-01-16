@@ -652,6 +652,8 @@ static void lectureCSVComposant(std::string filename) {
         verifCompoVector(listeDesComposant);
         verifCompoList(restants, -1);
         verifCompoList((*posCont2D)->getListComposant(), 1);
+		posCont2D = conteneurs.begin();
+
 
     } else {
         CSVReader3D *fichierCSV = DBG_NEW CSVReader3D(filename);
@@ -669,7 +671,7 @@ static void lectureCSVComposant(std::string filename) {
         algo3D = DBG_NEW Algorithm3D(composants3D, conteneurs3D, conteneurs3DDispo);
         int idCont = 0;
         bool nofin = true;
-        nofin = addCont3D(idCont);
+		nofin = addCont3D(idCont);
         idCont++;
         algo3D->setListeConteneur(conteneurs3D);
         std::list<Composant3D*> reste = algo3D->calculRangement();
@@ -692,6 +694,8 @@ static void lectureCSVComposant(std::string filename) {
             verifCompoList3D((*posCont3D)->getListComposant(), 1);
             posCont3D++;
         }
+		posCont3D = conteneurs3D.begin();
+
         /*Conteneur3D* test2;
         Conteneur3D* test;
         conteneurs3D.push_back(new Conteneur3D(0,40,40,40,0));

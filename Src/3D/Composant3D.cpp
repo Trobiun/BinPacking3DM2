@@ -98,7 +98,7 @@ bool Composant3D::setPosition(Position3D* pos) {
 bool Composant3D::setPosition(float posX, float posY, float posZ) {
     position->setX(posX);
     position->setY(posY);
-    position->setY(posZ);
+    position->setZ(posZ);
     return true;
 }
 

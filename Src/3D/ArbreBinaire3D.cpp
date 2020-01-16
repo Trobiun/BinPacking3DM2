@@ -138,7 +138,7 @@ bool ArbreBinaire3D::creationFils(float coteX, float coteY, float coteZ, int cho
 	libre->setCoteZ(0);
 	ArbreBinaire3D* arbreGauche = DBG_NEW ArbreBinaire3D(gauche, this);
 	ArbreBinaire3D* arbreDroite = DBG_NEW ArbreBinaire3D(droite, this);
-	ArbreBinaire3D* arbreHaut = DBG_NEW ArbreBinaire3D(droite, this);
+	ArbreBinaire3D* arbreHaut = DBG_NEW ArbreBinaire3D(haut, this);
 
 	if (sous_arbre_gauche != nullptr) {
 		delete sous_arbre_gauche;
@@ -154,7 +154,7 @@ bool ArbreBinaire3D::creationFils(float coteX, float coteY, float coteZ, int cho
 	}
 	sous_arbre_droite = arbreDroite;
 	sous_arbre_gauche = arbreGauche;
-	sous_arbre_gauche = arbreHaut;
+	sous_arbre_haut = arbreHaut;
 
 	delete gauche;
 	delete droite;
@@ -169,11 +169,19 @@ bool ArbreBinaire3D::decoupeHorizontale(float coteX, float coteY, float coteZ, C
 	float posY = pos->getY();
 	float posXnew = posX + coteX;
 	float posZnew = posZ - coteZ;
+	float posYnew = posY + coteY;
 	gauche->setCoteX(libre->getCoteX());
+	gauche->setCoteY(libre->getCoteY());
 	gauche->setCoteZ(libre->getCoteZ() - coteZ);
-	droite->setCoteX(libre->getCoteX() - coteX);
 	droite->setCoteZ(coteZ);
-	haut->setPosition(posX, posY + coteY, posZ);
+	droite->setCoteY(libre->getCoteY());
+	droite->setCoteX(libre->getCoteX() - coteX);
+	haut->setCoteX(coteX);
+	haut->setCoteZ(coteZ);
+	haut->setCoteY(libre->getCoteY() - coteY);
+
+
+	haut->setPosition(posX, posYnew, posZ);
 	gauche->setPosition(posX, posY, posZnew);
 	droite->setPosition(posXnew, posY, posZ);
 	return true;
@@ -219,9 +227,9 @@ bool ArbreBinaire3D::decoupeSelonAire(float coteX, float coteY, float coteZ, Com
 	return true;
 }
 
-/*void ArbreBinaire3D::affichageArbre() {
-	printf("ARBRE : Espace Libre = {CoteX = %.2f, CoteY = %.2f, Position = (%.2f,%.2f)}\n"
-		, espace_libre->getCoteX(), espace_libre->getCoteY(), espace_libre->getPosition()->getX(), espace_libre->getPosition()->getY());
+void ArbreBinaire3D::affichageArbre() {
+	printf("ARBRE : Espace Libre = {CoteX = %.2f, CoteY = %.2f, CoteZ = %.2f, Position = (%.2f,%.2f,%.2f)}\n"
+		, espace_libre->getCoteX(), espace_libre->getCoteY(), espace_libre->getCoteZ(), espace_libre->getPosition()->getX(), espace_libre->getPosition()->getY(), espace_libre->getPosition()->getZ());
 	if (sous_arbre_gauche != nullptr) {
 		printf("SOUS-ARBRE GAUCHE \n");
 		sous_arbre_gauche->affichageArbre();
@@ -230,7 +238,11 @@ bool ArbreBinaire3D::decoupeSelonAire(float coteX, float coteY, float coteZ, Com
 		printf("SOUS-ARBRE DROITE \n");
 		sous_arbre_droite->affichageArbre();
 	}
-}*/
+	if (sous_arbre_haut != nullptr) {
+		printf("SOUS-ARBRE HAUT \n");
+		sous_arbre_haut->affichageArbre();
+	}
+}
 
 void ArbreBinaire3D::model() {
 	//glPushMatrix();

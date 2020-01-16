@@ -5,7 +5,9 @@ static bool comp(const Composant3D* a, const Composant3D* b) {
 	return (a->getCoteX() * a->getCoteY() * a->getCoteZ() >= b->getCoteX() * b->getCoteY() * b->getCoteZ());
 }
 
-Algorithm3D::Algorithm3D(std::list<Composant3D*> composantsMain, std::list<Conteneur3D*> conteneursMain, std::list<Conteneur3D*> conteneursDispoMain) : composants3D(composantsMain), conteneurs3D(conteneursMain), conteneursDispo3D(conteneursDispoMain) {
+Algorithm3D::Algorithm3D(std::list<Composant3D*> composantsMain, std::list<Conteneur3D*> conteneursMain,
+	std::list<Conteneur3D*> conteneursDispoMain) : composants3D(composantsMain), conteneurs3D(conteneursMain),
+	conteneursDispo3D(conteneursDispoMain) {
 	composants3D.sort(comp);
 }
 
@@ -35,6 +37,7 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 		comp = composants3D.begin();
 		for (comp; comp != composants3D.end(); comp++) {
 			ArbreBinaire3D* arbre = (*cont)->rechercheLibre((*comp)->getCoteX(), (*comp)->getCoteY(), (*comp)->getCoteZ());
+			printf("je passe dans le for composant\n");
 			if (arbre != nullptr) {
 				if (arbre->getEspaceLibre()->getCoteX() < (*comp)->getCoteX() || arbre->getEspaceLibre()->getCoteZ() < (*comp)->getCoteZ()) {
 					float xTemps = (*comp)->getCoteX();
@@ -42,7 +45,7 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 					(*comp)->setCoteX(zTemps);
 					(*comp)->setCoteZ(xTemps);
 				}
-				//arbre->affichageArbre();
+				arbre->affichageArbre();
 				if (erase) {
 					composants3D.erase(compErase);
 					erase = false;
@@ -53,6 +56,8 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 				(*cont)->addComposant(*comp);
 				arbre->creationFils((*comp)->getCoteX(), (*comp)->getCoteY(), (*comp)->getCoteZ(), 0);
 				compErase = comp;
+				arbre->affichageArbre();
+
 				arbre = nullptr;
 				erase = true;
 			}

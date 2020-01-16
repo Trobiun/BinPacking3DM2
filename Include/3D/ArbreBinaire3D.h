@@ -45,7 +45,7 @@ public:
 	bool decoupeSelonAire(float coteX, float coteY, float coteZ, Composant3D* libre, Position3D* pos, Composant3D* gauche, Composant3D* droite, Composant3D* haut);
 
 	/*affichage */
-	//void affichageArbre();
+	void affichageArbre();
 
 	void model();
 
