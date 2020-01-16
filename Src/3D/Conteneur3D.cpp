@@ -65,15 +65,14 @@ std::list<Composant3D*> Conteneur3D::getListComposant(void) {
     return composants;
 }
 
-void Conteneur3D::model() {
-    glPushMatrix();
+void Conteneur3D::model(const GLfloat couleurCompo[4], bool opaque) {
     glPushMatrix();
     GLfloat blanc[4] = {1.0F, 1.0F, 1.0F, 1.0F};
     glColor4fv(blanc);
     glTranslatef(pos->getX(), pos->getY(), pos->getZ());
     glutSolidSphere(1.0, 8, 8);
-    glPopMatrix();
-    glTranslatef(pos->getX() + coteX / 2, pos->getY() + coteY / 2, pos->getZ() - coteZ / 2);
+    glPushMatrix();
+    glTranslatef(coteX / 2, coteY / 2, -coteZ / 2);
     glScalef(coteX, coteY, coteZ);
     GLfloat couleur[4] = {1.0F, 0.0F, 0.0F, 1.0F};
     glColor4fv(couleur);
@@ -81,6 +80,11 @@ void Conteneur3D::model() {
     /*if (arbre != NULL) {
         arbre->model();
     }*/
+    glPopMatrix();
+    std::list<Composant3D*>::iterator it2;
+    for (it2 = composants.begin(); it2 != composants.end(); it2++) {
+        (*it2)->model(couleurCompo, opaque);
+    }
     glPopMatrix();
 }
 

@@ -41,7 +41,7 @@ static bool keyboardKeys[256] = {false};
 static int oldMX = -1, oldMY = -1;
 static int deplMX = 0, deplMY = 0;
 static bool cameraMove = false;
-static bool opacite = false;
+static bool opaque = false;
 static float zoom[3] = {3.0, 3.0, 3.0};
 static double normeCamera = 1.0;
 static const GLfloat blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
@@ -164,12 +164,7 @@ static void scene(void) {
         std::list<Conteneur3D*>::iterator it;
         std::list<Composant3D *> compo;
         for (it = conteneurs3D.begin(); it != conteneurs3D.end(); it++) {
-            std::list<Composant3D*>::iterator it2;
-            compo = (*it)->getListComposant();
-            for (it2 = compo.begin(); it2 != compo.end(); it2++) {
-                (*it2)->model(vert, opacite);
-            }
-            (*it)->model();
+            (*it)->model(vert, opaque);
         }
     }
     glPopMatrix();
@@ -323,7 +318,7 @@ static void keyboard(unsigned char key, int x, int y) {
         courantConteneur();
     }
     if (key == 32) {
-        opacite = !opacite;
+        opaque = !opaque;
     }
     keyboardKeys[key] = true;
 }
@@ -518,6 +513,19 @@ static void verifCompoList(std::list <Composant*> liste, int type) {
     }
 }
 
+static void verifCompoList3D(std::list <Composant3D*> liste, int type) {
+    if (type == -1) {
+        printf("LISTE DES COMPOSANTS 3D DE LA LISTE RESTE: \n");
+    } else {
+        printf("LISTE DES COMPOSANTS 3D DE LA LISTE CONTENEUR %d: \n", type);
+    }
+    std::list<Composant3D*>::iterator comp = liste.begin();
+    while (comp != liste.end()) {
+        (*comp)->affichageComposant();
+        comp++;
+    }
+}
+
 static bool addCont3D(int idCont) {
     bool newCont = false;
     bool breakage = false;
@@ -675,12 +683,16 @@ static void lectureCSVComposant(std::string filename) {
             reste = algo3D->calculRangement();
             algo3D->setListeComposant(reste);
         }
+        posCont3D = conteneurs3D.begin();
 
         restants3D.insert(restants3D.begin(), reste.begin(), reste.end());
-        /*verifCompoVector(composants3D);
-        verifCompoList(restants, -1);
-        verifCompoList((*posCont2D)->getListComposant(), 1);
-        Conteneur3D* test2;
+        //verifCompoVector(composants3D);
+        verifCompoList3D(restants3D, -1);
+        while (posCont3D != conteneurs3D.end()) {
+            verifCompoList3D((*posCont3D)->getListComposant(), 1);
+            posCont3D++;
+        }
+        /*Conteneur3D* test2;
         Conteneur3D* test;
         conteneurs3D.push_back(new Conteneur3D(0,40,40,40,0));
         test2 = conteneurs3D.back();
@@ -691,8 +703,6 @@ static void lectureCSVComposant(std::string filename) {
         test = new Conteneur3D(1, 10, 10, 20, 0);
         test->setPosition(test2->getPosition()->getX() + test2->getCoteX() + 10, test2->getPosition()->getY(), test2->getPosition()->getZ());
         conteneurs3D.push_back(test);*/
-        posCont3D = conteneurs3D.begin();
-
     }
 }
 
