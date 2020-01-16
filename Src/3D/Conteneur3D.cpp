@@ -122,9 +122,9 @@ bool Conteneur3D::addComposant(Composant3D * comp) {
     return true;
 }
 
-/*ArbreBinaire* Conteneur::rechercheLibre(float coteX, float coteY) {
-    return arbre->recherchePremierEspaceLibreValide(coteX, coteY);
-}*/
+ArbreBinaire3D* Conteneur3D::rechercheLibre(float coteX, float coteY, float coteZ) {
+    return arbre->recherchePremierEspaceLibreValide(coteX, coteY, coteZ);
+}
 
 void Conteneur3D::affichageConteneur() {
     printf("CONTENEUR : Id = %d, CoteX = %.2f, CoteY = %.2f, CoteZ = %.2f, Position = (%.2f,%.2f, %.2f), Liste des composants = \n"

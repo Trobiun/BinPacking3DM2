@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <list>
 #include "3D/Composant3D.h"
+#include "3D/ArbreBinaire3D.h"
 
 class Conteneur3D {
 	protected:
@@ -12,6 +13,7 @@ class Conteneur3D {
 		float coteY;
 		float coteZ;
 		Position3D *pos;
+		ArbreBinaire3D* arbre;
 		std::list<Composant3D *> composants;
 		int nb;
                 
@@ -49,7 +51,7 @@ class Conteneur3D {
 		/* Mod�lisation */
 		void model();
 
-		//ArbreBinaire* rechercheLibre(float sCoteX, float sCoteY);
+		ArbreBinaire3D* rechercheLibre(float sCoteX, float sCoteY, float sCoteZ);
 
 		/*Affichage*/
 
