@@ -2,7 +2,7 @@
 #include "3D/Algorithm3D.h"
 
 static bool comp(const Composant3D* a, const Composant3D* b) {
-	return (a->getCoteX() * a->getCoteY() * a->getCoteZ() >= b->getCoteX() * b->getCoteY() * b->getCoteZ());
+	return (b->getCoteX() * b->getCoteY() * b->getCoteZ() < a->getCoteX() * a->getCoteY() * a->getCoteZ());
 }
 
 Algorithm3D::Algorithm3D(std::list<Composant3D*> composantsMain, std::list<Conteneur3D*> conteneursMain,
