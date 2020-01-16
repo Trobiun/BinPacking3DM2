@@ -1,4 +1,4 @@
-#include "2D/Debug.h"
+#include "3D/Debug.h"
 
 #include <stdio.h>
 #include <GL/glut.h>
@@ -40,22 +40,23 @@ float Conteneur3D::getCoteY(void) {
 }
 
 float Conteneur3D::getCoteZ(void) {
-	return coteZ;
+    return coteZ;
 }
 
 int Conteneur3D::getNb(void) {
-	return nb;
+    return nb;
 }
 
 bool Conteneur3D::takeCont() {
-	if (nb != 0) {
-		if (nb != -1) {
-			nb = nb - 1;
-		}
-		return true;
-	}
-	return false;
+    if (nb != 0) {
+        if (nb != -1) {
+            nb = nb - 1;
+        }
+        return true;
+    }
+    return false;
 }
+
 /*ArbreBinaire* Conteneur3D::getArbre(void) {
     return arbre;
 }*/
@@ -66,6 +67,12 @@ std::list<Composant3D*> Conteneur3D::getListComposant(void) {
 
 void Conteneur3D::model() {
     glPushMatrix();
+    glPushMatrix();
+    GLfloat blanc[4] = {1.0F, 1.0F, 1.0F, 1.0F};
+    glColor4fv(blanc);
+    glTranslatef(pos->getX(), pos->getY(), pos->getZ());
+    glutSolidSphere(1.0, 8, 8);
+    glPopMatrix();
     glTranslatef(pos->getX() + coteX / 2, pos->getY() + coteY / 2, pos->getZ() - coteZ / 2);
     glScalef(coteX, coteY, coteZ);
     GLfloat couleur[4] = {1.0F, 0.0F, 0.0F, 1.0F};
@@ -90,13 +97,13 @@ bool Conteneur3D::setCoteY(float nCoteY) {
 }
 
 bool Conteneur3D::setCoteZ(float nCoteZ) {
-	coteZ = nCoteZ;
-	return true;
+    coteZ = nCoteZ;
+    return true;
 }
 
 bool Conteneur3D::setNb(int nnb) {
-	nb = nnb;
-	return true;
+    nb = nnb;
+    return true;
 }
 
 bool Conteneur3D::setPosition(Position3D *position) {
@@ -105,13 +112,13 @@ bool Conteneur3D::setPosition(Position3D *position) {
 }
 
 Position3D* Conteneur3D::getPosition() {
-	return pos;
+    return pos;
 }
 
 bool Conteneur3D::setPosition(float posX, float posY, float posZ) {
     pos->setX(posX);
     pos->setY(posY);
-	pos->setY(posZ);
+    pos->setY(posZ);
     return true;
 }
 

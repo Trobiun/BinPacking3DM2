@@ -234,7 +234,7 @@ bool ArbreBinaire3D::decoupeSelonAire(float coteX, float coteY, float coteZ, Com
 
 void ArbreBinaire3D::model() {
 	//glPushMatrix();
-	espace_libre->model(bleu);
+	espace_libre->model(bleu, false);
 	if (sous_arbre_gauche != nullptr) {
 		sous_arbre_gauche->model();
 	}

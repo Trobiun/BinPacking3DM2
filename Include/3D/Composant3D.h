@@ -53,8 +53,8 @@ class Composant3D {
 		/* Comparateur                             */
 		bool operator<(const Composant3D* a);
 
-		/* Mod�lisation */
-		void model(const GLfloat couleur[4]);
+		/* Modelisation */
+		void model(const GLfloat couleur[4], bool opaque);
 
 		/*Affichage */
 		void affichageComposant();
