@@ -48,8 +48,8 @@ class Conteneur3D {
 		bool takeCont();
 		std::list<Composant3D *> getListComposant();
 
-		/* Mod�lisation */
-		void model();
+		/* Modelisation */
+		void model(const GLfloat couleur[4], bool opaque);
 
 		ArbreBinaire3D* rechercheLibre(float sCoteX, float sCoteY, float sCoteZ);
 
