@@ -168,14 +168,14 @@ bool ArbreBinaire3D::decoupeHorizontale(float coteX, float coteY, float coteZ, C
 	float posX = pos->getX();
 	float posY = pos->getY();
 	float posXnew = posX + coteX;
-	float posYnew = posY + coteY;
+	float posZnew = posZ - coteZ;
 	gauche->setCoteX(libre->getCoteX());
-	gauche->setCoteY(libre->getCoteY() - coteY);
+	gauche->setCoteZ(libre->getCoteZ() - coteZ);
 	droite->setCoteX(libre->getCoteX() - coteX);
-	droite->setCoteY(coteY);
-	haut->setPosition(posX, posY, posZ + coteZ);
-	gauche->setPosition(posX, posYnew, posY);
-	droite->setPosition(posXnew, posY, posY);
+	droite->setCoteZ(coteZ);
+	haut->setPosition(posX, posY + coteY, posZ);
+	gauche->setPosition(posX, posY, posZnew);
+	droite->setPosition(posXnew, posY, posZ);
 	return true;
 }
 

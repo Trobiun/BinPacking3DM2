@@ -167,7 +167,7 @@ static void scene(void) {
             std::list<Composant3D*>::iterator it2;
             compo = (*it)->getListComposant();
             for (it2 = compo.begin(); it2 != compo.end(); it2++) {
-                (*it2)->model(blanc, opacite);
+                (*it2)->model(vert, opacite);
             }
             (*it)->model();
         }
@@ -679,11 +679,8 @@ static void lectureCSVComposant(std::string filename) {
         restants3D.insert(restants3D.begin(), reste.begin(), reste.end());
         /*verifCompoVector(composants3D);
         verifCompoList(restants, -1);
-        verifCompoList((*posCont2D)->getListComposant(), 1);*/
-
-
-        /**/
-        /*Conteneur3D* test2;
+        verifCompoList((*posCont2D)->getListComposant(), 1);
+        Conteneur3D* test2;
         Conteneur3D* test;
         conteneurs3D.push_back(new Conteneur3D(0,40,40,40,0));
         test2 = conteneurs3D.back();

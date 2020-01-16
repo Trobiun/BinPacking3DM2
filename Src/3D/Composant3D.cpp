@@ -127,9 +127,10 @@ int Composant3D::getIdConteneur() {
 }
 
 /* Modelisation */
+
 void Composant3D::model(const GLfloat couleur[4], bool opaque) {
     glPushMatrix();
-    glTranslatef(position->getX() + coteX / 2.0, position->getY() + coteY / 2.0, position->getZ() + coteZ / 2.0);
+    glTranslatef(position->getX() + coteX / 2.0, position->getY() + coteY / 2.0, position->getZ() - coteZ / 2.0);
     glScalef(coteX, coteY, coteZ);
     if (opaque) {
         glColor4fv(couleur);

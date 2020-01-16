@@ -36,11 +36,11 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 		for (comp; comp != composants3D.end(); comp++) {
 			ArbreBinaire3D* arbre = (*cont)->rechercheLibre((*comp)->getCoteX(), (*comp)->getCoteY(), (*comp)->getCoteZ());
 			if (arbre != nullptr) {
-				if (arbre->getEspaceLibre()->getCoteX() < (*comp)->getCoteX() || arbre->getEspaceLibre()->getCoteY() < (*comp)->getCoteY()) {
+				if (arbre->getEspaceLibre()->getCoteX() < (*comp)->getCoteX() || arbre->getEspaceLibre()->getCoteZ() < (*comp)->getCoteZ()) {
 					float xTemps = (*comp)->getCoteX();
-					float yTemps = (*comp)->getCoteY();
-					(*comp)->setCoteX(yTemps);
-					(*comp)->setCoteY(xTemps);
+					float zTemps = (*comp)->getCoteZ();
+					(*comp)->setCoteX(zTemps);
+					(*comp)->setCoteZ(xTemps);
 				}
 				//arbre->affichageArbre();
 				if (erase) {
@@ -61,7 +61,7 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 			composants3D.erase(compErase);
 			erase = false;
 		}
-		longueurCourante = longueurCourante + 10 + (*cont)->getCoteY();
+		longueurCourante = longueurCourante + 10 + (*cont)->getCoteX();
 		cont++;
 
 	}
