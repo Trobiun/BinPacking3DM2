@@ -31,7 +31,7 @@ std::list<Composant*> Algorithm::calculRangement() {
 
 
 	bool erase = false;
-	while (cont != conteneurs.end() & !(composants.empty())) {
+	while (cont != conteneurs.end() && !(composants.empty())) {
 		posCourante->setX(longueurCourante);
 		(*cont)->setPosition(posCourante->getX(), posCourante->getY());
 		comp = composants.begin();

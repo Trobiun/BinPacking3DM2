@@ -139,8 +139,6 @@ void Composant3D::model(const GLfloat couleur[4]) {
 /*Affichage */
 
 void Composant3D::affichageComposant() {
-    printf("COMPOSANT : Id = %d, CoteX = %.2f, CoteY = %.2f, CoteZ = %.2f, Position = (%.2f,%.2f, %.2f), Faces = {%d, %d, %d, %d, %d, %d}, Conteneur = %d \n"
-        , id, coteX, coteY, coteZ, position->getX(), position->getY(), position->getZ(), 
-		orientationPossible.at(0), orientationPossible.at(1), orientationPossible.at(2), orientationPossible.at(3), 
-		orientationPossible.at(4), orientationPossible.at(5), conteneur);
+    printf("COMPOSANT : Id = %d, CoteX = %.2f, CoteY = %.2f, CoteZ = %.2f, Position = (%.2f,%.2f, %.2f), , Conteneur = %d \n"
+        , id, coteX, coteY, coteZ, position->getX(), position->getY(), position->getZ(), conteneur);
 }

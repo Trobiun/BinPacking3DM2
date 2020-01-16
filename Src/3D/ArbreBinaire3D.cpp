@@ -30,6 +30,10 @@ ArbreBinaire3D::~ArbreBinaire3D() {
 		delete sous_arbre_droite;
 		sous_arbre_droite = nullptr;
 	}
+	if (sous_arbre_haut != nullptr) {
+		delete sous_arbre_haut;
+		sous_arbre_haut = nullptr;
+	}
 }
 
 /* Setters                                  */
@@ -49,8 +53,8 @@ bool ArbreBinaire3D::setSousArbreDroite(ArbreBinaire3D* ad) {
 	return true;
 }
 
-bool ArbreBinaire3D::setSousArbreDroite(ArbreBinaire3D* ad) {
-	sous_arbre_droite = ad;
+bool ArbreBinaire3D::setSousArbreHaut(ArbreBinaire3D* ad) {
+	sous_arbre_haut = ad;
 	return true;
 }
 
@@ -100,7 +104,7 @@ ArbreBinaire3D* ArbreBinaire3D::recherchePremierEspaceLibreValide(float coteX, f
 			}
 		}
 		if (this->getSousArbreHaut() != nullptr) {
-			res = this->getSousArbreGauche()->recherchePremierEspaceLibreValide(coteX, coteY, coteZ);
+			res = this->getSousArbreHaut()->recherchePremierEspaceLibreValide(coteX, coteY, coteZ);
 			if (res != nullptr) {
 				return res;
 			}
@@ -114,16 +118,17 @@ bool ArbreBinaire3D::creationFils(float coteX, float coteY, float coteZ, int cho
 	Position3D* pos = libre->getPosition();
 	Composant3D* gauche = DBG_NEW Composant3D();
 	Composant3D* droite = DBG_NEW Composant3D();
+	Composant3D* haut = DBG_NEW Composant3D();
 
 	switch (choix) {
 	case 0:
-		decoupeHorizontale(coteX, coteY, coteZ, libre, pos, gauche, droite);
+		decoupeHorizontale(coteX, coteY, coteZ, libre, pos, gauche, droite, haut);
 		break;
 	case 1:
-		decoupeVerticale(coteX, coteY, coteZ, libre, pos, gauche, droite);
+		decoupeVerticale(coteX, coteY, coteZ, libre, pos, gauche, droite, haut);
 		break;
 	case 2:
-		decoupeSelonAire(coteX, coteY, coteZ, libre, pos, gauche, droite);
+		decoupeSelonAire(coteX, coteY, coteZ, libre, pos, gauche, droite, haut);
 		break;
 	default:
 		return false;
@@ -133,13 +138,15 @@ bool ArbreBinaire3D::creationFils(float coteX, float coteY, float coteZ, int cho
 	libre->setCoteZ(0);
 	ArbreBinaire3D* arbreGauche = DBG_NEW ArbreBinaire3D(gauche, this);
 	ArbreBinaire3D* arbreDroite = DBG_NEW ArbreBinaire3D(droite, this);
+	ArbreBinaire3D* arbreHaut = DBG_NEW ArbreBinaire3D(droite, this);
+
 	if (sous_arbre_gauche != nullptr) {
 		delete sous_arbre_gauche;
 		sous_arbre_gauche = nullptr;
 	}
 	if (sous_arbre_haut != nullptr) {
 		delete sous_arbre_haut;
-		sous_arbre_droite = nullptr;
+		sous_arbre_haut = nullptr;
 	}
 	if (sous_arbre_droite != nullptr) {
 		delete sous_arbre_droite;
@@ -147,14 +154,17 @@ bool ArbreBinaire3D::creationFils(float coteX, float coteY, float coteZ, int cho
 	}
 	sous_arbre_droite = arbreDroite;
 	sous_arbre_gauche = arbreGauche;
+	sous_arbre_gauche = arbreHaut;
+
 	delete gauche;
 	delete droite;
+	delete haut;
 	return true;
 
 }
 
-bool ArbreBinaire3D::decoupeHorizontale(float coteX, float coteY, float coteZ, Composant3D* libre, Position3D* pos, Composant3D* gauche, Composant3D* droite) {
-	//TODO rajoute Z dans calcul 
+bool ArbreBinaire3D::decoupeHorizontale(float coteX, float coteY, float coteZ, Composant3D* libre, Position3D* pos, Composant3D* gauche, Composant3D* droite, Composant3D* haut) {
+	float posZ = pos->getZ();
 	float posX = pos->getX();
 	float posY = pos->getY();
 	float posXnew = posX + coteX;
@@ -163,13 +173,13 @@ bool ArbreBinaire3D::decoupeHorizontale(float coteX, float coteY, float coteZ, C
 	gauche->setCoteY(libre->getCoteY() - coteY);
 	droite->setCoteX(libre->getCoteX() - coteX);
 	droite->setCoteY(coteY);
-
-	gauche->setPosition(posX, posYnew, 0);
-	droite->setPosition(posXnew, posY, 0);
+	haut->setPosition(posX, posY, posZ + coteZ);
+	gauche->setPosition(posX, posYnew, posY);
+	droite->setPosition(posXnew, posY, posY);
 	return true;
 }
 
-bool ArbreBinaire3D::decoupeVerticale(float coteX, float coteY, float coteZ, Composant3D* libre, Position3D* pos, Composant3D* gauche, Composant3D* droite) {
+bool ArbreBinaire3D::decoupeVerticale(float coteX, float coteY, float coteZ, Composant3D* libre, Position3D* pos, Composant3D* gauche, Composant3D* droite, Composant3D* haut) {
 	float posX = pos->getX();
 	float posY = pos->getY();
 	float posXnew = posX + coteX;
@@ -184,7 +194,7 @@ bool ArbreBinaire3D::decoupeVerticale(float coteX, float coteY, float coteZ, Com
 	return true;
 }
 
-bool ArbreBinaire3D::decoupeSelonAire(float coteX, float coteY, float coteZ, Composant3D* libre, Position3D* pos, Composant3D* gauche, Composant3D* droite) {
+bool ArbreBinaire3D::decoupeSelonAire(float coteX, float coteY, float coteZ, Composant3D* libre, Position3D* pos, Composant3D* gauche, Composant3D* droite, Composant3D* haut) {
 	float posX = pos->getX();
 	float posY = pos->getY();
 	float posXnew = posX + coteX;
@@ -230,6 +240,9 @@ void ArbreBinaire3D::model() {
 	}
 	if (sous_arbre_droite != nullptr) {
 		sous_arbre_droite->model();
+	}
+	if (sous_arbre_haut != nullptr) {
+		sous_arbre_haut->model();
 	}
 	//glPopMatrix();
 }

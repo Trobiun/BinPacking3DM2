@@ -101,7 +101,7 @@ void CSVReader3D::ajoutComposant(std::vector <string> row) {
 				erreur = true;
 			}
 		}
-		if (indiceCourant == 4) {
+/*		if (indiceCourant == 4) {
 			face1 = strtol(row[indiceCourant].c_str(), &verifErreur, 10);
 			if (*verifErreur != '\0') {
 				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : Face1 non valide, le composant %s n'est pas ajout�. \n", row[0].c_str());
@@ -142,14 +142,14 @@ void CSVReader3D::ajoutComposant(std::vector <string> row) {
 				printf("ERREUR LORS DE L'AJOUT D'UN COMPOSANT : Face6 non valide, le composant %s n'est pas ajout�. \n", row[0].c_str());
 				erreur = true;
 			}
-		}
+		}*/
 		indiceCourant++;
 	}
 	if (erreur == false) {
-		printf("AJOUT D'UN COMPOSANT : id = %d, coteX %.2f, coteY %.2f, coteZ %.2f, faces {%d,%d,%d,%d,%d,%d} \n", 
-			id, coteX, coteY, coteZ, face1, face2, face3, face4, face5, face6);
+		printf("AJOUT D'UN COMPOSANT : id = %d, coteX %.2f, coteY %.2f, coteZ %.2f\n", 
+			id, coteX, coteY, coteZ);
 		listComposant.push_back(DBG_NEW Composant3D(id, coteX, coteY, coteZ));
-		listComposant.back()->setTabOrientation(face1, face2, face3, face4, face5, face6);
+		//listComposant.back()->setTabOrientation(face1, face2, face3, face4, face5, face6);
 	}
 }
 

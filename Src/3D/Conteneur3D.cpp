@@ -11,7 +11,7 @@ Conteneur3D::Conteneur3D(void) : Conteneur3D(0, 0.0, 0.0, 0.0, 0) {
 
 Conteneur3D::Conteneur3D(int nid, float nCoteX, float nCoteY, float nCoteZ, int nnb) : id(nid), coteX(nCoteX), coteY(nCoteY), coteZ(nCoteZ), nb(nnb) {
     pos = DBG_NEW Position3D();
-    //arbre = DBG_NEW ArbreBinaire(coteX, coteY);
+    arbre = DBG_NEW ArbreBinaire3D(coteX, coteY, coteZ);
 }
 
 Conteneur3D::~Conteneur3D(void) {
@@ -65,7 +65,6 @@ std::list<Composant3D*> Conteneur3D::getListComposant(void) {
 }
 
 void Conteneur3D::model() {
-	printf("on modelise un conteneur en x : %f y:%f et z:%f\n",pos->getX() + coteX/2, pos->getY() + coteY / 2, pos->getZ() - coteZ / 2);
     glPushMatrix();
     glTranslatef(pos->getX() + coteX / 2, pos->getY() + coteY / 2, pos->getZ() - coteZ / 2);
     glScalef(coteX, coteY, coteZ);

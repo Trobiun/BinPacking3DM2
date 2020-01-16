@@ -28,16 +28,13 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 	std::list<Composant3D*>::iterator compErase;
 	Position3D* posCourante = DBG_NEW Position3D(0, 0, 0);
 	std::list<Conteneur3D*>::iterator cont = conteneurs3D.begin();
-
-
 	bool erase = false;
-	while (cont != conteneurs3D.end() & !(composants3D.empty())) {
+	while (cont != conteneurs3D.end() && !(composants3D.empty())) {
 		posCourante->setX(longueurCourante);
 		(*cont)->setPosition(posCourante->getX(), posCourante->getY(), posCourante->getZ());
 		comp = composants3D.begin();
 		for (comp; comp != composants3D.end(); comp++) {
-			// TODO : mettre en place la fonction de recherche et l'arbre 3D
-			/*ArbreBinaire* arbre = (*cont)->rechercheLibre((*comp)->getCoteX(), (*comp)->getCoteY());
+			ArbreBinaire3D* arbre = (*cont)->rechercheLibre((*comp)->getCoteX(), (*comp)->getCoteY(), (*comp)->getCoteZ());
 			if (arbre != nullptr) {
 				if (arbre->getEspaceLibre()->getCoteX() < (*comp)->getCoteX() || arbre->getEspaceLibre()->getCoteY() < (*comp)->getCoteY()) {
 					float xTemps = (*comp)->getCoteX();
@@ -45,33 +42,41 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 					(*comp)->setCoteX(yTemps);
 					(*comp)->setCoteY(xTemps);
 				}
-				arbre->affichageArbre();
+				//arbre->affichageArbre();
 				if (erase) {
-					composants.erase(compErase);
+					composants3D.erase(compErase);
 					erase = false;
 				}
 
 				(*comp)->setConteneur((*cont)->getId());
 				(*comp)->setPosition(arbre->getEspaceLibre()->getPosition());
 				(*cont)->addComposant(*comp);
-				arbre->creationFils((*comp)->getCoteX(), (*comp)->getCoteY(), 0);
+				arbre->creationFils((*comp)->getCoteX(), (*comp)->getCoteY(), (*comp)->getCoteZ(), 0);
 				compErase = comp;
 				arbre = nullptr;
 				erase = true;
 			}
-		}*/
-			if (erase) {
-				composants3D.erase(compErase);
-				erase = false;
-			}
-			longueurCourante = longueurCourante + 10 + (*cont)->getCoteY();
-			cont++;
+		}
+		if (erase) {
+			composants3D.erase(compErase);
+			erase = false;
+		}
+		longueurCourante = longueurCourante + 10 + (*cont)->getCoteY();
+		cont++;
 
-		}
-		if (posCourante != nullptr) {
-			delete posCourante;
-			posCourante = nullptr;
-		}
-		return composants3D;
 	}
+
+	if (posCourante != nullptr) {
+		delete posCourante;
+		posCourante = nullptr;
+	}
+	return composants3D;
+}
+
+void Algorithm3D::setListeComposant(std::list<Composant3D*> composantsMain) {
+	composants3D = composantsMain;
+}
+
+void Algorithm3D::setListeConteneur(std::list<Conteneur3D*> conteneursMain) {
+	conteneurs3D = conteneursMain;
 }

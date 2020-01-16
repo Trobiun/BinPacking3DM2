@@ -65,6 +65,8 @@ static std::list<Conteneur3D*> conteneurs3D;
 static std::list<Conteneur3D*> conteneurs3DDispo;
 static std::list<Composant*> composants;
 static std::list<Composant*> restants;
+static std::list<Composant3D*> restants3D;
+
 static std::list<Composant3D*> composants3D;
 
 #define KEY_LEFT 0
@@ -190,7 +192,6 @@ static void scene(void) {
 		std::list<Conteneur3D*>::iterator it;
 		std::list<Composant3D *> compo;
 		for (it = conteneurs3D.begin(); it != conteneurs3D.end(); it++) {
-			printf("on passe la\n");
 			std::list<Composant3D*>::iterator it2;
 			compo = (*it)->getListComposant();
 			for (it2 = compo.begin(); it2 != compo.end(); it2++) {
@@ -514,6 +515,9 @@ static void clean(void) {
     if (algo != NULL) {
        delete algo;
     }
+	if (algo3D != NULL) {
+		delete algo3D;
+	}
 #ifdef _WIN32
 	int test = _CrtDumpMemoryLeaks();
 	printf("Bye %i\n",test);
@@ -540,6 +544,36 @@ static void verifCompoList(std::list <Composant*> liste, int type) {
         (*comp)->affichageComposant();
         comp++;
     }
+}
+
+static bool addCont3D(int idCont) {
+	bool newCont = false;
+	bool breakage = false;
+
+	std::list<Conteneur3D*>::iterator contDisp = conteneurs3DDispo.begin();
+
+	for (contDisp; contDisp != conteneurs3DDispo.end(); contDisp++) {
+
+		if ((*contDisp)->getNb() != 0) {
+			std::list < Composant3D*>::iterator comp = composants3D.begin();
+			for (comp; comp != composants3D.end(); comp++) {
+				if (((*comp)->getCoteX() * (*comp)->getCoteY() * (*comp)->getCoteZ()) < ((*contDisp)->getCoteX() * (*contDisp)->getCoteY()* (*contDisp)->getCoteZ())) {
+					newCont = true;
+					(*contDisp)->takeCont();
+					conteneurs3D.push_back(new Conteneur3D(idCont, (*contDisp)->getCoteX(), (*contDisp)->getCoteY(), (*contDisp)->getCoteZ(), 0));
+					breakage = true;
+					break;
+				}
+			}
+			if (breakage) {
+				break;
+			}
+		}
+	}
+	if (!newCont) {
+		return false;
+	}
+	return true;
 }
 
 static bool addCont(int idCont) {
@@ -654,7 +688,33 @@ static void lectureCSVComposant(std::string filename) {
 			delete fichierCSV;
 		}
 		//appel Algo 3D
-		Conteneur3D* test2;
+		algo3D = DBG_NEW Algorithm3D(composants3D, conteneurs3D, conteneurs3DDispo);
+		int idCont = 0;
+		bool nofin = true;
+		nofin = addCont3D(idCont);
+		idCont++;
+		algo3D->setListeConteneur(conteneurs3D);
+		std::list<Composant3D*> reste = algo3D->calculRangement();
+		algo3D->setListeComposant(reste);
+
+		while (!(reste.empty()) && nofin) {
+
+			nofin = addCont3D(idCont);
+			idCont++;
+			algo3D->setListeConteneur(conteneurs3D);
+			reste = algo3D->calculRangement();
+			algo3D->setListeComposant(reste);
+		}
+		posCont2D = conteneurs.begin();
+
+		restants3D.insert(restants3D.begin(), reste.begin(), reste.end());
+		/*verifCompoVector(composants3D);
+		verifCompoList(restants, -1);
+		verifCompoList((*posCont2D)->getListComposant(), 1);*/
+
+		
+		/**/
+		/*Conteneur3D* test2;
 		Conteneur3D* test;
 		conteneurs3D.push_back(new Conteneur3D(0,40,40,40,0));
 		test2 = conteneurs3D.back();
@@ -664,7 +724,7 @@ static void lectureCSVComposant(std::string filename) {
 		test2 = conteneurs3D.back();
 		test = new Conteneur3D(1, 10, 10, 20, 0);
 		test->setPosition(test2->getPosition()->getX() + test2->getCoteX() + 10, test2->getPosition()->getY(), test2->getPosition()->getZ());
-		conteneurs3D.push_back(test);
+		conteneurs3D.push_back(test);*/
 		posCont3D = conteneurs3D.begin();
 
 	}

@@ -7,53 +7,53 @@
 #include "2D/ArbreBinaire.h"
 
 class Conteneur {
-	protected:
-		int id;
-		float coteX;
-		float coteY;
-		Position2D *pos;
-		std::list<Composant *> composants;
-		ArbreBinaire* arbre;
-		int nb;
-                
-	public:
-                //static GLfloat couleur[4];
-		/* Constructeurs                            */
+protected:
+	int id;
+	float coteX;
+	float coteY;
+	Position2D* pos;
+	std::list<Composant*> composants;
+	ArbreBinaire* arbre;
+	int nb;
 
-		Conteneur(void);
-		Conteneur(int id, float nCoteX, float nCoteY, int nnb);
+public:
+	//static GLfloat couleur[4];
+/* Constructeurs                            */
 
-		/* Destructeur                              */
+	Conteneur(void);
+	Conteneur(int id, float nCoteX, float nCoteY, int nnb);
 
-		~Conteneur(void);
+	/* Destructeur                              */
 
-		/* Setters                                  */
+	~Conteneur(void);
 
-		virtual bool setCoteX(float nCoteX);
-		virtual bool setCoteY(float nCoteY);
-		virtual bool setNb(int nnb);
-		virtual bool setPosition(Position2D * position);
-        virtual bool setPosition(float posX, float posY);
-        virtual Position2D* getPosition();
-		virtual bool addComposant(Composant * comp);
-		/* Getters                                  */
+	/* Setters                                  */
 
-		int getId();
-		float getCoteX();
-		float getCoteY();
-		float getNb();
-		bool takeCont();
-		ArbreBinaire* getArbre();
-		std::list<Composant *> getListComposant();
+	virtual bool setCoteX(float nCoteX);
+	virtual bool setCoteY(float nCoteY);
+	virtual bool setNb(int nnb);
+	virtual bool setPosition(Position2D* position);
+	virtual bool setPosition(float posX, float posY);
+	virtual Position2D* getPosition();
+	virtual bool addComposant(Composant* comp);
+	/* Getters                                  */
 
-		/* Mod�lisation */
-		void model();
+	int getId();
+	float getCoteX();
+	float getCoteY();
+	float getNb();
+	bool takeCont();
+	ArbreBinaire* getArbre();
+	std::list<Composant*> getListComposant();
 
-		ArbreBinaire* rechercheLibre(float sCoteX, float sCoteY);
+	/* Mod�lisation */
+	void model();
 
-		/*Affichage*/
+	ArbreBinaire* rechercheLibre(float sCoteX, float sCoteY);
 
-		void affichageConteneur();
+	/*Affichage*/
+
+	void affichageConteneur();
 };
 
 #endif
