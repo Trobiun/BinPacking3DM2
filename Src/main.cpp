@@ -51,6 +51,10 @@ static const GLfloat vert[4] = {0.0F, 1.0F, 0.0F, 1.0F};
 //static const GLfloat cyan[4] = {0.0F, 1.0F, 0.0F, 1.0F};
 static const GLfloat light0_position[4] = {0.0, 0.0, 10.0, 1.0};
 
+static float r = 3.0;
+static float anglex = 0.0;
+static float angley = 0.0;
+
 static std::list<Conteneur3D*>::iterator posCont3DDispo;
 static std::list<Conteneur3D*>::iterator posCont3D;
 static std::list<Conteneur*>::iterator posCont2DDispo;
@@ -84,10 +88,11 @@ static std::list<Composant3D*> composants3D;
 static void init(void) {
     glClearColor(0.25F, 0.25F, 0.25F, 1.0F);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, blanc);
-    //glEnable(GL_LIGHTING);
+    //    glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glDepthFunc(GL_LESS);
-    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    //    glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_NORMALIZE);
 }
@@ -149,6 +154,17 @@ static void reset() {
 static void scene(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
+    // move camera a distance r away from the center
+    glTranslatef(px, py, -r);
+
+    // rotate 
+    glRotatef(angley, 0, 1, 0);
+    glRotatef(anglex, 1, 0, 0);
+
+    // move to center of circle    
+    glTranslatef(-px, -py, -pz);
+
+
     if (affichage3Dou2D == 0) {
         std::list<Conteneur*>::iterator it;
         std::list<Composant *> compo;
@@ -180,9 +196,9 @@ static void display(void) {
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 
-    //TODO VECTEUR entre (px, py, pz) et (ox, oy, oz) puis calcul� les valeur a ajout� a px, py et pz pour parcourir ce vecteur sur une distance de zoom
+    //TODO VECTEUR entre (px, py, pz) et (ox, oy, oz) puis calcule les valeur a ajoute a px, py et pz pour parcourir ce vecteur sur une distance de zoom
 
-    gluLookAt(px + zoom[0], py + zoom[1], pz + zoom[2], ox + zoom[0], oy + zoom[1], oz + zoom[2], 0.0, 1.0, 0.0);
+    gluLookAt(px /*+ zoom[0]*/, py /*+ zoom[1]*/, pz /*+ zoom[2]*/, ox /*+ zoom[0]*/, oy/* + zoom[1]*/, oz/* + zoom[2]*/, 0.0, 1.0, 0.0);
 
     scene();
     ax = 0;
@@ -224,16 +240,20 @@ static void reshape(int wx, int wy) {
 static void idle(void) {
     //printf("I\n");
     if (keys[KEY_UP]) {
-        py -= 0.25;
+//        py -= 0.25;
+        anglex--;
     }
     if (keys[KEY_DOWN]) {
-        py += 0.25;
+//        py += 0.25;
+        anglex++;
     }
     if (keys[KEY_LEFT]) {
-        px -= 0.25;
+//        px -= 0.25;
+        angley++;
     }
     if (keys[KEY_RIGHT]) {
-        px += 0.25;
+//        px += 0.25;
+        angley--;
     }
     if (keys[KEY_PAGE_UP]) {
         float xPres = px - ox;
@@ -242,6 +262,7 @@ static void idle(void) {
         zoom[0] -= xPres * 0.05;
         zoom[1] -= yPres * 0.05;
         zoom[2] -= zPres * 0.05;
+        r++;
     }
     if (keys[KEY_PAGE_DOWN]) {
         float xPres = px - ox;
@@ -250,6 +271,7 @@ static void idle(void) {
         zoom[0] += xPres * 0.05;
         zoom[1] += yPres * 0.05;
         zoom[2] += zPres * 0.05;
+        r--;
     }
     if (keyboardKeys['z']) {
         py += 0.05;
@@ -652,7 +674,7 @@ static void lectureCSVComposant(std::string filename) {
         verifCompoVector(listeDesComposant);
         verifCompoList(restants, -1);
         verifCompoList((*posCont2D)->getListComposant(), 1);
-		posCont2D = conteneurs.begin();
+        posCont2D = conteneurs.begin();
 
 
     } else {
@@ -671,7 +693,7 @@ static void lectureCSVComposant(std::string filename) {
         algo3D = DBG_NEW Algorithm3D(composants3D, conteneurs3D, conteneurs3DDispo);
         int idCont = 0;
         bool nofin = true;
-		nofin = addCont3D(idCont);
+        nofin = addCont3D(idCont);
         idCont++;
         algo3D->setListeConteneur(conteneurs3D);
         std::list<Composant3D*> reste = algo3D->calculRangement();
@@ -694,7 +716,7 @@ static void lectureCSVComposant(std::string filename) {
             verifCompoList3D((*posCont3D)->getListComposant(), 1);
             posCont3D++;
         }
-		posCont3D = conteneurs3D.begin();
+        posCont3D = conteneurs3D.begin();
 
         /*Conteneur3D* test2;
         Conteneur3D* test;
