@@ -167,28 +167,28 @@ void CSVReader3D::ajoutConteneur(std::vector <string> row) {
 				erreur = true;
 			}
 		}*/
-		if (indiceCourant == 1) {
+		if (indiceCourant == 0) {
 			coteX = strtod(row[indiceCourant].c_str(), &verifErreur);
 			if (*verifErreur != '\0') {
 				printf("ERREUR LORS DE L'AJOUT D'UN CONTENEUR : CoteX non valide, le conteneur %s n'est pas ajout�. \n", row[0].c_str());
 				erreur = true;
 			}
 		}
-		if (indiceCourant == 2) {
+		if (indiceCourant == 1) {
 			coteY = strtod(row[indiceCourant].c_str(), &verifErreur);
 			if (*verifErreur != '\0') {
 				printf("ERREUR LORS DE L'AJOUT D'UN CONTENEUR : CoteY non valide, le conteneur %s n'est pas ajout�. \n", row[0].c_str());
 				erreur = true;
 			}
 		}
-		if (indiceCourant == 3) {
+		if (indiceCourant == 2) {
 			coteZ = strtod(row[indiceCourant].c_str(), &verifErreur);
 			if (*verifErreur != '\0') {
 				printf("ERREUR LORS DE L'AJOUT D'UN CONTENEUR : CoteZ non valide, le conteneur %s n'est pas ajout�. \n", row[0].c_str());
 				erreur = true;
 			}
 		}
-		if (indiceCourant == 4) {
+		if (indiceCourant == 3) {
 			nb = strtol(row[indiceCourant].c_str(), &verifErreur,10);
 			if (*verifErreur != '\0') {
 				printf("ERREUR LORS DE L'AJOUT D'UN CONTENEUR : Nombre de conteneur non valide, le conteneur %s n'est pas ajout�. \n", row[0].c_str());
