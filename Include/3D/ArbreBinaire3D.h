@@ -38,6 +38,7 @@ public:
 	ArbreBinaire3D* getParent();
 
 	ArbreBinaire3D* recherchePremierEspaceLibreValide(float coteX, float coteY, float coteZ);
+	ArbreBinaire3D* rechercheBestEspaceLibreValide(float coteX, float coteY, float coteZ);
 
 	bool creationFils(float coteX, float coteY, float coteZ, int choix);
 	bool decoupeHorizontale(float coteX, float coteY, float coteZ, Composant3D* libre, Position3D* pos, Composant3D* gauche, Composant3D* droite, Composant3D* haut);

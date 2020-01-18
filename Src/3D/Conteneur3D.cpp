@@ -133,7 +133,8 @@ bool Conteneur3D::addComposant(Composant3D * comp) {
 }
 
 ArbreBinaire3D* Conteneur3D::rechercheLibre(float coteX, float coteY, float coteZ) {
-    return arbre->recherchePremierEspaceLibreValide(coteX, coteY, coteZ);
+    //return arbre->recherchePremierEspaceLibreValide(coteX, coteY, coteZ);
+    return arbre->rechercheBestEspaceLibreValide(coteX, coteY, coteZ);
 }
 
 void Conteneur3D::affichageConteneur() {

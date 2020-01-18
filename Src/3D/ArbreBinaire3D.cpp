@@ -87,7 +87,7 @@ ArbreBinaire3D* ArbreBinaire3D::getParent() {
 ArbreBinaire3D* ArbreBinaire3D::recherchePremierEspaceLibreValide(float coteX, float coteY, float coteZ) {
 	Composant3D* racine = espace_libre;
 	ArbreBinaire3D* res = nullptr;
-	if ((racine->getCoteX() >= coteX && racine->getCoteY() >= coteY && racine->getCoteZ() >= coteZ) || racine->getCoteX() >= coteY && racine->getCoteY() >= coteX && racine->getCoteZ() >= coteZ) {
+	if ((racine->getCoteX() >= coteX && racine->getCoteY() >= coteY && racine->getCoteZ() >= coteZ) || (racine->getCoteX() >= coteY && racine->getCoteY() >= coteX && racine->getCoteZ() >= coteZ)) {
 		return this;
 	}
 	else {
@@ -111,6 +111,48 @@ ArbreBinaire3D* ArbreBinaire3D::recherchePremierEspaceLibreValide(float coteX, f
 		}
 	}
 	return nullptr;
+}
+
+ArbreBinaire3D* ArbreBinaire3D::rechercheBestEspaceLibreValide(float coteX, float coteY, float coteZ) {
+	Composant3D* racine = espace_libre;
+	ArbreBinaire3D* res = nullptr;
+	ArbreBinaire3D* garde = nullptr;
+	float volumeRes;
+	float volumeGarde = 0;
+	if ((racine->getCoteX() >= coteX && racine->getCoteY() >= coteY && racine->getCoteZ() >= coteZ) || (racine->getCoteX() >= coteZ && racine->getCoteY() >= coteY && racine->getCoteZ() >= coteX)) {
+		return this;
+	}
+	else {
+		float air = coteX * coteY * coteZ;
+		if (this->getSousArbreGauche() != nullptr) {
+			res = this->getSousArbreGauche()->rechercheBestEspaceLibreValide(coteX, coteY, coteZ);
+			if (res != nullptr) {
+				garde = res;
+				volumeGarde = res->getEspaceLibre()->getCoteX() * res->getEspaceLibre()->getCoteY() * res->getEspaceLibre()->getCoteZ();
+			}
+		}
+		if (this->getSousArbreDroite() != nullptr) {
+			res = this->getSousArbreDroite()->rechercheBestEspaceLibreValide(coteX, coteY, coteZ);
+			if (res != nullptr) {
+				volumeRes = res->getEspaceLibre()->getCoteX() * res->getEspaceLibre()->getCoteY() * res->getEspaceLibre()->getCoteZ();
+				if (volumeRes < volumeGarde || volumeGarde == 0) {
+					garde = res;
+					volumeGarde = volumeRes;
+				}
+			}
+		}
+		if (this->getSousArbreHaut() != nullptr) {
+			res = this->getSousArbreHaut()->rechercheBestEspaceLibreValide(coteX, coteY, coteZ);
+			if (res != nullptr) {
+				volumeRes = res->getEspaceLibre()->getCoteX() * res->getEspaceLibre()->getCoteY() * res->getEspaceLibre()->getCoteZ();
+				if (volumeRes < volumeGarde || volumeGarde == 0) {
+					garde = res;
+					volumeGarde = volumeRes;
+				}
+			}
+		}
+	}
+	return garde;
 }
 
 bool ArbreBinaire3D::creationFils(float coteX, float coteY, float coteZ, int choix) {
@@ -182,6 +224,7 @@ bool ArbreBinaire3D::decoupeHorizontale(float coteX, float coteY, float coteZ, C
 
 
 	haut->setPosition(posX, posYnew, posZ);
+	printf(" \n\non a un posY qui vaut %f\n\n", posYnew);
 	gauche->setPosition(posX, posY, posZnew);
 	droite->setPosition(posXnew, posY, posZ);
 	return true;
