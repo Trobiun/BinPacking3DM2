@@ -22,6 +22,12 @@ Algorithm3D::~Algorithm3D() {
 		delete* it2;
 	}
 	composants3D.clear();
+
+	std::list<Conteneur3D*>::iterator it3;
+	for (it3 = conteneursDispo3D.begin(); it3 != conteneursDispo3D.end(); it3++) {
+		delete* it3;
+	}
+	conteneursDispo3D.clear();
 }
 
 std::list<Composant3D*> Algorithm3D::calculRangement() {
@@ -55,8 +61,6 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 				(*cont)->addComposant(*comp);
 				arbre->creationFils((*comp)->getCoteX(), (*comp)->getCoteY(), (*comp)->getCoteZ(), 0);
 				compErase = comp;
-				arbre->affichageArbre();
-
 				arbre = nullptr;
 				erase = true;
 			}

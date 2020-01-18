@@ -485,7 +485,18 @@ static void passiveMouseMotion(int x, int y) {
 
 static void clean(void) {
     printf("Clean\n");
-    std::list<Conteneur*>::iterator it;
+	if (affichage3Dou2D == 0) {
+		delete algo;
+		std::list<Conteneur*>::iterator it;
+		for (it = conteneursDispo.begin(); it != conteneursDispo.end(); it++) {
+			delete* it;
+		}
+
+	}
+	else {
+		delete algo3D;
+	}
+    /*std::list<Conteneur*>::iterator it;
     for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
         //delete *it;
     }
@@ -494,18 +505,16 @@ static void clean(void) {
     for (it2 = composants.begin(); it2 != composants.end(); it2++) {
         //delete *it2;
     }
-    //composants.clear();
+    //composants.clear();*/
 
-    std::list<Composant*>::iterator it3;
+	/*std::list<Composant*>::iterator it3;
     for (it3 = restants.begin(); it3 != restants.end(); it3++) {
         //delete *it3;
-    }
+    }*/
     //restants.clear();
     if (algo != NULL) {
-        delete algo;
     }
     if (algo3D != NULL) {
-        delete algo3D;
     }
 #ifdef _WIN32
     int test = _CrtDumpMemoryLeaks();
@@ -702,9 +711,11 @@ static void lectureCSVComposant(std::string filename) {
 
             nofin = addCont3D(idCont);
             idCont++;
-            algo3D->setListeConteneur(conteneurs3D);
-            reste = algo3D->calculRangement();
-            algo3D->setListeComposant(reste);
+			if (nofin) {
+				algo3D->setListeConteneur(conteneurs3D);
+				reste = algo3D->calculRangement();
+				algo3D->setListeComposant(reste);
+			}
         }
         posCont3D = conteneurs3D.begin();
 
