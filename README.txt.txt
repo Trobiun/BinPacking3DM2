@@ -2,7 +2,7 @@ Le programme se lance automatiquement en mode 3D.
 Pour le mode 3D :
 
 Le programmes va rechercher les conteneurs qu'il peut utiliser dans un fichier CSV nommé test3DBinPackingConteneur qui doit être placé dans le dossier de l'éxécutable.
-Ce fichier doit être structuré de la manière suivante : Id;CoteX;CoteY;CoteZ;nombreDispo
+Ce fichier doit être structuré de la manière suivante : CoteX;CoteY;CoteZ;nombreDispo
 CoteY représente la hauteur et CoteX et CoteZ les deux autres longueurs du cubes ( supposé interchangeable car l'objet peut être orienté).
 nombreDispo est le nombre de fois que l'on peut utiliser ce conteneur, -1 si infinité.
 

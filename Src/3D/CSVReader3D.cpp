@@ -157,16 +157,16 @@ void CSVReader3D::ajoutConteneur(std::vector <string> row) {
 	char * verifErreur;
 	size_t indiceCourant = 0;
 	bool erreur = false;
-	int id = 0, nb = 0;
+	int id = -1, nb = 0;
 	float coteX = 0.0, coteY = 0.0, coteZ = 0.0;
 	while (erreur == false && indiceCourant < row.size()) {
-		if (indiceCourant == 0) {
+		/*if (indiceCourant == 0) {
 			id = strtol(row[indiceCourant].c_str(), &verifErreur, 10);
 			if (*verifErreur != '\0') {
 				printf("ERREUR LORS DE L'AJOUT D'UN CONTENEUR : ID non valide, le conteneur %s n'est pas ajout�. \n", row[0].c_str());
 				erreur = true;
 			}
-		}
+		}*/
 		if (indiceCourant == 1) {
 			coteX = strtod(row[indiceCourant].c_str(), &verifErreur);
 			if (*verifErreur != '\0') {

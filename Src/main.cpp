@@ -689,7 +689,6 @@ static void lectureCSVComposant(std::string filename) {
         if (fichierCSV != NULL) {
             delete fichierCSV;
         }
-        //appel Algo 3D
         algo3D = DBG_NEW Algorithm3D(composants3D, conteneurs3D, conteneurs3DDispo);
         int idCont = 0;
         bool nofin = true;
@@ -717,18 +716,6 @@ static void lectureCSVComposant(std::string filename) {
             posCont3D++;
         }
         posCont3D = conteneurs3D.begin();
-
-        /*Conteneur3D* test2;
-        Conteneur3D* test;
-        conteneurs3D.push_back(new Conteneur3D(0,40,40,40,0));
-        test2 = conteneurs3D.back();
-        test = new Conteneur3D(1, 50, 10, 40, 0);
-        test->setPosition(test2->getPosition()->getX() + test2->getCoteX() + 10, test2->getPosition()->getY(), test2->getPosition()->getZ());
-        conteneurs3D.push_back(test);
-        test2 = conteneurs3D.back();
-        test = new Conteneur3D(1, 10, 10, 20, 0);
-        test->setPosition(test2->getPosition()->getX() + test2->getCoteX() + 10, test2->getPosition()->getY(), test2->getPosition()->getZ());
-        conteneurs3D.push_back(test);*/
     }
 }
 
