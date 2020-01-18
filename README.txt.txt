@@ -11,7 +11,7 @@ Ce fichier doit être structuré de la manière suivante : Id;CoteX;CoteY;CoteZ
 CoteY représente la hauteur et CoteX et CoteZ les deux autres longueurs du cubes ( supposé interchangeable car l'objet peut être orienté).
 
 En mode 3D certaines touche ont été assigné pour facilité l'utilisation : 
-touche Entrée : place la vue sur le premier conteneur.
+touche Entrée : place la vue sur le premier conteneur ( conteneur d'id 0).
 touche 5 du pavé numérique : place la vue sur le conteneur actuel.
 touche 6 du pavé numérique : remet la vue sur le conteneur suivant.
 touche 4 du pavé numérique : remet la vue sur le conteneur précédent.
