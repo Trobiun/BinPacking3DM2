@@ -109,7 +109,7 @@ static void courantConteneur() {
 
         px = (*posCont3D)->getCoteX() / 2 + posCont->getX();
         py = (*posCont3D)->getCoteY() / 2 + posCont->getY();
-        pz = (*posCont3D)->getCoteZ() / 2 + posCont->getZ();
+        pz = -(*posCont3D)->getCoteZ() / 2 + posCont->getZ();
         ox = px;
         oy = py;
         oz = 0;
@@ -135,7 +135,7 @@ static void reset() {
 
         px = (*posCont3D)->getCoteX() / 2 + posCont->getX();
         py = (*posCont3D)->getCoteY() / 2 + posCont->getY();
-        pz = (*posCont3D)->getCoteX();
+        pz = -(*posCont3D)->getCoteX();
         ox = px;
         oy = py;
         oz = -((*posCont3D)->getCoteY() / 2);
