@@ -15,14 +15,19 @@ Conteneur3D::Conteneur3D(int nid, float nCoteX, float nCoteY, float nCoteZ, int 
 }
 
 Conteneur3D::~Conteneur3D(void) {
+	std::list<Composant3D*>::iterator it;
+	for (it = composants.begin(); it != composants.end(); it++) {
+		delete* it;
+	}
+	composants.clear();
     if (pos != nullptr) {
         delete pos;
         pos = nullptr;
     }
-    /*if (arbre != nullptr) {
+    if (arbre != nullptr) {
         delete arbre;
         arbre = nullptr;
-    }*/
+    }
 }
 
 /* Getters                                  */

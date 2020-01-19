@@ -224,7 +224,6 @@ bool ArbreBinaire3D::decoupeHorizontale(float coteX, float coteY, float coteZ, C
 
 
 	haut->setPosition(posX, posYnew, posZ);
-	printf(" \n\non a un posY qui vaut %f\n\n", posYnew);
 	gauche->setPosition(posX, posY, posZnew);
 	droite->setPosition(posXnew, posY, posZ);
 	return true;
