@@ -33,9 +33,6 @@ static float oz = 0;
 static float ax = 0;
 static float ay = 0;
 static float az = 0;
-static float camDepX = 0;
-static float camDepY = 0;
-static float camDepZ = 0;
 static bool keys[6] = {false};
 static bool keyboardKeys[256] = {false};
 static int oldMX = -1, oldMY = -1;
@@ -46,9 +43,9 @@ static float zoom[3] = {3.0, 3.0, 3.0};
 static double normeCamera = 1.0;
 static const GLfloat blanc[] = {1.0F, 1.0F, 1.0F, 1.0F};
 static const GLfloat vert[4] = {0.0F, 1.0F, 0.0F, 1.0F};
-//static const GLfloat jaune[4] = {1.0F, 1.0F, 0.0F, 1.0F};
-//static const GLfloat magenta[4] = {0.0F, 1.0F, 0.0F, 1.0F};
-//static const GLfloat cyan[4] = {0.0F, 1.0F, 0.0F, 1.0F};
+static const GLfloat jaune[4] = {1.0F, 1.0F, 0.0F, 1.0F};
+static const GLfloat magenta[4] = {0.0F, 1.0F, 0.0F, 1.0F};
+static const GLfloat cyan[4] = {0.0F, 1.0F, 0.0F, 1.0F};
 static const GLfloat light0_position[4] = {0.0, 0.0, 10.0, 1.0};
 
 static float r = 3.0;
@@ -115,11 +112,10 @@ static void courantConteneur() {
         pz = (*posCont3D)->getCoteX();
         ox = px;
         oy = py;
-        oz = -((*posCont3D)->getCoteY() / 2);
+        oz = -((*posCont3D)->getCoteZ() / 2);
     }
-
-    camDepX = 0;
-    camDepZ = 0;
+    anglex = 0.0;
+    angley = 0.0;
 }
 
 static void reset() {
@@ -144,9 +140,6 @@ static void reset() {
         oy = py;
         oz = -((*posCont3D)->getCoteY() / 2);
     }
-
-    camDepX = 0;
-    camDepZ = 0;
 }
 
 /* Scene dessinee                               */
@@ -154,16 +147,17 @@ static void reset() {
 static void scene(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
-    // move camera a distance r away from the center
-    glTranslatef(px, py, -r);
-
-    // rotate 
+    glPushMatrix();
+    glTranslatef(0, 0, 0);
+    glutSolidCube(2.0);
+    glPopMatrix();
+    //move camera a distance r away from the center
+    glTranslatef(ox, oy, -r);
+    //rotate
     glRotatef(angley, 0, 1, 0);
     glRotatef(anglex, 1, 0, 0);
-
-    // move to center of circle    
-    glTranslatef(-px, -py, -pz);
-
+    //move to center of circle
+    glTranslatef(-px, -py, abs(oz-pz));
 
     if (affichage3Dou2D == 0) {
         std::list<Conteneur*>::iterator it;
@@ -240,55 +234,55 @@ static void reshape(int wx, int wy) {
 static void idle(void) {
     //printf("I\n");
     if (keys[KEY_UP]) {
-//        py -= 0.25;
+        //        py -= 0.25;
         anglex--;
     }
     if (keys[KEY_DOWN]) {
-//        py += 0.25;
+        //        py += 0.25;
         anglex++;
     }
     if (keys[KEY_LEFT]) {
-//        px -= 0.25;
+        //        px -= 0.25;
         angley++;
     }
     if (keys[KEY_RIGHT]) {
-//        px += 0.25;
+        //        px += 0.25;
         angley--;
     }
     if (keys[KEY_PAGE_UP]) {
         float xPres = px - ox;
         float yPres = py - oy;
         float zPres = pz - oz;
-        zoom[0] -= xPres * 0.05;
-        zoom[1] -= yPres * 0.05;
-        zoom[2] -= zPres * 0.05;
+        zoom[0] -= xPres * 0.5;
+        zoom[1] -= yPres * 0.5;
+        zoom[2] -= zPres * 0.5;
         r++;
     }
     if (keys[KEY_PAGE_DOWN]) {
         float xPres = px - ox;
         float yPres = py - oy;
         float zPres = pz - oz;
-        zoom[0] += xPres * 0.05;
-        zoom[1] += yPres * 0.05;
-        zoom[2] += zPres * 0.05;
+        zoom[0] += xPres * 0.5;
+        zoom[1] += yPres * 0.5;
+        zoom[2] += zPres * 0.5;
         r--;
     }
-    if (keyboardKeys['z']) {
-        py += 0.05;
-        oy = py;
-    }
-    if (keyboardKeys['s']) {
-        py -= 0.05;
-        oy = py;
-    }
-    if (keyboardKeys['q']) {
-        px -= 0.05;
-        ox = px;
-    }
-    if (keyboardKeys['d']) {
-        px += 0.05;
-        ox = px;
-    }
+    //    if (keyboardKeys['z']) {
+    //        py += 0.5;
+    //        oy = py;
+    //    }
+    //    if (keyboardKeys['s']) {
+    //        py -= 0.5;
+    //        oy = py;
+    //    }
+    //    if (keyboardKeys['q']) {
+    //        px -= 0.5;
+    //        ox = px;
+    //    }
+    //    if (keyboardKeys['d']) {
+    //        px += 0.5;
+    //        ox = px;
+    //    }
     glutPostRedisplay();
 }
 
