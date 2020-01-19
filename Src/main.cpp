@@ -109,10 +109,10 @@ static void courantConteneur() {
 
         px = (*posCont3D)->getCoteX() / 2 + posCont->getX();
         py = (*posCont3D)->getCoteY() / 2 + posCont->getY();
-        pz = (*posCont3D)->getCoteX();
+        pz = (*posCont3D)->getCoteZ() / 2 + posCont->getZ();
         ox = px;
         oy = py;
-        oz = -((*posCont3D)->getCoteZ() / 2);
+        oz = 0;
     }
     anglex = 0.0;
     angley = 0.0;
@@ -152,12 +152,12 @@ static void scene(void) {
     glutSolidCube(2.0);
     glPopMatrix();
     //move camera a distance r away from the center
-    glTranslatef(ox, oy, -r);
+    glTranslatef(ox, oy, - oz - r);
     //rotate
     glRotatef(angley, 0, 1, 0);
     glRotatef(anglex, 1, 0, 0);
     //move to center of circle
-    glTranslatef(-px, -py, abs(oz-pz));
+    glTranslatef(-px, -py, abs(oz - pz));
 
     if (affichage3Dou2D == 0) {
         std::list<Conteneur*>::iterator it;
@@ -479,17 +479,17 @@ static void passiveMouseMotion(int x, int y) {
 
 static void clean(void) {
     printf("Clean\n");
-	if (affichage3Dou2D == 0) {
-		delete algo;
-		std::list<Conteneur*>::iterator it;
-		for (it = conteneursDispo.begin(); it != conteneursDispo.end(); it++) {
-			delete* it;
-		}
+    if (affichage3Dou2D == 0) {
+        delete algo;
+        std::list<Conteneur*>::iterator it;
+        for (it = conteneursDispo.begin(); it != conteneursDispo.end(); it++) {
+            delete* it;
+        }
 
 	}
 	else {
-		delete algo3D;
-	}
+        delete algo3D;
+    }
     /*std::list<Conteneur*>::iterator it;
     for (it = conteneurs.begin(); it != conteneurs.end(); it++) {
         //delete *it;
@@ -501,7 +501,7 @@ static void clean(void) {
     }
     //composants.clear();*/
 
-	/*std::list<Composant*>::iterator it3;
+    /*std::list<Composant*>::iterator it3;
     for (it3 = restants.begin(); it3 != restants.end(); it3++) {
         //delete *it3;
     }*/
@@ -705,11 +705,11 @@ static void lectureCSVComposant(std::string filename) {
 
             nofin = addCont3D(idCont);
             idCont++;
-			if (nofin) {
-				algo3D->setListeConteneur(conteneurs3D);
-				reste = algo3D->calculRangement();
-				algo3D->setListeComposant(reste);
-			}
+            if (nofin) {
+                algo3D->setListeConteneur(conteneurs3D);
+                reste = algo3D->calculRangement();
+                algo3D->setListeComposant(reste);
+            }
         }
         posCont3D = conteneurs3D.begin();
 
