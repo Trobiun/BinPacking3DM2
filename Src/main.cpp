@@ -66,7 +66,6 @@ static std::list<Conteneur3D*> conteneurs3D;
 static std::list<Conteneur3D*> conteneurs3DDispo;
 static std::list<Composant*> composants;
 static std::list<Composant*> restants;
-static std::list<Composant3D*> restants3D;
 
 static std::list<Composant3D*> composants3D;
 
@@ -178,7 +177,6 @@ static void scene(void) {
 /* de la fenetre de dessin                      */
 
 static void display(void) {
-    //printf("D\n");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
@@ -204,7 +202,6 @@ static void display(void) {
 /* de la taille de la fenetre OpenGL            */
 
 static void reshape(int wx, int wy) {
-    //printf("R\n");
     wTx = wx;
     wTy = wy;
     glViewport(0, 0, wx, wy);
@@ -225,7 +222,6 @@ static void reshape(int wx, int wy) {
 /* n'est en file d'attente                      */
 
 static void idle(void) {
-    //printf("I\n");
     if (keys[KEY_UP]) {
         //        py -= 0.25;
         anglex--;
@@ -284,7 +280,7 @@ static void idle(void) {
 /* d'une touche alphanumerique du clavier       */
 
 static void keyboard(unsigned char key, int x, int y) {
-    printf("S  %4d %4d %4d\n", key, x, y);
+    //printf("S  %4d %4d %4d\n", key, x, y);
     if (key == 0x1B) {
         exit(0);
     }
@@ -343,7 +339,7 @@ static void keyboardUp(unsigned char key, int x, int y) {
 /*   - touches de fonction                      */
 
 static void specialUp(int specialKey, int x, int y) {
-    printf("S  %4d %4d %4d\n", specialKey, x, y);
+   // printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
         case GLUT_KEY_LEFT:
             keys[KEY_LEFT] = false;
@@ -373,7 +369,7 @@ static void specialUp(int specialKey, int x, int y) {
 /*   - touches de fonction                      */
 
 static void special(int specialKey, int x, int y) {
-    printf("S  %4d %4d %4d\n", specialKey, x, y);
+    //printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
         case GLUT_KEY_LEFT:
             keys[KEY_LEFT] = true;
@@ -401,7 +397,7 @@ static void special(int specialKey, int x, int y) {
 /* de la souris sur la fenetre                  */
 
 static void mouse(int button, int state, int x, int y) {
-    printf("M  %4d %4d %4d %4d\n", button, state, x, y);
+   // printf("M  %4d %4d %4d %4d\n", button, state, x, y);
     if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN) {
         cameraMove = true;
         px = ox;
@@ -436,7 +432,7 @@ static void mouse(int button, int state, int x, int y) {
 /* avec un boutton presse                       */
 
 static void mouseMotion(int x, int y) {
-    printf("MM %4d %4d\n", x, y);
+    //printf("MM %4d %4d\n", x, y);
     if (oldMX < 0) {
         oldMX = x;
     }
@@ -463,7 +459,7 @@ static void mouseMotion(int x, int y) {
 /* sans boutton presse                          */
 
 static void passiveMouseMotion(int x, int y) {
-    printf("PM %4d %4d\n", x, y);
+   // printf("PM %4d %4d\n", x, y);
 }
 
 /* Fonction executee automatiquement            */
@@ -471,7 +467,7 @@ static void passiveMouseMotion(int x, int y) {
 /* lors de l'execution de la fonction exit()    */
 
 static void clean(void) {
-    printf("Clean\n");
+   // printf("Clean\n");
     if (affichage3Dou2D == 0) {
         delete algo;
         std::list<Conteneur*>::iterator it;
@@ -505,7 +501,7 @@ static void clean(void) {
     }
 #ifdef _WIN32
     int test = _CrtDumpMemoryLeaks();
-    printf("Bye %i\n", test);
+   // printf("Bye %i\n", test);
 #endif
 }
 
@@ -551,12 +547,12 @@ static bool addCont3D(int idCont) {
     std::list<Conteneur3D*>::iterator contDisp = conteneurs3DDispo.begin();
 
     for (contDisp; contDisp != conteneurs3DDispo.end(); contDisp++) {
-
         if ((*contDisp)->getNb() != 0) {
             std::list < Composant3D*>::iterator comp = composants3D.begin();
             for (comp; comp != composants3D.end(); comp++) {
-                if (((*comp)->getCoteX() * (*comp)->getCoteY() * (*comp)->getCoteZ()) < ((*contDisp)->getCoteX() * (*contDisp)->getCoteY()* (*contDisp)->getCoteZ())) {
-                    newCont = true;
+                if ( ((*comp)->getCoteX()<= (*contDisp)->getCoteX() && (*comp)->getCoteY() <= (*contDisp)->getCoteY() && (*comp)->getCoteZ() <= (*contDisp)->getCoteZ()) 
+					|| ((*comp)->getCoteX() <= (*contDisp)->getCoteY() && (*comp)->getCoteY() <= (*contDisp)->getCoteX() && (*comp)->getCoteZ() <= (*contDisp)->getCoteZ())){
+					newCont = true;
                     (*contDisp)->takeCont();
                     conteneurs3D.push_back(new Conteneur3D(idCont, (*contDisp)->getCoteX(), (*contDisp)->getCoteY(), (*contDisp)->getCoteZ(), 0));
                     breakage = true;
@@ -691,24 +687,22 @@ static void lectureCSVComposant(std::string filename) {
         nofin = addCont3D(idCont);
         idCont++;
         algo3D->setListeConteneur(conteneurs3D);
-        std::list<Composant3D*> reste = algo3D->calculRangement();
-        algo3D->setListeComposant(reste);
+		composants3D = algo3D->calculRangement();
+        algo3D->setListeComposant(composants3D);
 
-        while (!(reste.empty()) && nofin) {
+        while (!(composants3D.empty()) && nofin) {
 
             nofin = addCont3D(idCont);
             idCont++;
             if (nofin) {
                 algo3D->setListeConteneur(conteneurs3D);
-                reste = algo3D->calculRangement();
-                algo3D->setListeComposant(reste);
+                composants3D = algo3D->calculRangement();
+                algo3D->setListeComposant(composants3D);
             }
         }
         posCont3D = conteneurs3D.begin();
-
-        restants3D.insert(restants3D.begin(), reste.begin(), reste.end());
         //verifCompoVector(composants3D);
-        verifCompoList3D(restants3D, -1);
+        verifCompoList3D(composants3D, -1);
         while (posCont3D != conteneurs3D.end()) {
             verifCompoList3D((*posCont3D)->getListComposant(), 1);
             posCont3D++;
