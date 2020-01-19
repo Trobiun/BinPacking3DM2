@@ -48,7 +48,7 @@ static const GLfloat magenta[4] = {0.0F, 1.0F, 0.0F, 1.0F};
 static const GLfloat cyan[4] = {0.0F, 1.0F, 0.0F, 1.0F};
 static const GLfloat light0_position[4] = {0.0, 0.0, 10.0, 1.0};
 
-static float r = 50;
+static float r =40;
 static float anglex = 0.0;
 static float angley = 0.0;
 
