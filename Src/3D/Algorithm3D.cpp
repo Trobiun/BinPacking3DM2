@@ -1,6 +1,8 @@
 #include "3D/Debug.h"
 #include "3D/Algorithm3D.h"
 
+#define ECART_CONTENEURS 80
+
 static bool comp(const Composant3D* a, const Composant3D* b) {
 	return (b->getCoteX() * b->getCoteY() * b->getCoteZ() < a->getCoteX() * a->getCoteY() * a->getCoteZ());
 }
@@ -69,7 +71,7 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 			composants3D.erase(compErase);
 			erase = false;
 		}
-		longueurCourante = longueurCourante + 10 + (*cont)->getCoteX();
+		longueurCourante = longueurCourante + ECART_CONTENEURS + (*cont)->getCoteX();
 		cont++;
 
 	}

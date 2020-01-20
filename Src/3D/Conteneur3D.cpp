@@ -75,12 +75,12 @@ void Conteneur3D::model(const GLfloat couleurCompo[4], bool opaque) {
     GLfloat blanc[4] = {1.0F, 1.0F, 1.0F, 1.0F};
     glColor4fv(blanc);
     glTranslatef(pos->getX(), pos->getY(), pos->getZ());
-    glutSolidSphere(1.0, 8, 8);
+    glutSolidSphere(1.0, 10, 10);
     glPushMatrix();
     glTranslatef(coteX / 2, coteY / 2, -coteZ / 2);
     glScalef(coteX, coteY, coteZ);
-    GLfloat couleur[4] = {1.0F, 0.0F, 0.0F, 1.0F};
-    glColor4fv(couleur);
+    GLfloat rouge[4] = {1.0F, 0.0F, 0.0F, 1.0F};
+    glColor4fv(rouge);
     glutWireCube(1.0);
     /*if (arbre != NULL) {
         arbre->model();

@@ -590,6 +590,7 @@ static void lectureCSVComposant(std::string filename) {
             posCont3D++;
         }
         posCont3D = conteneurs3D.begin();
+        courantConteneur();
     }
 }
 
