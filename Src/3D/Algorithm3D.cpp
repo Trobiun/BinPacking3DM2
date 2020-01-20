@@ -2,6 +2,7 @@
 #include "3D/Algorithm3D.h"
 
 #define ECART_CONTENEURS 80
+#define TYPE_DECOUPE 2
 
 static bool comp(const Composant3D* a, const Composant3D* b) {
 	return (b->getCoteX() * b->getCoteY() * b->getCoteZ() < a->getCoteX() * a->getCoteY() * a->getCoteZ());
@@ -61,7 +62,7 @@ std::list<Composant3D*> Algorithm3D::calculRangement() {
 				(*comp)->setConteneur((*cont)->getId());
 				(*comp)->setPosition(arbre->getEspaceLibre()->getPosition());
 				(*cont)->addComposant(*comp);
-				arbre->creationFils((*comp)->getCoteX(), (*comp)->getCoteY(), (*comp)->getCoteZ(), 0);
+				arbre->creationFils((*comp)->getCoteX(), (*comp)->getCoteY(), (*comp)->getCoteZ(), TYPE_DECOUPE);
 				compErase = comp;
 				arbre = nullptr;
 				erase = true;
