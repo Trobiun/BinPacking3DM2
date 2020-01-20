@@ -75,7 +75,6 @@ static void init(void) {
     glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
-    //    glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_NORMALIZE);
 }
@@ -91,7 +90,6 @@ static void courantConteneur() {
         oz = 0;
     } else {
         Position3D* posCont = (*posCont3D)->getPosition();
-
         px = (*posCont3D)->getCoteX() / 2 + posCont->getX();
         py = (*posCont3D)->getCoteY() / 2 + posCont->getY();
         pz = (*posCont3D)->getCoteZ() / 2 + posCont->getZ();
@@ -107,7 +105,6 @@ static void reset() {
     if (affichage3Dou2D == 0) {
         posCont2D = conteneurs.begin();
         Position2D* posCont = ((*posCont2D)->getPosition());
-
         px = (*posCont2D)->getCoteX() / 2 + posCont->getX();
         py = (*posCont2D)->getCoteY() / 2 + posCont->getY();
         pz = 30;
@@ -116,7 +113,7 @@ static void reset() {
         oz = 0;
     } else {
         posCont3D = conteneurs3D.begin();
-		courantConteneur();
+        courantConteneur();
     }
 }
 
@@ -124,13 +121,8 @@ static void reset() {
 
 static void scene(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glPushMatrix();
-    glPushMatrix();
-    glTranslatef(0, 0, 0);
-    glutSolidCube(2.0);
-    glPopMatrix();
     //move camera a distance r away from the center
-    glTranslatef(ox, oy, - oz - r);
+    glTranslatef(ox, oy, -oz - r);
     //rotate
     glRotatef(angley, 0, 1, 0);
     glRotatef(anglex, 1, 0, 0);
@@ -150,7 +142,6 @@ static void scene(void) {
         }
     } else {
         std::list<Conteneur3D*>::iterator it;
-        std::list<Composant3D *> compo;
         for (it = conteneurs3D.begin(); it != conteneurs3D.end(); it++) {
             (*it)->model(vert, opaque);
         }
@@ -204,10 +195,14 @@ static void reshape(int wx, int wy) {
 
 static void idle(void) {
     if (keys[KEY_UP]) {
-        anglex--;
+        if (anglex < 90) {
+            anglex++;
+        }
     }
     if (keys[KEY_DOWN]) {
-        anglex++;
+        if (anglex > -90) {
+            anglex--;
+        }
     }
     if (keys[KEY_LEFT]) {
         angley++;
@@ -216,15 +211,9 @@ static void idle(void) {
         angley--;
     }
     if (keys[KEY_PAGE_UP]) {
-        float xPres = px - ox;
-        float yPres = py - oy;
-        float zPres = pz - oz;
         r--;
     }
     if (keys[KEY_PAGE_DOWN]) {
-        float xPres = px - ox;
-        float yPres = py - oy;
-        float zPres = pz - oz;
         r++;
     }
     glutPostRedisplay();
@@ -294,7 +283,7 @@ static void keyboardUp(unsigned char key, int x, int y) {
 /*   - touches de fonction                      */
 
 static void specialUp(int specialKey, int x, int y) {
-   // printf("S  %4d %4d %4d\n", specialKey, x, y);
+    // printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
         case GLUT_KEY_LEFT:
             keys[KEY_LEFT] = false;
@@ -352,7 +341,7 @@ static void special(int specialKey, int x, int y) {
 /* de la souris sur la fenetre                  */
 
 static void mouse(int button, int state, int x, int y) {
-   // printf("M  %4d %4d %4d %4d\n", button, state, x, y);
+    // printf("M  %4d %4d %4d %4d\n", button, state, x, y);
 }
 
 /* Fonction executee lors du passage            */
@@ -370,7 +359,7 @@ static void mouseMotion(int x, int y) {
 /* sans boutton presse                          */
 
 static void passiveMouseMotion(int x, int y) {
-   // printf("PM %4d %4d\n", x, y);
+    // printf("PM %4d %4d\n", x, y);
 }
 
 /* Fonction executee automatiquement            */
@@ -378,7 +367,7 @@ static void passiveMouseMotion(int x, int y) {
 /* lors de l'execution de la fonction exit()    */
 
 static void clean(void) {
-   // printf("Clean\n");
+    // printf("Clean\n");
     if (affichage3Dou2D == 0) {
         delete algo;
         std::list<Conteneur*>::iterator it;
@@ -386,8 +375,7 @@ static void clean(void) {
             delete* it;
         }
 
-	}
-	else {
+    } else {
         delete algo3D;
     }
     if (algo != NULL) {
@@ -396,7 +384,7 @@ static void clean(void) {
     }
 #ifdef _WIN32
     int test = _CrtDumpMemoryLeaks();
-   // printf("Bye %i\n", test);
+    // printf("Bye %i\n", test);
 #endif
 }
 
@@ -445,9 +433,9 @@ static bool addCont3D(int idCont) {
         if ((*contDisp)->getNb() != 0) {
             std::list < Composant3D*>::iterator comp = composants3D.begin();
             for (comp; comp != composants3D.end(); comp++) {
-                if ( ((*comp)->getCoteX()<= (*contDisp)->getCoteX() && (*comp)->getCoteY() <= (*contDisp)->getCoteY() && (*comp)->getCoteZ() <= (*contDisp)->getCoteZ()) 
-					|| ((*comp)->getCoteX() <= (*contDisp)->getCoteY() && (*comp)->getCoteY() <= (*contDisp)->getCoteX() && (*comp)->getCoteZ() <= (*contDisp)->getCoteZ())){
-					newCont = true;
+                if (((*comp)->getCoteX() <= (*contDisp)->getCoteX() && (*comp)->getCoteY() <= (*contDisp)->getCoteY() && (*comp)->getCoteZ() <= (*contDisp)->getCoteZ())
+                    || ((*comp)->getCoteX() <= (*contDisp)->getCoteY() && (*comp)->getCoteY() <= (*contDisp)->getCoteX() && (*comp)->getCoteZ() <= (*contDisp)->getCoteZ())) {
+                    newCont = true;
                     (*contDisp)->takeCont();
                     conteneurs3D.push_back(new Conteneur3D(idCont, (*contDisp)->getCoteX(), (*contDisp)->getCoteY(), (*contDisp)->getCoteZ(), 0));
                     breakage = true;
@@ -552,7 +540,7 @@ static void lectureCSVComposant(std::string filename) {
             nofin = addCont(idCont);
             idCont++;
             algo->setListeConteneur(conteneurs);
-			composants = algo->calculRangement();
+            composants = algo->calculRangement();
             algo->setListeComposant(composants);
         }
         posCont2D = conteneurs.begin();
@@ -581,7 +569,7 @@ static void lectureCSVComposant(std::string filename) {
         nofin = addCont3D(idCont);
         idCont++;
         algo3D->setListeConteneur(conteneurs3D);
-		composants3D = algo3D->calculRangement();
+        composants3D = algo3D->calculRangement();
         algo3D->setListeComposant(composants3D);
 
         while (!(composants3D.empty()) && nofin) {
