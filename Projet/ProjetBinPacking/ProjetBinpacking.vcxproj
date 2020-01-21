@@ -130,6 +130,7 @@
     <ClCompile Include="..\..\Src\3D\ArbreBinaire3D.cpp" />
     <ClCompile Include="..\..\Src\3D\Composant3D.cpp" />
     <ClCompile Include="..\..\Src\3D\Conteneur3D.cpp" />
+    <ClCompile Include="..\..\Src\3D\CSVOutputWriter3D.cpp" />
     <ClCompile Include="..\..\Src\3D\CSVReader3D.cpp" />
     <ClCompile Include="..\..\Src\3D\Position3D.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="..\..\Include\3D\ArbreBinaire3D.h" />
     <ClInclude Include="..\..\Include\3D\Composant3D.h" />
     <ClInclude Include="..\..\Include\3D\Conteneur3D.h" />
+    <ClInclude Include="..\..\Include\3D\CSVOutputWriter3D.h" />
     <ClInclude Include="..\..\Include\3D\CSVReader3D.h" />
     <ClInclude Include="..\..\Include\3D\Position3D.h" />
   </ItemGroup>

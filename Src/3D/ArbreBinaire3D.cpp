@@ -224,7 +224,6 @@ bool ArbreBinaire3D::decoupeHorizontale(float coteX, float coteY, float coteZ, C
 	haut->setCoteZ(coteZ);
 	haut->setCoteY(libre->getCoteY() - coteY);
 
-
 	haut->setPosition(posX, posYnew, posZ);
 	gauche->setPosition(posX, posY, posZnew);
 	droite->setPosition(posXnew, posY, posZ);
@@ -250,7 +249,6 @@ bool ArbreBinaire3D::decoupeVerticale(float coteX, float coteY, float coteZ, Com
 	haut->setCoteZ(coteZ);
 	haut->setCoteY(libre->getCoteY() - coteY);
 
-
 	haut->setPosition(posX, posYnew, posZ);
 	gauche->setPosition(posX, posY, posZnew);
 	droite->setPosition(posXnew, posY, posZ);
@@ -264,10 +262,10 @@ bool ArbreBinaire3D::decoupeSelonAire(float coteX, float coteY, float coteZ, Com
 	float posXnew = posX + coteX;
 	float posZnew = posZ - coteZ;
 	float posYnew = posY + coteY;
-	float volumeeGauche = libre->getCoteX() * (libre->getCoteY())* (libre->getCoteZ() - coteZ);
-	float volumeDroite = libre->getCoteZ() * (libre->getCoteY()) * (libre->getCoteX() - coteX);
+	float volumeGauche = libre->getCoteX() * (libre->getCoteZ() - coteZ);
+	float volumeDroite = libre->getCoteZ() * (libre->getCoteX() - coteX);
 
-	if (volumeeGauche > volumeDroite) {
+	if (volumeGauche > volumeDroite) {
 		gauche->setCoteX(libre->getCoteX());
 		gauche->setCoteY(libre->getCoteY());
 		gauche->setCoteZ(libre->getCoteZ() - coteZ);
@@ -291,8 +289,8 @@ bool ArbreBinaire3D::decoupeSelonAire(float coteX, float coteY, float coteZ, Com
 	haut->setCoteY(libre->getCoteY() - coteY);
 
 	haut->setPosition(posX, posYnew, posZ);
-	gauche->setPosition(posX, posYnew, 0);
-	droite->setPosition(posXnew, posY, 0);
+	gauche->setPosition(posX, posY, posZnew);
+	droite->setPosition(posXnew, posY, posZ);
 	return true;
 }
 
