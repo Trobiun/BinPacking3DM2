@@ -607,13 +607,15 @@ int main(int argc, char **argv) {
     glutInitWindowPosition(wPx, wPy);
     glutCreateWindow("3DBinPacking");
     init();
-    if (affichage3Dou2D == 0) {
-        lectureCSVConteneur("test2DBinPackingConteneur.csv");
-        lectureCSVComposant("test2DBinPackingComposant.csv");
-    } else {
-        lectureCSVConteneur("test3DBinPackingConteneur.csv");
-        lectureCSVComposant("test3DBinPackingComposant.csv");
-    }
+
+	if (affichage3Dou2D == 0) {
+		lectureCSVConteneur("2DConteneur.csv");
+		lectureCSVComposant("2DComposant.csv");
+	}
+	else {
+		lectureCSVConteneur("3DConteneur.csv");
+		lectureCSVComposant("3DComposant.csv");
+	}
 
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboardUp);
