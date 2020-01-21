@@ -16,6 +16,7 @@
 #include "3D/Conteneur3D.h"
 #include "2D/CSVReader.h"
 #include "3D/CSVReader3D.h"
+#include "3D/CSVOutputWriter3D.h"
 
 /* Variables globales                           */
 
@@ -590,6 +591,8 @@ static void lectureCSVComposant(std::string filename) {
             verifCompoList3D((*posCont3D)->getListComposant(), 1);
             posCont3D++;
         }
+        CSVOutputWriter3D outputWriter;
+        outputWriter.writeCSV(conteneurs3D, conteneurs3DDispo, composants3D);
         posCont3D = conteneurs3D.begin();
         courantConteneur();
     }
